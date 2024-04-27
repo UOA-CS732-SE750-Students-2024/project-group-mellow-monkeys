@@ -1,4 +1,4 @@
-# Chatbot MERN Stack - README
+# Bobu Chatbot - MERN Stack
 This repository contains my solution for the challenge of creating a chatbot using the MERN stack and integrating with the OpenAI API.
 
 ## Features
@@ -11,29 +11,36 @@ This repository contains my solution for the challenge of creating a chatbot usi
 To run this project, please follow these steps:
 
 1. Clone the repository to your local machine.
-2. Navigate to the chatbot-frontend directory and run the following command in your terminal to install dependencies:
+2. In order to run the application successfully, make sure you have a .env file in the backend folder with the following configuration:
+``` plaintext
+API_KEY='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'
+DB_USER='lpei756'
+DB_PASS='d4GbZMxQNC9zPKnQ'
+JWT_SECRET='q8!@#b78dawdaBA*#@$@#ASDH*&@hdawuihd2a723b*!&@$b3472tbfsal83^@#123casdfasdwa1rf2435671ubn12978$!'
+```
+3. Navigate to the chatbot-frontend directory and run the following command in your terminal to install dependencies:
 ```bash
 cd chatbot-frontend
 ```
 ```bash
 npm install
 ```
-3. After the installation is complete, start the development server by running the command:
+4. After the installation is complete, start the development server by running the command:
 ```bash
 npm run dev
 ```
-4. Open a separate terminal window, navigate to the chatbot-backend directory, and run the following command to install dependencies:
+5. Open a separate terminal window, navigate to the chatbot-backend directory, and run the following command to install dependencies:
 ```bash
 cd chatbot-backend
 ```
 ```bash
 npm install
 ```
-5. Once the installation is finished, start the backend server by running the command:
+6. Once the installation is finished, start the backend server by running the command:
 ```bash
 npm start
 ```
-6. After both frontend and backend servers are up and running, access the URL shown in the frontend terminal to use the application.
+7. After both frontend and backend servers are up and running, access the URL shown in the frontend terminal to use the application.
 
 ## Frontend Dependencies
 The following dependencies were used in the frontend:
@@ -45,15 +52,7 @@ The following dependencies were used in the backend:
 - Node.js
 - MongoDB
 
-## Configuration
-In order to run the application successfully, make sure you have a .env file in the backend folder with the following configuration:
 
-``` plaintext
-API_KEY='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'
-DB_USER='lpei756'
-DB_PASS='d4GbZMxQNC9zPKnQ'
-JWT_SECRET='q8!@#b78dawdaBA*#@$@#ASDH*&@hdawuihd2a723b*!&@$b3472tbfsal83^@#123casdfasdwa1rf2435671ubn12978$!'
-```
 
 ## Testing
 For testing purposes, you can use the following credentials to register in the backend:
