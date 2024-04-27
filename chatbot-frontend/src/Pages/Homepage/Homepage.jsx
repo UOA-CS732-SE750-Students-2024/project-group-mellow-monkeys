@@ -70,13 +70,23 @@ const Homepage = () => {
 				}
 			);
 			console.log(response?.data);
-			setMessage(response?.data?.choices[0]?.message);
+			// Check if the choices array exists and has at least one element
+			if (response?.data?.choices && response.data.choices.length > 0) {
+				setMessage(response.data.choices[0].message);
+			} else {
+				// Handle the case where choices is not as expected
+				console.error('Invalid response from API:', response.data);
+				// Set the message state to some error message or handle accordingly
+				setMessage("An error occurred while fetching the message.");
+				toast.error('An error occurred while fetching the message.');
+			}
+			// setMessage(response?.data?.choices[0]?.message);
 			setLoading(false);
 		} catch (error) {
 			console.error(error);
 			toast.error(
 				<div>
-					Erro! <br />
+					Error! <br />
 					{error?.response?.data?.error || error?.message}
 				</div>
 			);
