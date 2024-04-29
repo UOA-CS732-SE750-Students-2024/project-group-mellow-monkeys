@@ -8,6 +8,9 @@ const cors = require("cors");
 const app = express();
 app.use(express.json());
 app.use(cors());
+const avatarRoutes = require('./routes/avatarRoutes');
+require('dotenv').config();
+app.use('/api', avatarRoutes);
 
 // MODELS
 const User = require("./models/user");
@@ -247,3 +250,9 @@ function connectWithRetry() {
 }
 
 connectWithRetry();
+
+
+require('dotenv').config();
+
+app.use(express.json());
+app.use('/api', avatarRoutes);

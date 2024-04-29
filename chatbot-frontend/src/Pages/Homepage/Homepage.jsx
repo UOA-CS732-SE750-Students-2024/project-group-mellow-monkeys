@@ -15,6 +15,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { COMPLETIONS } from "../../urls";
 import { useAuth } from "../../hooks/useAuth";
+import { BASE_URL } from "../../urls";
 
 const Homepage = () => {
 	const { auth, submitLogout } = useAuth();
@@ -144,6 +145,19 @@ const Homepage = () => {
 		new Set(previousChats.map((previousChat) => previousChat.title))
 	);
 
+	const [description, setDescription] = useState('');
+    const [imageURL, setImageURL] = useState('');
+
+    // 头像生成的函数
+    const generateAvatar = async () => {
+        try {
+            const response = await axios.post('http://localhost:8000/api/generate-avatar', { description });
+            setImageURL(response.data.imageURL);
+        } catch (error) {
+            console.error('Error generating avatar:', error);
+        }
+    };
+
 	return (
 		<div className={styles.homepage}>
 			{/* SIDEBAR */}
@@ -257,6 +271,16 @@ const Homepage = () => {
 						<p className={`${styles.info} text-muted`}>
 							Powered by Chat GPT4.
 						</p>
+					</div>
+					<div className={styles.avatarGeneratorContainer}>
+            			<input
+                			type="text"
+							placeholder="Describe your virtual lover"
+							value={description}
+							onChange={e => setDescription(e.target.value)}
+						/>
+						<button onClick={generateAvatar}>Generate Avatar</button>
+						{imageURL && <img src={imageURL} alt="Virtual Lover Avatar" />}
 					</div>
 				</section>
 			{/* MAIN */}
