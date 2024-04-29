@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@400;700&display=swap');
+
+
+* {
+	color: var(--white);
+	font-family: 'Open Sans', sans-serif;
+}
+
+#root {
+	--white: #ffffff;
+	--black: #000000;
+
+	--gray-50: #f9fafb;
+	--gray-100: #f3f4f6;
+	--gray-200: #e5e7eb;
+	--gray-300: #d1d5db;
+	--gray-400: #9ca3af;
+	--gray-500: #6b7280;
+	--gray-600: #4b5563;
+	--gray-700: #374151;
+	--gray-800: #1f2937;
+	--gray-900: #111827;
+	--gray-950: #030712;
+
+	--slate-50: #f8fafc;
+	--slate-100: #f1f5f9;
+	--slate-200: #e2e8f0;
+	--slate-300: #cbd5e1;
+	--slate-400: #94a3b8;
+	--slate-500: #64748b;
+	--slate-600: #475569;
+	--slate-700: #334155;
+	--slate-800: #1e293b;
+	--slate-900: #0f172a;
+	--slate-950: #020617;
+
+
+	--tahiti-100: #cffafe;
+	--tahiti-200: #a5f3fc;
+	--tahiti-300: #67e8f9;
+	--tahiti-400: #22d3ee;
+	--tahiti-500: #06b6d4;
+	--tahiti-600: #0891b2;
+	--tahiti-700: #0e7490;
+	--tahiti-800: #155e75;
+	--tahiti-900: #164e63;
+
+	--blue-100: #009bf5;
+	--blue-200: #008fe2;
+	--blue-250: #0078d6;
+	--blue-300: #007fdf;
+	--blue-400: #007ac0;
+	--blue-450: #006faf;
+	--blue-500: #006ead;
+	--blue-600: #006ba8;
+	--blue-630: #00649e;
+	--blue-650: #004f7c;
+	--blue-700: #003c5f;
+	--blue-800: #00283f;
+	--blue-900: #000e16;
+
+	--transparent-gray-200: #e7e7e7d5;
+
+	--dark-bs-btn: #212529;
+	--dark-500: #212127;
+	--dark-600: #16161a;
+
+	--red-500: #e95751;
+
+	--green-500: #22cc88;
+
+	--purple-500: #a51eff;
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: 100%;
+	box-sizing: border-box;
+	text-decoration: none;
+
+	/* IE and Edge */
+	-ms-overflow-style: none;
+	/* Firefox */
+	scrollbar-width: none;
+}
+
+* {
+	/* Estilizando a scrollbar */
+	scrollbar-width: thin;
+	scrollbar-color: #aaa #eee;
+	/* Cor da thumb e do track */
+}
+
+*::-webkit-scrollbar {
+	width: 0.4rem;
+	/* Largura da scrollbar */
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: var(--gray-600);
+	/* Cor da thumb */
+	border-radius: 1 rem;
+	/* Borda arredondada da thumb */
+}
+
+*::-webkit-scrollbar-track {
+	background-color: transparent;
+	/* Cor do track */
+}
+
+body {
+	margin: 0;
+	padding: 0;
+}
