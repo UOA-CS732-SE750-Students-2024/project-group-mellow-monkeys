@@ -15,21 +15,38 @@ import { toast } from "react-toastify";
 import { COMPLETIONS } from "../../urls";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+axios.defaults.baseURL = "http://localhost:8001";
 
 const Homepage = () => {
   const navigate = useNavigate();
   const { auth, submitLogout } = useAuth();
-  const username = auth?.name;
-  const avatar = auth?.avatar;
   const [value, setValue] = useState("");
   const [message, setMessage] = useState(null);
   const [previousChats, setPreviousChats] = useState([]);
   const [currentTitle, setCurrentTitle] = useState(null);
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
+  const [avatar, setAvatar] = useState(null);
+  const [name, setName] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    if (auth.id && auth.token) {
+      axios
+        .get(`/user/${auth.id}`, {
+          headers: { Authorization: `Bearer ${auth.token}` },
+        })
+        .then((response) => {
+          setAvatar(response.data.user.avatar);
+          setName(response.data.user.name);
+        })
+        .catch((error) => {
+          console.error("Failed to fetch user avatar", error);
+        });
+    }
+  }, [auth.id, auth.token]);
 
   const handleNavigateToUserInfo = () => {
     navigate("/user-info"); // Use navigate to go to the user information page
@@ -105,7 +122,6 @@ const Homepage = () => {
 		UseEffect triggered by message and/or currentTitle state changes
 	*/
   useEffect(() => {
-    // console.log(currentTitle, value, message);
     if (!currentTitle && value && message) {
       /*
 				If there is no current title, but we've recieved a value and a message
@@ -167,7 +183,7 @@ const Homepage = () => {
               alt="User avatar"
               className={styles.user_avatar}
             />
-            <div className={styles.side_bar_user_name}>I am {username}</div>
+            <div className={styles.side_bar_user_name}>Hello {name}</div>
             <Button onClick={submitLogout} className={styles.btn_logout}>
               <SignOut size={20} />
             </Button>

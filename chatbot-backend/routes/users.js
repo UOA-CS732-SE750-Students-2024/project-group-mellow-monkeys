@@ -132,30 +132,8 @@ router.post("/auth/login", async (req, res) => {
   }
 });
 
-// PRIVATE ROUTE
-// router.get("/user/:id", checkToken, async (req, res) => {
-//   const id = req.params.id;
-//   console.log(id);
-//   /*
-//        Check if user exists
-//        - passowrd is excluded from the query by the '-password' argument (filter)
-//        - if found, user object is returned without the password
-//                because we don't want to send the password to the frontend
-//       */
-//   const user = await User.findById(id, "-password");
-//   console.log(user);
-
-//   // If user isn't found
-//   if (!user) {
-//     return res.status(404).json({ error: "User not found" });
-//   }
-
-//   res.status(200).json({ user });
-// });
-
 router.get("/user/:id", checkToken, async (req, res) => {
   const id = req.params.id;
-  console.log(id);
   /*
        Check if user exists
        - passowrd is excluded from the query by the '-password' argument (filter)

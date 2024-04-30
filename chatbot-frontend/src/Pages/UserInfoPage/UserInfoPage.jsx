@@ -13,7 +13,7 @@ import { useAuth } from "../../hooks/useAuth";
 import styles from "./UserInfoPage.module.css";
 import { useNavigate } from "react-router-dom";
 
-axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.baseURL = "http://localhost:8001";
 
 export default function UserInfoPage() {
   const navigate = useNavigate();
@@ -54,6 +54,18 @@ export default function UserInfoPage() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUser((prevUser) => ({ ...prevUser, [name]: value }));
+  };
+
+  const handleCancel = () => {
+    // Reset user state to its initial values when cancel is clicked
+    setUser({
+      name: auth.name,
+      email: auth.email,
+      password: "",
+      confirmPassword: "",
+      avatar: auth.avatar,
+    });
+    setIsEditing(false);
   };
 
   const handleSubmit = async (event) => {
@@ -120,7 +132,11 @@ export default function UserInfoPage() {
       {!isEditing ? (
         <Row className="align-items-center">
           <Col xs={12} md={6}>
-            <Image src={user.avatar || "/avatar1.jpeg"} roundedCircle />
+            <Image
+              className={styles.userAvatar}
+              src={user.avatar}
+              roundedCircle
+            />
           </Col>
           <Col xs={12} md={6}>
             <h3>{user.name}</h3>
@@ -142,7 +158,7 @@ export default function UserInfoPage() {
         </Row>
       ) : (
         <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="formUserName">
+          <Form.Group controlId="formUserName" className={styles.formUserName}>
             <Form.Label>Name</Form.Label>
             <Form.Control
               type="text"
@@ -153,7 +169,10 @@ export default function UserInfoPage() {
             />
           </Form.Group>
 
-          <Form.Group controlId="formUserEmail">
+          <Form.Group
+            controlId="formUserEmail"
+            className={styles.formUserEmail}
+          >
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
@@ -164,7 +183,10 @@ export default function UserInfoPage() {
             />
           </Form.Group>
 
-          <Form.Group controlId="formUserPassword">
+          <Form.Group
+            controlId="formUserPassword"
+            className={styles.formUserPassword}
+          >
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
@@ -175,7 +197,10 @@ export default function UserInfoPage() {
             />
           </Form.Group>
 
-          <Form.Group controlId="formUserConfirmPassword">
+          <Form.Group
+            controlId="formUserConfirmPassword"
+            className={styles.formUserConfirmPassword}
+          >
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control
               type="password"
@@ -209,11 +234,7 @@ export default function UserInfoPage() {
           <Button variant="success" type="submit">
             Save Changes
           </Button>
-          <Button
-            variant="secondary"
-            onClick={() => setIsEditing(false)}
-            className="ms-2"
-          >
+          <Button variant="secondary" onClick={handleCancel} className="ms-2">
             Cancel
           </Button>
         </Form>

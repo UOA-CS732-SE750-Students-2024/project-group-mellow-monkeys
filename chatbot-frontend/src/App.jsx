@@ -2,7 +2,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Routes, Route } from "react-router-dom";
 import Login from "./Pages/Login/Login";
-import Register from "./pages/Register/Register";
+import Register from "./Pages/Register/Register";
 import Layout from "./layouts/Layout";
 import UserInfoPage from "./Pages/UserInfoPage/UserInfoPage";
 import { useAuth } from "./hooks/useAuth";
