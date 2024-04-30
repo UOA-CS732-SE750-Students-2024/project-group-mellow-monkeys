@@ -262,7 +262,7 @@ const Homepage = () => {
 								<span className={styles.feed_role}>
 									{chatMessage.role
 										? chatMessage.role === "user"
-											? avatar
+											? <img src = {avatar} />
 											: <img src={imageURL} alt="Virtual Lover Avatar" />
 										: <img src={imageURL} alt="Virtual Lover Avatar" />}
 								</span>
