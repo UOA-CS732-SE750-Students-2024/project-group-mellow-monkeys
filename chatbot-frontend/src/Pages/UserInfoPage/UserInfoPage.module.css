@@ -20,28 +20,6 @@
   text-align: center;
 }
 
-.formGroup {
-  margin-bottom: 1.5rem;
-}
-
-.formLabel {
-  font-size: 1rem;
-  color: var(--white);
-}
-
-.formControl {
-  background-color: var(--gray-800);
-  color: var(--white);
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.75rem 1rem;
-}
-
-.formControl:focus {
-  background-color: var(--gray-700);
-  box-shadow: none;
-}
-
 .backHomeButton,
 .submitButton,
 .cancelButton {
@@ -56,12 +34,6 @@
   align-items: center;
   justify-content: center;
   margin-top: 1rem; /* Added space above buttons */
-}
-
-.submitButton:hover,
-.cancelButton:hover,
-.backHomeButton:hover {
-  background-color: lightslategray;
 }
 
 .modifyButton {
@@ -83,11 +55,8 @@
   filter: brightness(0.9);
 }
 
-.avatarContainer {
-  margin-bottom: 2rem;
-}
-
 .userAvatar {
+
   width: 14rem; /* Smaller than the original */
   margin-bottom: 1rem; /* Adjust spacing as needed */
 }
@@ -101,27 +70,7 @@
 p {
   font-size: 2.7rem; /* Larger font size for the email */
   margin-bottom: 1rem; /* Adjust spacing */
-}
 
-.editToggle:hover {
-  background-color: #374151;
-}
-
-.avatarSelection {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-.userInfo,
-.userDetails,
-.userForm,
-.avatarSelection {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding: 20px;
 }
 
 .avatarImage {
@@ -140,10 +89,9 @@ p {
   transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
 }
 
-.avatarSelection {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: center; /* Centering avatars */
-  padding-top: 20px; /* Increase top padding */
+.formUserName,
+.formUserEmail,
+.formUserPassword,
+.formUserConfirmPassword {
+  margin-bottom: 10px;
 }

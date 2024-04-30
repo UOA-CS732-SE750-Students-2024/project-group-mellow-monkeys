@@ -60,10 +60,6 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.log("submitLogin -> error: ", error);
-      // toast.error(<div>
-      // 	Erro no Login! <br />
-      // 	{error?.response?.data?.error || error?.message}
-      // </div>);
 
       newAuth.isAuthenticated = false;
       newAuth.isLoading = false;
@@ -102,12 +98,6 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.log("submitRegister -> error: ", error);
-
-      // toast.error(<div>
-      // Error while registering! <br />
-      // {error?.response?.data?.error || error?.message}
-      // </div>);
-
       newAuth.isAuthenticated = false;
       newAuth.isLoading = false;
       newAuth.error = error?.response?.data?.error || "Register Failed";
@@ -142,9 +132,6 @@ export const AuthProvider = ({ children }) => {
           isLoading: false,
           token: token,
         }));
-      } else {
-        // Expired token, log out
-        // submitLogout();
       }
     } else {
       // No token, sets the authentication state to not authenticated
