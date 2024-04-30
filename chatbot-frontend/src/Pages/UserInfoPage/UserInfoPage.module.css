@@ -1,0 +1,141 @@
+.userInfoPage {
+  background-color: var(--gray-900);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  width: 600px; /* Adjusted width */
+  max-width: 700px; /* Set a max-width for larger screens */
+  height: 100vh;
+}
+
+.userForm {
+  width: 100%;
+  max-width: 450px;
+  background-color: var(--gray-950);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
+  text-align: center; /* Centering text */
+  height: 100vh;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.formLabel {
+  font-size: 1rem;
+  color: var(--white);
+}
+
+.formControl {
+  background-color: var(--gray-800);
+  color: var(--white);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+
+.formControl:focus {
+  background-color: var(--gray-700);
+  box-shadow: none;
+}
+
+.backHomeButton,
+.submitButton,
+.cancelButton {
+  background-color: #374151;
+  color: var(--white);
+  width: 100%;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem; /* Added space above buttons */
+}
+
+.submitButton:hover,
+.cancelButton:hover,
+.backHomeButton:hover {
+  background-color: lightslategray;
+}
+
+.modifyButton {
+  background-color: #374151;
+  color: var(--white);
+  width: 100%;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.modifyButton:hover {
+  background-color: lightslategray;
+  filter: brightness(0.9);
+}
+
+.avatarContainer {
+  margin-bottom: 2rem;
+}
+
+.userAvatar {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 2rem;
+}
+
+.editToggle:hover {
+  background-color: #374151;
+}
+
+.avatarSelection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.userInfo,
+.userDetails,
+.userForm,
+.avatarSelection {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.avatarImage {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.3s;
+  margin: 5px;
+}
+
+.selectedAvatar {
+  border: 3px solid blue;
+  box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
+  transform: scale(1.05);
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+
+.avatarSelection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center; /* Centering avatars */
+  padding-top: 20px; /* Increase top padding */
+}
