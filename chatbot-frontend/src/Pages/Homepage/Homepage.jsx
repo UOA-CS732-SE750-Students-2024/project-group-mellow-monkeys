@@ -233,8 +233,8 @@ const Homepage = () => {
 									{chatMessage.role
 										? chatMessage.role === "user"
 											? username
-											: "Bobu"
-										: "Bobu"}
+											: <img src={imageURL} alt="Virtual Lover Avatar" />
+										: <img src={imageURL} alt="Virtual Lover Avatar" />}
 								</span>
 								<span>{chatMessage.content}</span>
 							</li>
@@ -280,7 +280,6 @@ const Homepage = () => {
 							onChange={e => setDescription(e.target.value)}
 						/>
 						<button onClick={generateAvatar}>Generate Avatar</button>
-						{imageURL && <img src={imageURL} alt="Virtual Lover Avatar" />}
 					</div>
 				</section>
 			{/* MAIN */}
