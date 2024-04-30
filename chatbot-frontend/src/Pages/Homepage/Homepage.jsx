@@ -140,7 +140,7 @@ const Homepage = () => {
         ...prevChats,
         {
           title: currentTitle,
-          // Later, change this to the username retrieved from AUTH
+          // Later, change this to the name retrieved from AUTH
           role: "user",
           content: value,
         },
@@ -182,6 +182,7 @@ const Homepage = () => {
               src={avatar}
               alt="User avatar"
               className={styles.user_avatar}
+              onClick={handleNavigateToUserInfo}
             />
             <div className={styles.side_bar_user_name}>Hello {name}</div>
             <Button onClick={submitLogout} className={styles.btn_logout}>
@@ -234,12 +235,6 @@ const Homepage = () => {
       {/* MAIN */}
       <section className={styles.main}>
         <div className={styles.bobu_logo_wrapper}>
-          <Button
-            onClick={handleNavigateToUserInfo}
-            className={styles.btn_toggle_menu}
-          >
-            <FaCog size={20} />
-          </Button>
           <h1 className={styles.bobu_logo}>
             <Robot size={32} />
             Bobu
@@ -251,7 +246,7 @@ const Homepage = () => {
               <span className={styles.feed_role}>
                 {chatMessage.role
                   ? chatMessage.role === "user"
-                    ? username
+                    ? name
                     : "Bobu"
                   : "Bobu"}
               </span>

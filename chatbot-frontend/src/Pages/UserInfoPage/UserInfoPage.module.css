@@ -1,13 +1,37 @@
 .userInfoPage {
   background-color: var(--gray-900);
   display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  height: 100vh;
+  width: 100%;
+}
+
+.userInfoContainer {
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
-  width: 600px; /* Adjusted width */
-  max-width: 700px; /* Set a max-width for larger screens */
-  height: 100vh;
+  width: 100%;
+  gap: 2rem;
+}
+
+.userAvatar {
+  width: 250px;
+  height: 250px;
+}
+
+.userInfo {
+  text-align: center;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+  gap: 1rem; /* Adjust the gap between buttons */
 }
 
 .userForm {
@@ -21,9 +45,8 @@
   height: 100vh;
 }
 
-.backHomeButton,
-.submitButton,
-.cancelButton {
+.modifyButton,
+.backHomeButton {
   background-color: #374151;
   color: var(--white);
   width: 100%;
@@ -31,35 +54,12 @@
   border-radius: 1rem;
   padding: 0.75rem;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1rem; /* Added space above buttons */
-}
-
-.modifyButton {
-  background-color: #374151;
-  color: var(--white);
-  width: 100%;
-  border: none;
-  border-radius: 1rem;
-  padding: 0.75rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1rem;
+  transition: background-color 0.3s, filter 0.3s;
 }
 
 .modifyButton:hover {
   background-color: lightslategray;
   filter: brightness(0.9);
-}
-
-.userAvatar {
-  width: 250px;
-  height: 250px;
-  margin-bottom: 2rem;
 }
 
 .avatarImage {

@@ -130,17 +130,17 @@ export default function UserInfoPage() {
   return (
     <Container className={styles.userInfoPage}>
       {!isEditing ? (
-        <Row className="align-items-center">
-          <Col xs={12} md={6}>
-            <Image
-              className={styles.userAvatar}
-              src={user.avatar}
-              roundedCircle
-            />
-          </Col>
-          <Col xs={12} md={6}>
+        <div className={styles.userInfoContainer}>
+          <Image
+            className={styles.userAvatar}
+            src={user.avatar}
+            roundedCircle
+          />
+          <div className={styles.userInfo}>
             <h3>{user.name}</h3>
             <p>{user.email}</p>
+          </div>
+          <div className={styles.buttonContainer}>
             <Button
               className={styles.modifyButton}
               variant="primary"
@@ -154,8 +154,8 @@ export default function UserInfoPage() {
             >
               Back to Home
             </Button>
-          </Col>
-        </Row>
+          </div>
+        </div>
       ) : (
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formUserName" className={styles.formUserName}>
