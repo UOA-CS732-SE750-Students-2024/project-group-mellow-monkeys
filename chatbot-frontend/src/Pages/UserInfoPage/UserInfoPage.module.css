@@ -5,8 +5,8 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  width: 600px; /* Adjusted width */
-  max-width: 700px; /* Set a max-width for larger screens */
+  width: 100%;
+  max-width: 100%;
   height: 100vh;
 }
 
@@ -17,8 +17,7 @@
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
-  text-align: center; /* Centering text */
-  height: 100vh;
+  text-align: center;
 }
 
 .backHomeButton,
@@ -57,14 +56,25 @@
 }
 
 .userAvatar {
-  width: 250px;
-  height: 250px;
-  margin-bottom: 2rem;
+
+  width: 14rem; /* Smaller than the original */
+  margin-bottom: 1rem; /* Adjust spacing as needed */
+}
+
+/* Increase the font size for name and email */
+.h3, h3 {
+  font-size: 5rem; /* Larger font size for the name */
+  margin-bottom: 0.5rem; /* Adjust spacing */
+}
+
+p {
+  font-size: 2.7rem; /* Larger font size for the email */
+  margin-bottom: 1rem; /* Adjust spacing */
+
 }
 
 .avatarImage {
   width: 60px;
-  height: 60px;
   border-radius: 50%;
   cursor: pointer;
   border: 2px solid transparent;

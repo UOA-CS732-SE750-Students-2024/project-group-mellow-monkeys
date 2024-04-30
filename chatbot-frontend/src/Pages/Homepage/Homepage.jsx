@@ -17,6 +17,8 @@ import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 axios.defaults.baseURL = "http://localhost:8001";
 
+axios.defaults.baseURL = "http://localhost:8001";
+
 const Homepage = () => {
   const navigate = useNavigate();
   const { auth, submitLogout } = useAuth();

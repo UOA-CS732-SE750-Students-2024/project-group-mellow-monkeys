@@ -131,12 +131,10 @@ export default function UserInfoPage() {
     <Container className={styles.userInfoPage}>
       {!isEditing ? (
         <Row className="align-items-center">
-          <Col xs={12} md={6}>
-            <Image
-              className={styles.userAvatar}
-              src={user.avatar}
-              roundedCircle
-            />
+
+          <Col xs={12} md={4}>
+            <Image className={styles.userAvatar} src={user.avatar || "/avatar1.jpeg"} roundedCircle />
+
           </Col>
           <Col xs={12} md={6}>
             <h3>{user.name}</h3>
