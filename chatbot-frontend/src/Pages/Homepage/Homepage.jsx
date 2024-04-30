@@ -253,7 +253,7 @@ const Homepage = () => {
               <span className={styles.feed_role}>
                 {chatMessage.role
                   ? chatMessage.role === "user"
-                    ? username
+                    ? name
                     : "Bobu"
                   : "Bobu"}
               </span>
