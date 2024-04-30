@@ -8,7 +8,7 @@ import chatBotRoutes from "./routes/chatbots.js";
 import openAIRoutes from "./routes/openAI.js";
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8001;
 
 app.use(express.json());
 app.use(cors());

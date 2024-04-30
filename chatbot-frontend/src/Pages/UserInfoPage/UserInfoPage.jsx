@@ -13,7 +13,7 @@ import { useAuth } from "../../hooks/useAuth";
 import styles from "./UserInfoPage.module.css";
 import { useNavigate } from "react-router-dom";
 
-axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.baseURL = "http://localhost:8001";
 
 export default function UserInfoPage() {
   const navigate = useNavigate();
@@ -119,8 +119,8 @@ export default function UserInfoPage() {
     <Container className={styles.userInfoPage}>
       {!isEditing ? (
         <Row className="align-items-center">
-          <Col xs={12} md={6}>
-            <Image src={user.avatar || "/avatar1.jpeg"} roundedCircle />
+          <Col xs={12} md={4}>
+            <Image className={styles.userAvatar} src={user.avatar || "/avatar1.jpeg"} roundedCircle />
           </Col>
           <Col xs={12} md={6}>
             <h3>{user.name}</h3>
