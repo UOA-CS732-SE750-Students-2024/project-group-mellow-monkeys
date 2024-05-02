@@ -127,10 +127,12 @@ export default function UserInfoPage() {
     return <Spinner animation="border" />;
   }
 
+  console.log(auth.token);
+  console.log(auth.id);
+
   return (
     <Container className={styles.userInfoPage}>
       {!isEditing ? (
-
         <div className={styles.userInfoContainer}>
           <Image
             className={styles.userAvatar}
@@ -139,7 +141,6 @@ export default function UserInfoPage() {
             roundedCircle
           />
           <div className={styles.userInfo}>
-
             <h3>{user.name}</h3>
             <p>{user.email}</p>
           </div>

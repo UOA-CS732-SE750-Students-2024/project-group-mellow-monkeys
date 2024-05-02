@@ -101,6 +101,10 @@ router.post("/auth/login", async (req, res) => {
     return res.status(422).json({ error: "Wrong password, try again." });
   }
 
+  // Increment the login time count
+  user.loginTime = (user.loginTime || 0) + 1;
+  await user.save();
+
   // JWT
   try {
     const secret = process.env.JWT_SECRET;
@@ -119,6 +123,7 @@ router.post("/auth/login", async (req, res) => {
       name: user.name,
       email: user.email,
       avatar: user.avatar,
+      loginTime: user.loginTime,
     };
 
     res.status(200).json({
@@ -194,6 +199,24 @@ router.put("/user/:id", checkToken, async (req, res) => {
     res
       .status(500)
       .json({ error: "Something went wrong, please try again later" });
+  }
+});
+
+//Logout
+router.post("/user/:id/logout", checkToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    user.loginTime = (user.loginTime || 0) + 1;
+    await user.save();
+    res.json({ message: "Logout successful, login count updated." });
+  } catch (error) {
+    console.error("Logout failed:", error);
+    res.status(500).json({ message: "Logout failed, please try again later." });
   }
 });
 
