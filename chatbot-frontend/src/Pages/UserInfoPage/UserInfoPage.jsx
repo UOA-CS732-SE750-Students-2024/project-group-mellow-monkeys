@@ -135,6 +135,7 @@ export default function UserInfoPage() {
           <Image
             className={styles.userAvatar}
             src={user.avatar}
+            alt="User avatar"
             roundedCircle
           />
           <div className={styles.userInfo}>
@@ -147,6 +148,7 @@ export default function UserInfoPage() {
               className={styles.modifyButton}
               variant="primary"
               onClick={() => setIsEditing(true)}
+              data-testid="modifyButton"
             >
               Modify Personal Information
             </Button>

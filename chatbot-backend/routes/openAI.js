@@ -1,6 +1,6 @@
 import express from "express";
-import fetch from "node-fetch"; // Ensure node-fetch is installed or use any equivalent HTTP client
-import checkToken from "./checkToken.js"; // Adjust the import path as necessary
+import fetch from "node-fetch";
+import checkToken from "./checkToken.js";
 
 const router = express.Router();
 
