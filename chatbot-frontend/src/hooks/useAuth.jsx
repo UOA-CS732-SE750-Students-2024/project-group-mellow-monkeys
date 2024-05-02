@@ -54,12 +54,18 @@ export const AuthProvider = ({ children }) => {
         newAuth.avatar = response?.data?.user?.avatar;
 
         newAuth.token = response?.data?.token;
+        
+        newAuth.loginTime = response?.data?.user?.loginTime;
 
         sessionStorage.setItem("token", response.data.token);
 
         // Save user ID in session storage
         sessionStorage.setItem("userId", response.data.user._id);
+        if (newAuth.loginTime === 1) {
+        navigate("/survey", { replace: true });
+      } else {
         navigate("/", { replace: true });
+      }
       }
     } catch (error) {
       console.log("submitLogin -> error: ", error);
@@ -97,7 +103,7 @@ export const AuthProvider = ({ children }) => {
         newAuth.isLoading = false;
         newAuth.error = "";
 
-        navigate("/survey", { replace: true });
+        navigate("/login", { replace: true });
       }
     } catch (error) {
       console.log("submitRegister -> error: ", error);
