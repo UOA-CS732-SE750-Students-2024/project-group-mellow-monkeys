@@ -26,6 +26,7 @@
   width: 100%;
   font-size: 1rem;
   transition: border-color 0.3s;
+  color: #000000; /* 添加字体颜色 */
 }
 
 .survey_input:focus {
@@ -55,4 +56,5 @@
 .survey_button:hover {
   background-color: #1669c7;
 }
+
   
