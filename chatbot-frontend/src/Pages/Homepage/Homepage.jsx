@@ -17,8 +17,6 @@ import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 axios.defaults.baseURL = "http://localhost:8001";
 
-axios.defaults.baseURL = "http://localhost:8001";
-
 const Homepage = () => {
   const navigate = useNavigate();
   const { auth, submitLogout } = useAuth();
@@ -30,6 +28,8 @@ const Homepage = () => {
   const [show, setShow] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const [name, setName] = useState(null);
+  const [description, setDescription] = useState('');
+    const [imageURL, setImageURL] = useState('');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -169,6 +169,15 @@ const Homepage = () => {
     new Set(previousChats.map((previousChat) => previousChat.title))
   );
 
+  const generateAvatar = async () => {
+    try {
+        const response = await axios.post('http://localhost:8001/generate-avatar', { description });
+        setImageURL(response.data.imageURL);
+    } catch (error) {
+        console.error('Error generating avatar:', error);
+    }
+  };
+
   return (
     <div className={styles.homepage}>
       {/* SIDEBAR */}
@@ -243,19 +252,19 @@ const Homepage = () => {
           </h1>
         </div>
         <ul className={styles.text_feed}>
-          {currentChat?.map((chatMessage, index) => (
-            <li key={index}>
-              <span className={styles.feed_role}>
-                {chatMessage.role
-                  ? chatMessage.role === "user"
-                    ? name
-                    : "Bobu"
-                  : "Bobu"}
-              </span>
-              <span>{chatMessage.content}</span>
-            </li>
-          ))}
-        </ul>
+						{currentChat?.map((chatMessage, index) => (
+							<li key={index}>
+								<span className={styles.feed_role}>
+									{chatMessage.role
+										? chatMessage.role === "user"
+											? <img src = {avatar} />
+											: <img src={imageURL} alt="Virtual Lover Avatar" />
+										: <img src={imageURL} alt="Virtual Lover Avatar" />}
+								</span>
+								<span>{chatMessage.content}</span>
+							</li>
+						))}
+					</ul>
         <div className={styles.bottom_wrapper}>
           <div className={styles.input_wrapper}>
             <FormControl
@@ -286,6 +295,15 @@ const Homepage = () => {
           </div>
           <p className={`${styles.info} text-muted`}>Powered by Chat GPT4.</p>
         </div>
+        <div className={styles.avatarGeneratorContainer}>
+            			<input
+                			type="text"
+							placeholder="Describe your virtual lover"
+							value={description}
+							onChange={e => setDescription(e.target.value)}
+						/>
+						<button onClick={generateAvatar}>Generate Avatar</button>
+					</div>
       </section>
       {/* MAIN */}
     </div>
