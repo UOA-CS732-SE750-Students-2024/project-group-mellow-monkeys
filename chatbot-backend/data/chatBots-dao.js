@@ -12,12 +12,12 @@ import { ChatBots } from "./schema.js";
 //   descriptions: "A friendly chatbot."
 // }
 
-async function getAllChatBots() {
+async function getChatBotsByUserId(userId) {
   try {
-    const chatBots = await ChatBots.find({});
+    const chatBots = await ChatBots.find({ user: userId });
     return chatBots;
   } catch (error) {
-    console.error("Error retrieving all chat bots:", error);
+    console.error("Error retrieving chat bots by user ID:", error);
     throw error;
   }
 }
@@ -48,7 +48,7 @@ async function deleteSingleChatBot(chatBotId) {
   try {
     const result = await ChatBots.deleteOne({ _id: chatBotId });
     if (result.deletedCount === 0) {
-      throw new Error("No chat bot found with the provided ID.");
+      throw new Error("No chatbot found with the provided id.");
     }
     console.log("Chat bot deleted successfully");
     return result;
@@ -62,7 +62,7 @@ async function getChatBotById(chatBotId) {
   try {
     const chatBot = await ChatBots.findById(chatBotId);
     if (!chatBot) {
-      throw new Error("No chat bot found with the provided ID.");
+      throw new Error("No chatbot found with the provided id.");
     }
     return chatBot;
   } catch (error) {
@@ -76,5 +76,5 @@ export {
   deleteAllChatBots,
   deleteSingleChatBot,
   getChatBotById,
-  getAllChatBots,
+  getChatBotsByUserId,
 };

@@ -1,5 +1,10 @@
 import express from "express";
-import { createChatBot, getChatBotById } from "../data/chatBots-dao.js";
+import {
+  createChatBot,
+  getChatBotById,
+  deleteSingleChatBot,
+  getChatBotsByUserId,
+} from "../data/chatBots-dao.js";
 import checkToken from "./checkToken.js";
 
 const router = express.Router();
@@ -16,7 +21,7 @@ router.post("/createChatbot", checkToken, async (req, res) => {
 });
 
 // Get chatbot by ID
-router.get("chatbot/:id", checkToken, async (req, res) => {
+router.get("/chatbot/:id", checkToken, async (req, res) => {
   try {
     const chatBot = await getChatBotById(req.params.id);
     if (!chatBot) {
@@ -26,6 +31,35 @@ router.get("chatbot/:id", checkToken, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
+  }
+});
+
+// Get all chatbots by user ID
+router.get("/chatbots/user/:userId", checkToken, async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const chatBots = await getChatBotsByUserId(userId);
+    if (!chatBots.length) {
+      return res.status(404).json({ error: "No chatbots found for this user" });
+    }
+    res.json(chatBots);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// Delete chatbot by ID
+router.delete("/deleteSingleChatbot/:id", checkToken, async (req, res) => {
+  try {
+    const deleted = await deleteSingleChatBot(req.params.id);
+    if (!deleted) {
+      return res.status(404).json({ error: "Chatbot not found" });
+    }
+    res.status(200).json({ message: "Chatbot deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to delete chatbot" });
   }
 });
 

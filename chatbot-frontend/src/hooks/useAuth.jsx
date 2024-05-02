@@ -56,6 +56,9 @@ export const AuthProvider = ({ children }) => {
         newAuth.token = response?.data?.token;
 
         sessionStorage.setItem("token", response.data.token);
+
+        // Save user ID in session storage
+        sessionStorage.setItem("userId", response.data.user._id);
         navigate("/", { replace: true });
       }
     } catch (error) {
@@ -68,7 +71,7 @@ export const AuthProvider = ({ children }) => {
     setAuth(newAuth);
   };
 
-  // REGISTERation
+  // REGISTERATION
   const submitRegister = async (e, userData) => {
     setAuth({ ...auth, isLoading: true });
     if (e) e.preventDefault();
@@ -93,7 +96,7 @@ export const AuthProvider = ({ children }) => {
         newAuth.isAuthenticated = true;
         newAuth.isLoading = false;
         newAuth.error = "";
-     
+
         navigate("/survey", { replace: true });
       }
     } catch (error) {
@@ -105,11 +108,10 @@ export const AuthProvider = ({ children }) => {
     setAuth(newAuth);
   };
 
-  //new Survey submit
+  //New Survey submit
   const submitSurvey = () => {
-
-    navigate("/login", { replace: true })
-  }
+    navigate("/login", { replace: true });
+  };
 
   // LOGOUT
   const submitLogout = () => {
@@ -118,6 +120,46 @@ export const AuthProvider = ({ children }) => {
     toast.success("Logout success");
     navigate("/login", { replace: true });
   };
+
+  // const submitLogout = async () => {
+  //   const userId = sessionStorage.getItem("userId");
+  //   const token = sessionStorage.getItem("token");
+
+  //   if (!userId || !token) {
+  //     toast.error("Session information missing.");
+  //     return;
+  //   }
+
+  //   try {
+  //     // Make a POST request to the logout endpoint
+  //     const response = await axios.post(
+  //       `http://localhost:8001/user/${userId}/logout`,
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`, // Include the token in the authorization header
+  //         },
+  //       }
+  //     );
+
+  //     if (response.status === 200) {
+  //       // If logout is successful
+  //       toast.success(response.data.message); // Display a success message from the server
+  //       sessionStorage.clear(); // Clear all session storage
+  //       setAuth(initialAuthState); // Reset the authentication state
+  //       navigate("/login", { replace: true }); // Navigate back to the login page
+  //     } else {
+  //       // If the server returns a status other than 200
+  //       throw new Error("Failed to logout");
+  //     }
+  //   } catch (error) {
+  //     // If there is an error in the request or the server response
+  //     console.error("Logout failed:", error);
+  //     toast.error(
+  //       "Logout failed: " + (error.response?.data?.message || "Server error")
+  //     );
+  //   }
+  // };
 
   // Function to check if the token has expired
   const isTokenExpired = (token) => {
