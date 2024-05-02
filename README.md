@@ -77,9 +77,8 @@ npm test
 The deployment of this application is separated into frontend and backend. The frontend deployment relies on Netlify, while the backend deployment relies on Heroku. The database is hosted on MongoDB Atlas. You can access the deployed software and test its functionality through the following links
 
 ```bash
-npm test
-```
 https://mellow-monkeys.netlify.app/
+```
 
 ## License
 This project is licensed under the MIT License. Feel free to use and modify it as needed.
