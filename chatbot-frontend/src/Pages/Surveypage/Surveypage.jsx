@@ -1,29 +1,3 @@
-// import React from "react";
-// import styles from "./Surveypage.module.css";
-// import { useAuth } from "../../hooks/useAuth";
-
-// function SurveyPage() {
-//   console.log("successful login survey page");
-//   const { submitSurvey } = useAuth();
-//   return (
-//     <div className={styles.container}>
-//       <h1>Survey Page</h1>
-//       <p>
-//         Welcome to the Survey Page. Please fill out the following information:
-//       </p>
-
-//       {/* Submit button*/}
-//       <button className={styles.button} onClick={submitSurvey}>
-//         Submit
-//       </button>
-//     </div>
-//   );
-// }
-
-// export default SurveyPage;
-
-
-
 import styles from "./Surveypage.module.css";
 import { useAuth } from "../../hooks/useAuth";
 import axios from 'axios';
@@ -32,7 +6,7 @@ import React, { useState } from 'react';
 
 
 axios.defaults.baseURL = "http://localhost:8001";
-function SurveyPage({ onSubmit }) {
+function SurveyPage() {
   const navigate = useNavigate(); // 导入 useNavigate 并创建 navigate 变量
   const { submitSurvey } = useAuth();
 
@@ -73,12 +47,7 @@ const handleChange = (event) => {
     }
 };
 
-/*   const handleSubmit = (event) => {
-    event.preventDefault();
-    onSubmit(formData);
-    navigate('/Homepage'); // 使用 navigate 函数进行页面导航
-  };
- */
+
   return (
     <div className={styles.survey_form_container}>
       <form className={styles.survey_form} onSubmit={handleSubmit}>
