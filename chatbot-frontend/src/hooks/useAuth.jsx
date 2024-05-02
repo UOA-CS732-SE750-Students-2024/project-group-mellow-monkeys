@@ -116,7 +116,7 @@ export const AuthProvider = ({ children }) => {
 
   //New Survey submit
   const submitSurvey = () => {
-    navigate("/login", { replace: true });
+    navigate("/", { replace: true });
   };
 
   // LOGOUT
