@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
         newAuth.token = response?.data?.token;
 
         sessionStorage.setItem("token", response.data.token);
-        navigate(from, { replace: true });
+        navigate("/", { replace: true });
       }
     } catch (error) {
       console.log("submitLogin -> error: ", error);
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
     setAuth(newAuth);
   };
 
-  // IT SHOULD BE CHANGED TO REGISTER.
+  // REGISTERation
   const submitRegister = async (e, userData) => {
     setAuth({ ...auth, isLoading: true });
     if (e) e.preventDefault();
@@ -90,11 +90,11 @@ export const AuthProvider = ({ children }) => {
       console.log("submitRegister -> response: ", response);
       if (response.status === 201) {
         toast.success("Register success");
-
+        newAuth.isAuthenticated = true;
         newAuth.isLoading = false;
         newAuth.error = "";
-
-        navigate("/login", { replace: true });
+     
+        navigate("/survey", { replace: true });
       }
     } catch (error) {
       console.log("submitRegister -> error: ", error);
@@ -104,6 +104,12 @@ export const AuthProvider = ({ children }) => {
     }
     setAuth(newAuth);
   };
+
+  //new Survey submit
+  const submitSurvey = () => {
+
+    navigate("/login", { replace: true })
+  }
 
   // LOGOUT
   const submitLogout = () => {
@@ -145,7 +151,7 @@ export const AuthProvider = ({ children }) => {
   // pass the value in the provider and return it
   return (
     <AuthContext.Provider
-      value={{ auth, submitLogin, submitRegister, submitLogout }}
+      value={{ auth, submitLogin, submitRegister, submitLogout, submitSurvey }}
     >
       {children}
     </AuthContext.Provider>
