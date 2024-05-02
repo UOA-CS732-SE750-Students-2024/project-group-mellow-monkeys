@@ -8,6 +8,7 @@ import UserInfoPage from "./Pages/UserInfoPage/UserInfoPage";
 import { useAuth } from "./hooks/useAuth";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Homepage from "./Pages/Homepage/Homepage";
+import SurveyPage from "./Pages/Surveypage/Surveypage";
 
 function App() {
   const { auth } = useAuth();
@@ -28,6 +29,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Homepage />} />
           <Route path="/user-info" element={<UserInfoPage />} />
+          <Route path="/survey" element={<SurveyPage />} />
           for user info page
         </Route>
       </Route>
