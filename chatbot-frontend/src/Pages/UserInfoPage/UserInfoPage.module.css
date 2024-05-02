@@ -1,0 +1,86 @@
+.userInfoPage {
+  background-color: var(--gray-900);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  height: 100vh;
+  max-width: 100%;
+
+}
+
+.userInfoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 2rem;
+}
+
+.userAvatar {
+  width: 250px;
+  height: 250px;
+}
+
+.userInfo {
+  text-align: center;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+  gap: 1rem; /* Adjust the gap between buttons */
+}
+
+.userForm {
+  width: 100%;
+  max-width: 450px;
+  background-color: var(--gray-950);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.modifyButton,
+.backHomeButton {
+  background-color: #374151;
+  color: var(--white);
+  width: 100%;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.3s, filter 0.3s;
+}
+
+.modifyButton:hover {
+  background-color: lightslategray;
+  filter: brightness(0.9);
+}
+
+.avatarImage {
+  width: 60px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.3s;
+  margin: 5px;
+}
+
+.selectedAvatar {
+  border: 3px solid blue;
+  box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
+  transform: scale(1.05);
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+
+.formUserName,
+.formUserEmail,
+.formUserPassword,
+.formUserConfirmPassword {
+  margin-bottom: 10px;
+}

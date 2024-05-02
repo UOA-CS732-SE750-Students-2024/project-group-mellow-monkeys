@@ -28,8 +28,8 @@ const Homepage = () => {
   const [show, setShow] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const [name, setName] = useState(null);
-  const [description, setDescription] = useState('');
-  const [imageURL, setImageURL] = useState('');
+  const [description, setDescription] = useState("");
+  const [imageURL, setImageURL] = useState("");
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -54,9 +54,11 @@ const Homepage = () => {
     navigate("/user-info"); // Use navigate to go to the user information page
   };
 
-  // Create a new chat object to start a new chat
+  // Resets the current chat
   const createNewChat = () => {
-    navigate("/survey");
+    setValue("");
+    setMessage(null);
+    setCurrentTitle(null);
   };
 
   const handleClick = (uniqueTitle) => {
@@ -169,10 +171,13 @@ const Homepage = () => {
 
   const generateAvatar = async () => {
     try {
-        const response = await axios.post('http://localhost:8001/generate-avatar', { description });
-        setImageURL(response.data.imageURL);
+      const response = await axios.post(
+        "http://localhost:8001/generate-avatar",
+        { description }
+      );
+      setImageURL(response.data.imageURL);
     } catch (error) {
-        console.error('Error generating avatar:', error);
+      console.error("Error generating avatar:", error);
     }
   };
 
@@ -199,7 +204,7 @@ const Homepage = () => {
             </Button>
           </div>
           <Button onClick={createNewChat} className={styles.btn_new_chat}>
-            + New Chat Object
+            + New Chat
           </Button>
           {/* CHAT HISTORY */}
           <ul className={styles.chat_history}>
@@ -250,19 +255,23 @@ const Homepage = () => {
           </h1>
         </div>
         <ul className={styles.text_feed}>
-						{currentChat?.map((chatMessage, index) => (
-							<li key={index}>
-								<span className={styles.feed_role}>
-									{chatMessage.role
-										? chatMessage.role === "user"
-											? <img src = {avatar} />
-											: <img src={imageURL} alt="Virtual Lover Avatar" />
-										: <img src={imageURL} alt="Virtual Lover Avatar" />}
-								</span>
-								<span>{chatMessage.content}</span>
-							</li>
-						))}
-					</ul>
+          {currentChat?.map((chatMessage, index) => (
+            <li key={index}>
+              <span className={styles.feed_role}>
+                {chatMessage.role ? (
+                  chatMessage.role === "user" ? (
+                    <img src={avatar} />
+                  ) : (
+                    <img src={imageURL} alt="Virtual Lover Avatar" />
+                  )
+                ) : (
+                  <img src={imageURL} alt="Virtual Lover Avatar" />
+                )}
+              </span>
+              <span>{chatMessage.content}</span>
+            </li>
+          ))}
+        </ul>
         <div className={styles.bottom_wrapper}>
           <div className={styles.input_wrapper}>
             <FormControl
@@ -294,14 +303,14 @@ const Homepage = () => {
           <p className={`${styles.info} text-muted`}>Powered by Chat GPT4.</p>
         </div>
         <div className={styles.avatarGeneratorContainer}>
-            			<input
-                			type="text"
-							placeholder="Describe your virtual lover"
-							value={description}
-							onChange={e => setDescription(e.target.value)}
-						/>
-						<button onClick={generateAvatar}>Generate Avatar</button>
-					</div>
+          <input
+            type="text"
+            placeholder="Describe your virtual lover"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <button onClick={generateAvatar}>Generate Avatar</button>
+        </div>
       </section>
       {/* MAIN */}
     </div>
