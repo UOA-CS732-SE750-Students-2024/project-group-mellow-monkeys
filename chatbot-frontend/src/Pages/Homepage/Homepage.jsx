@@ -54,11 +54,9 @@ const Homepage = () => {
     navigate("/user-info"); // Use navigate to go to the user information page
   };
 
-  // Resets the current chat
+  // Create new chat object
   const createNewChat = () => {
-    setValue("");
-    setMessage(null);
-    setCurrentTitle(null);
+    navigate("/survey");
   };
 
   const handleClick = (uniqueTitle) => {
@@ -204,7 +202,7 @@ const Homepage = () => {
             </Button>
           </div>
           <Button onClick={createNewChat} className={styles.btn_new_chat}>
-            + New Chat
+            + New Chat Object
           </Button>
           {/* CHAT HISTORY */}
           <ul className={styles.chat_history}>
