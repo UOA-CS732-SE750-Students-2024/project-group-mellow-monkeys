@@ -1,7 +1,9 @@
-import React from "react";
 import styles from "./Surveypage.module.css";
 import { useAuth } from "../../hooks/useAuth";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+
 
 axios.defaults.baseURL = "http://localhost:8001";
 function SurveyForm({ onSubmit }) {
