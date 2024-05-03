@@ -243,7 +243,7 @@ const Homepage = () => {
           </ul> */}
           {chatBots.length > 0 ? (
             chatBots.map((chatbot) => (
-              <div key={chatbot._id} className={styles.chatbot_entry} onClick={() => handleSelectChatBot(chatbot._id)}>
+              <div key={chatbot._id} className={styles.chatbot_entry} onClick={() => handleClick(chatbot._id)}>
                 <img
                   src={chatbot.avatar}
                   alt={chatbot.name}
