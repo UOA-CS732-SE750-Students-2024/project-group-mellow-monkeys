@@ -17,13 +17,20 @@
 }
 
 .side_bar {
-  background-color: var(--gray-950);
-  height: 100vh;
-  width: 16rem;
-
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  padding: 20px;
+  height: 100%; /* Ensures the sidebar takes full vertical space */
+  justify-content: flex-start; /* Aligns items to the top */
+}
+
+.no_chatbots_message {
+  text-align: center;
+  padding: 20px;
+  margin: 20px; /* Adds margin around the message */
+  color: #666;
+  background-color: #222; /* To match your dark theme */
+  border-radius: 5px; /* Adds rounded corners to the message box */
 }
 
 .offcanvas_side_bar {
@@ -138,15 +145,9 @@
 }
 
 .footer_github {
-  padding: 0;
-  margin: 1rem;
-  border-radius: 1rem;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
+  margin-top: auto; /* Pushes the footer to the bottom */
+  text-align: center;
+  padding-top: 20px;
 }
 
 .footer_github svg {
@@ -307,8 +308,33 @@
   background-color: #374151 !important;
 }
 .feed_role img {
-  width: 30px;  
-  height: 30px;  
-  border-radius: 50%; 
-  vertical-align: middle; 
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.chatbot_entry {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.chatbot_avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.chatbot_info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.delete_icon {
+  cursor: pointer;
+  color: red; /* Optional styling for the delete icon */
 }

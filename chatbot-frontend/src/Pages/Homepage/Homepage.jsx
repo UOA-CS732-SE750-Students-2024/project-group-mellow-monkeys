@@ -20,6 +20,7 @@ axios.defaults.baseURL = "http://localhost:8001";
 const Homepage = () => {
   const navigate = useNavigate();
   const { auth, submitLogout } = useAuth();
+  const [chatBots, setChatBots] = useState([]);
   const [value, setValue] = useState("");
   const [message, setMessage] = useState(null);
   const [previousChats, setPreviousChats] = useState([]);
@@ -49,6 +50,22 @@ const Homepage = () => {
     }
   }, [auth.id, auth.token]);
 
+  useEffect(() => {
+    if (auth.id) {
+      axios
+        .get(`/chatbots/user/${auth.id}`, {
+          headers: { Authorization: `Bearer ${auth.token}` },
+        })
+        .then((response) => {
+          setChatBots(response.data);
+        })
+        .catch((error) => {
+          console.error("Failed to fetch chatbots", error);
+          toast.error("Failed to fetch chatbots");
+        });
+    }
+  }, [auth.id, auth.token]);
+
   const handleNavigateToUserInfo = () => {
     navigate("/user-info"); // Use navigate to go to the user information page
   };
@@ -69,6 +86,19 @@ const Homepage = () => {
     setValue("");
     setMessage(null);
     setCurrentTitle(null);
+  };
+
+  const handleDeleteChatbot = async (chatbotId) => {
+    try {
+      await axios.delete(`/deleteSingleChatbot/${chatbotId}`, {
+        headers: { Authorization: `Bearer ${auth.token}` },
+      });
+      setChatBots(chatBots.filter((cb) => cb._id !== chatbotId));
+      toast.success("Chatbot deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete chatbot", error);
+      toast.error("Failed to delete chatbot");
+    }
   };
 
   /*
@@ -192,7 +222,7 @@ const Homepage = () => {
             + New Chat Object
           </Button>
           {/* CHAT HISTORY */}
-          <ul className={styles.chat_history}>
+          {/* <ul className={styles.chat_history}>
             {uniqueTitles?.map((uniqueTitle, index) => (
               <li
                 onClick={() => handleClick(uniqueTitle)}
@@ -203,7 +233,30 @@ const Homepage = () => {
                 <span>{uniqueTitle}</span>
               </li>
             ))}
-          </ul>
+          </ul> */}
+          {chatBots.length > 0 ? (
+            chatBots.map((chatbot) => (
+              <div key={chatbot._id} className={styles.chatbot_entry}>
+                <img
+                  src={chatbot.avatar || "default_avatar.jpg"}
+                  alt={chatbot.name}
+                  className={styles.chatbot_avatar}
+                />
+                <div className={styles.chatbot_info}>
+                  <span>{chatbot.name}</span>
+                  <TrashSimple
+                    size={20}
+                    onClick={() => handleDeleteChatbot(chatbot._id)}
+                    className={styles.delete_icon}
+                  />
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className={styles.no_chatbots_message}>
+              The current user has not created any chatbot yet.
+            </p>
+          )}
           {/* CHAT HISTORY */}
           {/* FOOTER */}
           <span className={styles.footer_github}>
