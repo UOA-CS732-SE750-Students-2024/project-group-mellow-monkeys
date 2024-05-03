@@ -15,7 +15,8 @@ function SurveyPage() {
     gender: '',
     hobbies: '',
     personality: '',
-    nickname: ''
+    nickname: '',
+    desicribe: ''
   });
 
 const handleChange = (event) => {
@@ -98,6 +99,16 @@ const handleChange = (event) => {
             type="text"
             name="nickname"
             value={formData.nickname}
+            onChange={handleChange}
+          />
+        </label>
+        <label className={styles.survey_label}>
+          Desicribe he/her:
+          <input
+            className={styles.survey_input}
+            type="text"
+            name="Desicribe"
+            value={formData.desicribe}
             onChange={handleChange}
           />
         </label>
