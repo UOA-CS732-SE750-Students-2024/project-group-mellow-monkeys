@@ -1,18 +1,14 @@
 import styles from "./Surveypage.module.css";
 import { useAuth } from "../../hooks/useAuth";
-
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-
 
 axios.defaults.baseURL = "http://localhost:8001";
 
 function SurveyPage() {
   const navigate = useNavigate();
-
-  const { auth, submitSurvey } = useAuth();
-  const [imageURL, setImageURL] = useState("");
+  const { auth } = useAuth();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -22,14 +18,11 @@ function SurveyPage() {
     age: "",
     descriptions: "",
     user: auth.id,
-
   });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-
     setFormData((prev) => ({ ...prev, [name]: value }));
-
   };
 
   const handleCancel = () => {
@@ -61,26 +54,10 @@ function SurveyPage() {
   // };
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     console.log("Attempting to submit form", formData);
-     const generateAvatar = async (describe) => {
-    try {
-      const response = await axios.post(
-        baseURL + "/generate-avatar",
-        { describe }
-      );
-      setImageURL(response.data.imageURL);
-    } catch (error) {
-      console.error("Error generating avatar:", error);
 
     try {
-      const { descriptions } = formData;
-        
-        await generateAvatar(descriptions);
-
-        const updatedFormData = { ...formData, avatarURL: imageURL };
-        console.log(imageURL);
-      const response = await axios.post("/createChatbot", updatedFormData, {
+      const response = await axios.post("/createChatbot", formData, {
         headers: {
           Authorization: `Bearer ${auth.token}`, // Assuming auth.token is your token
         },
@@ -89,7 +66,6 @@ function SurveyPage() {
       navigate("/"); // Navigate after successful post
     } catch (error) {
       console.error("Failed to submit form", error.response || error);
-
     }
   };
 
@@ -158,13 +134,11 @@ function SurveyPage() {
             onChange={handleChange}
           />
         </label>
-
         <button
           className={styles.survey_button}
           type="submit"
           // onClick={handleSubmit}
         >
-
           Submit
         </button>
         <button
