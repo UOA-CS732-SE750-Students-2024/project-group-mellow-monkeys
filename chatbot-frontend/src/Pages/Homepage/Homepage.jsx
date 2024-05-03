@@ -29,6 +29,7 @@ const Homepage = () => {
   const [show, setShow] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const [name, setName] = useState(null);
+  const [description, setDescription] = useState("");
   const [imageURL, setImageURL] = useState("");
 
   const handleClose = () => setShow(false);
@@ -196,6 +197,18 @@ const Homepage = () => {
     new Set(previousChats.map((previousChat) => previousChat.title))
   );
 
+  const generateAvatar = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8001/generate-avatar",
+        { description }
+      );
+      setImageURL(response.data.imageURL);
+    } catch (error) {
+      console.error("Error generating avatar:", error);
+    }
+  };
+
   return (
     <div className={styles.homepage}>
       {/* SIDEBAR */}
@@ -339,6 +352,15 @@ const Homepage = () => {
             </button>
           </div>
           <p className={`${styles.info} text-muted`}>Powered by Chat GPT4.</p>
+        </div>
+        <div className={styles.avatarGeneratorContainer}>
+          <input
+            type="text"
+            placeholder="Describe your virtual lover"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <button onClick={generateAvatar}>Generate Avatar</button>
         </div>
       </section>
       {/* MAIN */}
