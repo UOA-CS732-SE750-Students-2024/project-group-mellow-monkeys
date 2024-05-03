@@ -33,7 +33,7 @@ const ChatBotsSchema = new Schema(
     name: { type: String, required: true },
     gender: { type: String, required: true },
     personality: { type: String, required: true },
-    avatar: { type: String, default: "avatar1.jpg" },
+    avatar: { type: String, default: "avatar2.jpeg" },
     descriptions: String,
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
