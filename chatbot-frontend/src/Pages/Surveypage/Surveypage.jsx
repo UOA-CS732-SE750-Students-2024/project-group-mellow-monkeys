@@ -83,6 +83,7 @@ function SurveyPage() {
             name="name"
             value={formData.name}
             onChange={handleChange}
+            required
           />
         </label>
         <label className={styles.survey_label}>
@@ -93,6 +94,7 @@ function SurveyPage() {
             name="age"
             value={formData.age}
             onChange={handleChange}
+            required
           />
         </label>
         <label className={styles.survey_label}>
@@ -103,6 +105,7 @@ function SurveyPage() {
             name="gender"
             value={formData.gender}
             onChange={handleChange}
+            required
           />
         </label>
         <label className={styles.survey_label}>
@@ -113,6 +116,7 @@ function SurveyPage() {
             name="hobbies"
             value={formData.hobbies}
             onChange={handleChange}
+            required
           />
         </label>
         <label className={styles.survey_label}>
@@ -123,6 +127,7 @@ function SurveyPage() {
             name="personality"
             value={formData.personality}
             onChange={handleChange}
+            required
           />
         </label>
         <label className={styles.survey_label}>
