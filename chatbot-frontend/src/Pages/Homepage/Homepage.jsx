@@ -76,15 +76,16 @@ const Homepage = () => {
     navigate("/survey");
   };
 
-  const handleClick = (chatbotId) => {
-    // Find the chatbot by ID
-    const selectedChatbot = chatBots.find(cb => cb._id === chatbotId);
-    if (selectedChatbot) {
-      setCurrentTitle(selectedChatbot.name); // Assuming each chatbot has a unique name or ID
-      // Optionally, you might want to fetch the chat history here if it's not already loaded
-    }
-  };
+  // const handleClick = (chatbotId) => {
+  //   // Find the chatbot by ID
+  //   const selectedChatbot = chatBots.find(cb => cb._id === chatbotId);
+  //   if (selectedChatbot) {
+  //     setCurrentTitle(selectedChatbot.name); // Assuming each chatbot has a unique name or ID
+  //     // Optionally, you might want to fetch the chat history here if it's not already loaded
+  //   }
+  // };
 
+  
   const handleEmptyHistory = () => {
     setPreviousChats([]);
     setValue("");
