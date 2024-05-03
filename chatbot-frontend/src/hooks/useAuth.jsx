@@ -43,6 +43,14 @@ export const AuthProvider = ({ children }) => {
       console.log("submitLogin -> response: ", response);
       if (response.status === 200) {
         toast.success("Login success");
+        
+        sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("user", JSON.stringify({
+            id: response.data.user._id,
+            name: response.data.user.name,
+            email: response.data.user.email,
+            avatar: response.data.user.avatar,
+        })); 
 
         newAuth.isAuthenticated = true;
         newAuth.isLoading = false;
@@ -50,17 +58,10 @@ export const AuthProvider = ({ children }) => {
         newAuth.id = response?.data?.user?._id;
         newAuth.name = response?.data?.user?.name;
         newAuth.email = response?.data?.user?.email;
-
         newAuth.avatar = response?.data?.user?.avatar;
-
-        newAuth.token = response?.data?.token;
-        
+        newAuth.token = response?.data?.token;  
         newAuth.loginTime = response?.data?.user?.loginTime;
 
-        sessionStorage.setItem("token", response.data.token);
-
-        // Save user ID in session storage
-        sessionStorage.setItem("userId", response.data.user._id);
         if (newAuth.loginTime === 1) {
         navigate("/survey", { replace: true });
       } else {
@@ -127,46 +128,6 @@ export const AuthProvider = ({ children }) => {
     navigate("/login", { replace: true });
   };
 
-  // const submitLogout = async () => {
-  //   const userId = sessionStorage.getItem("userId");
-  //   const token = sessionStorage.getItem("token");
-
-  //   if (!userId || !token) {
-  //     toast.error("Session information missing.");
-  //     return;
-  //   }
-
-  //   try {
-  //     // Make a POST request to the logout endpoint
-  //     const response = await axios.post(
-  //       `http://localhost:8001/user/${userId}/logout`,
-  //       {},
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`, // Include the token in the authorization header
-  //         },
-  //       }
-  //     );
-
-  //     if (response.status === 200) {
-  //       // If logout is successful
-  //       toast.success(response.data.message); // Display a success message from the server
-  //       sessionStorage.clear(); // Clear all session storage
-  //       setAuth(initialAuthState); // Reset the authentication state
-  //       navigate("/login", { replace: true }); // Navigate back to the login page
-  //     } else {
-  //       // If the server returns a status other than 200
-  //       throw new Error("Failed to logout");
-  //     }
-  //   } catch (error) {
-  //     // If there is an error in the request or the server response
-  //     console.error("Logout failed:", error);
-  //     toast.error(
-  //       "Logout failed: " + (error.response?.data?.message || "Server error")
-  //     );
-  //   }
-  // };
-
   // Function to check if the token has expired
   const isTokenExpired = (token) => {
     const tokenData = JSON.parse(atob(token.split(".")[1]));
@@ -174,27 +135,35 @@ export const AuthProvider = ({ children }) => {
     return tokenData.exp < currentTime;
   };
 
-  // Checks if there is a token saved in sessionStorage when mounting the component
   useEffect(() => {
     const token = sessionStorage.getItem("token");
-    if (token) {
-      if (!isTokenExpired(token)) {
-        // Valid token, sets the authentication state to authenticated
-        setAuth((prevAuth) => ({
-          ...prevAuth,
-          isAuthenticated: true,
-          isLoading: false,
-          token: token,
+    const storedUser = sessionStorage.getItem("user");
+    const user = storedUser ? JSON.parse(storedUser) : null;
+
+    if (token && user && !isTokenExpired(token)) {
+        setAuth(prevAuth => ({
+            ...prevAuth,
+            isAuthenticated: true,
+            isLoading: false,
+            token: token,
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            avatar: user.avatar,
         }));
-      }
     } else {
-      // No token, sets the authentication state to not authenticated
-      setAuth((prevAuth) => ({
-        ...prevAuth,
-        isLoading: false,
-      }));
+        if (!token || isTokenExpired(token)) {
+            sessionStorage.removeItem("token");
+            sessionStorage.removeItem("user");
+        }
+        setAuth(prevAuth => ({
+            ...prevAuth,
+            isAuthenticated: false,
+            isLoading: false,
+        }));
     }
-  }, []);
+}, []);
+
 
   // pass the value in the provider and return it
   return (
