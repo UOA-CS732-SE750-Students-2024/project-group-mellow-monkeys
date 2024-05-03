@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { saveAs } from "file-saver";
 
 axios.defaults.baseURL = "http://localhost:8001";
 
@@ -12,6 +13,7 @@ function SurveyPage() {
   const navigate = useNavigate();
   const { auth } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     gender: "",
@@ -25,23 +27,47 @@ function SurveyPage() {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (error) setError("");
   };
 
+  function createImageUrl(imagePath) {
+    const baseUrl = "http://localhost:8001";
+    const filename = imagePath.split("/").pop();
+    const fullUrl = `${baseUrl}/${filename}`;
+    return fullUrl;
+  }
   const handleCancel = () => {
     navigate("/");
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Form submission started");
-    setLoading(true); // Set loading to true when the request starts
-    console.log("Loading set to true");
+    if (
+      !formData.name ||
+      !formData.age ||
+      !formData.gender ||
+      !formData.hobbies ||
+      !formData.personality
+    ) {
+      setError("All fields except descriptions need to be filled.");
+      return; // Prevent the form submission
+    }
+    setLoading(true);
     try {
-      const { descriptions } = formData;
-      console.log("Generating avatar...");
-      const imageURL = await generateAvatar(descriptions);
-      const updatedFormData = { ...formData, avatar: imageURL };
-      console.log("Avatar generated:", imageURL);
+      const { user, ...dataForAvatar } = formData; // Destructure to remove user and prepare data for avatar
+      const avatarDescription = JSON.stringify({
+        description:
+          "Please create a character avatar based on the following attributes:",
+        attributes: dataForAvatar,
+      });
+      console.log(avatarDescription);
+
+      const imageURL = await generateAvatar(avatarDescription);
+      console.log(`image url ${imageURL}`);
+      const finalPath = createImageUrl(imageURL);
+      console.log(`final path ${finalPath}`);
+
+      const updatedFormData = { ...formData, avatar: finalPath };
       const response = await axios.post("/createChatbot", updatedFormData, {
         headers: {
           Authorization: `Bearer ${auth.token}`,
@@ -49,21 +75,20 @@ function SurveyPage() {
       });
       if (response.status === 201) {
         console.log("Submission successful", response.data);
-        navigate("/");
+        // navigate("/");
+        navigate("/", { state: { needRefresh: true } });
       }
     } catch (error) {
       console.error("Failed to submit form", error.response || error);
-    } finally {
-      setLoading(false); // Ensure loading is set to false even if an error occurs
-      console.log("Loading set to false");
     }
+    setLoading(false);
   };
 
   const generateAvatar = async (description) => {
     try {
       const response = await axios.post("/generate-avatar", { description });
       if (response.status === 200) {
-        return response.data.imageURL;
+        return response.data.imagePath;
       } else {
         throw new Error("Failed to generate avatar");
       }
@@ -101,6 +126,7 @@ function SurveyPage() {
             className={styles.survey_input}
             type="text"
             name="name"
+            data-testid="name"
             value={formData.name}
             onChange={handleChange}
           />
@@ -111,6 +137,7 @@ function SurveyPage() {
             className={styles.survey_input}
             type="text"
             name="age"
+            data-testid="age"
             value={formData.age}
             onChange={handleChange}
           />
@@ -121,6 +148,7 @@ function SurveyPage() {
             className={styles.survey_input}
             type="text"
             name="gender"
+            data-testid="gender"
             value={formData.gender}
             onChange={handleChange}
           />
@@ -131,6 +159,7 @@ function SurveyPage() {
             className={styles.survey_input}
             type="text"
             name="hobbies"
+            data-testid="hobbies"
             value={formData.hobbies}
             onChange={handleChange}
           />
@@ -141,6 +170,7 @@ function SurveyPage() {
             className={styles.survey_input}
             type="text"
             name="personality"
+            data-testid="personality"
             value={formData.personality}
             onChange={handleChange}
           />
@@ -150,14 +180,16 @@ function SurveyPage() {
           <textarea
             className={styles.survey_input}
             name="descriptions"
+            data-testid="descriptions"
             value={formData.descriptions}
             onChange={handleChange}
           />
         </label>
+        {error && <p className={styles.error_message}>{error}</p>}
         <button
           className={styles.survey_button}
           type="submit"
-          // onClick={handleSubmit}
+          data-testid="submit"
         >
           Submit
         </button>

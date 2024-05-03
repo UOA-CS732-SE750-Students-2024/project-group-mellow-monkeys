@@ -10,8 +10,7 @@ import avatarRoutes from "./routes/avatarRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 8001;
-
-// app.use('/api', avatarRoutes);
+app.use(express.static("public"));
 
 app.use(express.json());
 app.use(cors());
