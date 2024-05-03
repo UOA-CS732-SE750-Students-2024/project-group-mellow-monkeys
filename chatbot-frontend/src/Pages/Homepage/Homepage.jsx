@@ -76,10 +76,13 @@ const Homepage = () => {
     navigate("/survey");
   };
 
-  const handleClick = (uniqueTitle) => {
-    setValue("");
-    setMessage(null);
-    setCurrentTitle(uniqueTitle);
+  const handleClick = (chatbotId) => {
+    // Find the chatbot by ID
+    const selectedChatbot = chatBots.find(cb => cb._id === chatbotId);
+    if (selectedChatbot) {
+      setCurrentTitle(selectedChatbot.name); // Assuming each chatbot has a unique name or ID
+      // Optionally, you might want to fetch the chat history here if it's not already loaded
+    }
   };
 
   const handleEmptyHistory = () => {
@@ -249,7 +252,7 @@ const Homepage = () => {
           </ul> */}
           {chatBots.length > 0 ? (
             chatBots.map((chatbot) => (
-              <div key={chatbot._id} className={styles.chatbot_entry}>
+              <div key={chatbot._id} className={styles.chatbot_entry} onClick={() => handleClick(chatbot._id)}>
                 <img
                   src={chatbot.avatar || "default_avatar.jpg"}
                   alt={chatbot.name}

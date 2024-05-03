@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import UserInfoPage from "./UserInfoPage";
+import UserInfoPage from "../../Pages/UserInfoPage/UserInfoPage";
 import { BrowserRouter as Router } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth"; // Ensure this path is correct
 import axios from "axios";
