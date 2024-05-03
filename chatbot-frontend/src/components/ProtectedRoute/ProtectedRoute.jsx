@@ -1,15 +1,13 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
-// This component is used to protect routes from unauthenticated users
-const ProtectedRoute = ({
-  isAllowed,
-  redirectPath,
-  children,
-}) => {
-  if (!isAllowed) {
+const ProtectedRoute = ({ redirectPath }) => {
+  const token = sessionStorage.getItem("token");
+
+  if (!token) {
     return <Navigate to={redirectPath} replace />;
   }
-  return children ? children : <Outlet />;
+  
+  return <Outlet />;
 };
 
 export default ProtectedRoute;
