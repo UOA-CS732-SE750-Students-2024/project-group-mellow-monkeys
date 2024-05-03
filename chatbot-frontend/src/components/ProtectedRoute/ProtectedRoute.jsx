@@ -6,7 +6,6 @@ const ProtectedRoute = ({ redirectPath }) => {
   if (!token) {
     return <Navigate to={redirectPath} replace />;
   }
-
   return <Outlet />;
 };
 

@@ -61,26 +61,14 @@ import Homepage from "./Pages/Homepage/Homepage";
 import SurveyPage from "./Pages/Surveypage/Surveypage";
 
 function App() {
-  const { auth } = useAuth();
-
-  if (auth.isLoading) {
-    return <div>Loading...</div>; // or a spinner/loader component
-  }
-
+  // const { auth } = useAuth();
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
       {/* Authenticated Routes*/}
-      <Route
-        element={
-          <ProtectedRoute
-            redirectPath="/login"
-            isAllowed={auth.isAuthenticated}
-          />
-        }
-      >
+      <Route element={<ProtectedRoute redirectPath="/login" />}>
         <Route path="/" element={<Layout />}>
           <Route index element={<Homepage />} />
           <Route path="/user-info" element={<UserInfoPage />} />
