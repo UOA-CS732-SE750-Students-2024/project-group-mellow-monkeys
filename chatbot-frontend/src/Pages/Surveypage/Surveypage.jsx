@@ -4,11 +4,12 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 
-
 axios.defaults.baseURL = "http://localhost:8001";
+
 function SurveyPage() {
-  const navigate = useNavigate(); // 导入 useNavigate 并创建 navigate 变量
+  const navigate = useNavigate();
   const { submitSurvey } = useAuth();
+  const [imageURL, setImageURL] = useState("");
 
   const [formData, setFormData] = useState({
     name: '',
@@ -16,20 +17,33 @@ function SurveyPage() {
     hobbies: '',
     personality: '',
     nickname: '',
-    desicribe: ''
+    describe: ''
   });
 
-const handleChange = (event) => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  }; 
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [name]: value
+    }));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-        await axios.post('http://localhost:8001/survey', formData);
-        navigate('/');  // Redirect to the Homepage after successful submission
-    } catch (error) {
+      try {
+        const { describe } = formData;
+        
+        await generateAvatar(describe);
+
+        const updatedFormData = { ...formData, avatarURL: imageURL };
+        console.log(imageURL);
+
+        const response = await axios.post(baseURL + '/submit-survey', updatedFormData);        
+        if (response.status === 200) {
+          alert('Survey submitted successfully!');
+          navigate('/');
+        }
+      } catch (error) {
         if (error.response) {
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
@@ -38,16 +52,26 @@ const handleChange = (event) => {
             console.log('Data:', error.response.data);
             console.log('Headers:', error.response.headers);
         } else if (error.request) {
-            // The request was made but no response was received
-            console.error('Error Request:', error.request);
+          // The request was made but no response was received
+          console.error('Error Request:', error.request);
         } else {
-            // Something happened in setting up the request that triggered an Error
-            console.error('Error Message:', error.message);
+          // Something happened in setting up the request that triggered an Error
+          console.error('Error Message:', error.message);
         }
-        console.error('Error Config:', error.config);
+          console.error('Error Config:', error.config);
+      }
+  };
+  const generateAvatar = async (describe) => {
+    try {
+      const response = await axios.post(
+        baseURL + "/generate-avatar",
+        { describe }
+      );
+      setImageURL(response.data.imageURL);
+    } catch (error) {
+      console.error("Error generating avatar:", error);
     }
-};
-
+  };
 
   return (
     <div className={styles.survey_form_container}>
@@ -103,12 +127,12 @@ const handleChange = (event) => {
           />
         </label>
         <label className={styles.survey_label}>
-          Desicribe he/her:
+          Describe him/her:
           <input
             className={styles.survey_input}
             type="text"
-            name="Desicribe"
-            value={formData.desicribe}
+            name="describe"
+            value={formData.describe}
             onChange={handleChange}
           />
         </label>

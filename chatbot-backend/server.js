@@ -6,12 +6,12 @@ import { connectWithRetry } from "./data/init-db.js";
 import userRoutes from "./routes/users.js";
 import chatBotRoutes from "./routes/chatbots.js";
 import openAIRoutes from "./routes/openAI.js";
-import avatarRoutes from "./routes/avatarRoutes.js"
+import avatarRoutes from "./routes/avatarRoutes.js";
+import surveyRoutes from './routes/surveyRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 8001;
 
-// app.use('/api', avatarRoutes);
 
 app.use(express.json());
 app.use(cors());
@@ -20,6 +20,7 @@ app.use("/", userRoutes);
 app.use("/", chatBotRoutes);
 app.use("/", openAIRoutes);
 app.use("/", avatarRoutes); 
+app.use('/', surveyRoutes);
 
 
 app.get("/", (req, res) => {

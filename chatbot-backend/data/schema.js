@@ -29,12 +29,11 @@ export const User = mongoose.model("User", userSchema);
  */
 const ChatBotsSchema = new Schema(
   {
-    age: { type: String, required: true },
     name: { type: String, required: true },
     gender: { type: String, required: true },
     personality: { type: String, required: true },
-    avatar: { type: String, default: "avatar1.jpg" },
-    descriptions: String,
+    describe:{ type: String, required: true },
+    avatarURL: { type: String, default: "avatar1.jpg" },
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
   {
