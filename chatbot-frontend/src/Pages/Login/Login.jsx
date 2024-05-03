@@ -19,22 +19,20 @@ export default function Login() {
 
 	return (
 		<div className={styles.login_page}>
-			<div className={styles.login_logo_wrapper}>
-				<Robot size={96} />
-				Bobu
-				<p>AI chatbot</p>
-			</div>
+			{/* <div className={styles.login_logo_wrapper}>
+				<img src="/logo.png" alt="Logo"></img>
+			</div> */}
 			<Form
 				className={styles.login_wrapper}
 				onSubmit={(e) => handleSubmitLogin(e)}
 			>
-				<div className={styles.login_upper_section}>Login</div>
+				{/* <div className="logindiv"><h2 >Login</h2></div> */}
 				<Form.Group
 					className={styles.login_form_field}
 					controlId="formBasicUsername"
 				>
-					<Form.Label>Email</Form.Label>
-					<Form.Control
+					{/* <Form.Label>Email</Form.Label> */}
+					<Form.Control 
 						onChange={(e) => setEmail(e.target.value)}
 						value={email}
 						type="email"
@@ -46,8 +44,8 @@ export default function Login() {
 					className={styles.login_form_field}
 					controlId="formBasicPassword"
 				>
-					<Form.Label>Password</Form.Label>
-					<Form.Control
+					{/* <Form.Label>Password</Form.Label> */}
+					<Form.Control 
 						onChange={(e) => setPassword(e.target.value)}
 						value={password}
 						type="password"
@@ -61,7 +59,7 @@ export default function Login() {
 						</Form.Text>
 					</Form.Group>
 				)}
-				<Form.Group className={styles.login_form_field_bottom_section}>
+				{/* <Form.Group className={styles.login_form_field_bottom_section}> */}
 					<Button
 						className={styles.login_form_login_button}
 						variant="secondary"
@@ -80,7 +78,7 @@ export default function Login() {
 						)}
 
 					</Button>
-				</Form.Group>
+				{/* </Form.Group> */}
 				<Form.Group className={styles.login_register}>
 					<Form.Text className={styles.login_register_text}>
 						Don't have an account? <a href="/register">Register</a>

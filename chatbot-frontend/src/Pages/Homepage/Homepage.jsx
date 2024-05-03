@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./Homepage.module.css";
 import {
   ChatCircle,
@@ -34,6 +34,21 @@ const Homepage = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+    // Ref to keep track of the chat container
+    const chatFeedRef = useRef(null);
+
+      // Function to scroll to the bottom of the chat feed
+  const scrollToBottom = () => {
+    const scroll = chatFeedRef.current;
+    scroll.scrollTop = scroll.scrollHeight;
+  };
+
+  useEffect(() => {
+    if (message) {
+      scrollToBottom();
+    }
+  }, [message]); // Triggered every time a new message is added
+  //......................................
   useEffect(() => {
     if (auth.id && auth.token) {
       axios
@@ -228,14 +243,8 @@ const Homepage = () => {
                 Empty history
               </Button>
             )}
-            <a
-              href="https://github.com/UOA-CS732-SE750-Students-2024/project-group-mellow-monkeys"
-              target="_blank"
-              rel="https://github.com/UOA-CS732-SE750-Students-2024/project-group-mellow-monkeys noreferrer"
-            >
-              {/* this color has to be in hex to fix offcanvas bug */}
-              <GithubLogo size={20} color="#94a3b8" />
-              Made by Mellow Monkeys
+            <a>
+              Powered By AI
             </a>
           </span>
           {/* FOOTER */}
@@ -245,26 +254,50 @@ const Homepage = () => {
 
       {/* MAIN */}
       <section className={styles.main}>
-        <div className={styles.bobu_logo_wrapper}>
-          <h1 className={styles.bobu_logo}>
-            <Robot size={32} />
-            Bobu
-          </h1>
+        <div >
+          <div className={styles.bobu_logo}>
+            {/* <Robot size={32} /> */}
+            {/* Name of the Caractor  */}
+          </div>
         </div>
-        <ul className={styles.text_feed}>
+        {/* <ul className={styles.text_feed}>
 						{currentChat?.map((chatMessage, index) => (
 							<li key={index}>
 								<span className={styles.feed_role}>
 									{chatMessage.role
 										? chatMessage.role === "user"
-											? <img src = {avatar} />
+											? <img src = {avatar} className="userChatAv"/>
 											: <img src={imageURL} alt="Virtual Lover Avatar" />
 										: <img src={imageURL} alt="Virtual Lover Avatar" />}
 								</span>
 								<span>{chatMessage.content}</span>
 							</li>
 						))}
-					</ul>
+					</ul> */}
+
+<div className={styles.text_feed} ref={chatFeedRef}>
+  {currentChat?.map((chatMessage, index) => {
+    if (chatMessage.role === 'user') {
+      // User message layout
+      return (
+        <div key={index} className={styles.userMessage}>
+          <span className={styles.messageContent}>{chatMessage.content}</span>
+          <img src={avatar} className={styles.userChatAv} alt="User Avatar" />
+        </div>
+      );
+    } else {
+      // Assistant message layout
+      return (
+        <div key={index} className={styles.assistantMessage}>
+          <img src={imageURL} alt="Virtual Lover Avatar" className={styles.assistantChatAv} />
+          <span className={styles.messageContent}>{chatMessage.content}</span>
+        </div>
+      );
+    }
+  })}
+</div>
+
+
         <div className={styles.bottom_wrapper}>
           <div className={styles.input_wrapper}>
             <FormControl
@@ -293,9 +326,9 @@ const Homepage = () => {
               )}
             </button>
           </div>
-          <p className={`${styles.info} text-muted`}>Powered by Chat GPT4.</p>
+          <p className={`${styles.info} text-muted`}>Powered by AI.</p>
         </div>
-        <div className={styles.avatarGeneratorContainer}>
+        {/* <div className={styles.avatarGeneratorContainer}>
             			<input
                 			type="text"
 							placeholder="Describe your virtual lover"
@@ -303,7 +336,7 @@ const Homepage = () => {
 							onChange={e => setDescription(e.target.value)}
 						/>
 						<button onClick={generateAvatar}>Generate Avatar</button>
-					</div>
+					</div> */}
       </section>
       {/* MAIN */}
     </div>

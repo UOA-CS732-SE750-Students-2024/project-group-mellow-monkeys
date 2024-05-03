@@ -1,120 +1,210 @@
 .login_page {
-	background-color: var(--gray-950);
-	height: 100vh;
-	width: 100vw;
+    height: 100vh; /* 占满整个浏览器高度 */
+    width: 100vw; /* 占满整个浏览器宽度 */
 
-	display: grid;
-	grid-template-rows: 1fr 2fr;
-	align-content: center;
-	justify-content: center;
-	align-items: start;
-	justify-items: center;
-}
-
-.login_logo_wrapper {
-	border-radius: 1rem;
-	margin: auto;
-	text-align: center;
-	font-size: 2rem;
-	font-size: 4rem;
-
+    /* display: grid; 使用 Grid 布局 */
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-content: center;
 	align-items: center;
-	justify-items: center;
+	justify-content: center;
+    /* grid-template-rows: 1fr 2fr; 将页面分为两行，比例为 1:2 */
+    /* align-content: center; 网格内容垂直居中 */
+    /* justify-content: center; 网格内容水平居中 */
+    /* align-items: start; 每个单元格顶部对齐 */
+    /* justify-items: center; 每个单元格水平居中 */
+
+    /* background-image: url("/background.jpeg"); 设置背景图 */
+	background-image: url("/background.jpeg");   
+	background-size: cover; /* 背景图填满容器 */
+    background-repeat: no-repeat; /* 背景图不重复 */
+    background-position: center; /* 背景图居中 */
 }
-.login_logo_wrapper p {
-	font-size: 1rem;
-	font-weight: 400;
-}
-.login_logo_wrapper img {
-	max-width: 40rem;
-	width: 100%;
-}
+
+/* .login_logo_wrapper { */
+    /* display: flex; 使用 Flexbox 布局 */
+    /* flex-direction: column; 子元素按列排列 */
+    /* align-items: left; 子元素靠左对齐 */
+
+    /* width: 300px; 宽度设置为 300px */
+    /* height: 300px; 高度设置为 300px */
+
+    /* position: relative;  */
+	/* margin-bottom: 0rem;  */
+
+ /* }  */
+
+/* .login_logo_wrapper img { */
+    /* position: absolute; */
+    /* bottom: 0; 与底部对齐 */
+    /* width: 100%; 宽度占满容器 */
+    /* height: auto; 高度自动调整 */
+/* } */
 
 .login_wrapper {
-	background-color: var(--gray-900);
-	color: var(--white);
+	width: 500px; /* 宽度设置为 240px */
+	height: 300px; /* 高度设置为 400px */
 	display: flex;
 	flex-direction: column;
+	padding: 40px;
+	text-align: center;
+	position: relative;
+	z-index: 100;
+	background-color: inherit;
+	border-radius: 18px;
+	overflow: hidden;
 
-	gap: 1rem;
+    /* background-color: var(--gray-900); 背景色设置为 var(--gray-900) */
+    /* color: var(--white); 字体颜色为 var(--white) */
+    /* display: flex; 使用 Flexbox 布局 */
+    /* flex-direction: column; 子元素按列排列 */
+    /* gap: 1rem; 子元素之间的间隔为 1rem */
+    /* justify-content: center; 子元素垂直居中 */
+    /* align-items: center; 子元素水平居中 */
+    /* border-radius: 1rem; 圆角设置为 1rem */
 
-	justify-content: center;
-	justify-items: center;
-	align-content: center;
-	align-items: center;
-
-
-	border-radius: 1rem;
 }
 
-.login_upper_section {
-	background-color: var(--blue-700);
-	color: var(--white);
-	width: 100%;
+.login_wrapper::before {
+	content: "";
+	width: calc(100% + 20px);
+	height: calc(100% + 20px);
+	position: absolute;
+	top: -10px;
+	left: -10px;
+	overflow: hidden;
+	background-color: inherit;
+	box-shadow: inset 0 0 0 5000px rgba(142, 129, 129, 0.16);
+	filter: blur(40px);
+	z-index: -1;
+}
 
-	/* padding-bottom: 1rem; */
-
-	text-align: center;
-	font-size: 2rem;
-	font-weight: 400;
-
-	border-radius: 1rem 1rem 0 0;
-	padding: 0.5rem;
-
+.login_wrapper div h2 {
+	/* font-size: 40px;
+	font-weight: 800;
+	color: #ffffff; */
+	
+	/* padding-bottom: 0px; */
+	/* font-size: 2rem; 字体大小设置为 2rem */
+	/* font-weight: 400; 字体粗细设置为 400 */
+	/* margin-bottom: 1rem; 下外边距设置为 1rem */
 }
 
 .login_form_field {
-	padding: 0 2rem;
-	width: 100%;
+	/* padding: 6px 0;
+	height: 50px;
+	border: none; */
+	/* background-color: rgba(255, 255, 255, 0); */
+	/* padding: 0.5rem; 内填充设置为 0.5rem */
+	/* margin: 0.5rem; 外边距设置为 0.5rem */
+	/* width: 100%; 宽度占满容器 */
+	/* border-radius: 1rem; 圆角设置为 1rem */
+	/* border: none; 移除边框 */
+	/* background-color: var(--gray-700); 背景色设置为 var(--gray-700) */
+	/* color: var(--white); 字体颜色为 var(--white) */
 }
 
-input{
-	border-radius: 1rem !important;
+.login_form_field_input {
+	/* border: none; */
+	/* width: 100%;
+	height: 100%;
+	border: none; */
+	/* background-color: #b45e5e; */
+	/* padding: 0 10px;
+	border-radius: 10px; */
 }
+
+.login_upper_section {
+    /* background-color: #fb6f92; 背景色设置为 var(--blue-700) */
+    /* color: var(--white); 字体颜色为 var(--white) */
+    /* width: 100%; 宽度占满容器 */
+
+    /* text-align: center; 文本居中 */
+    /* font-size: 2rem; 字体大小设置为 2rem */
+    /* font-weight: 400; 字体粗细设置为 400 */
+    /* border-radius: 1rem 1rem 0 0; 圆角设置为上边缘的 1rem */
+    /* padding: 0.5rem; 内填充设置为 0.5rem */
+}
+
+.login_form_field input{
+	border: none;
+	margin: 10px 0;
+	height: 50px;
+	background-color: rgba(239, 241, 241, 0.793);
+	border-radius: 10px !important;
+	color: #ff8fab;
+	/* padding: 10 10 10 10; */
+    /* padding: 0 2rem; 左右填充设置为 2rem */
+    /* width: 100%; 宽度占满容器 */
+}
+
+input {
+    /* border-radius: 1rem !important;  */
+}
+
+.login_form_field input::placeholder {
+	font-size: 13px; /* Adjust the font size to your desired size */
+	color: #c8c8c8;
+}
+
 
 .login_form_field_bottom_section {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	justify-items: center;
-	align-content: center;
-	align-items: center;
-
-	margin: 0 2rem;
+	/* border: none;
+	margin: 10px 0;
+	height: 50px;
+	background-color: rgba(225, 225, 225, 0.3); */
+    /* display: flex; 使用 Flexbox 布局 */
+    /* flex-direction: column; 子元素按列排列 */
+    /* justify-content: center; 垂直居中 */
+    /* align-items: center; 水平居中 */
+    /* margin: 0 2rem; 左右外边距设置为 2rem */
 }
+
 .login_form_login_button {
-	width: 18rem;
-	border-radius: 1rem;
-	background-color: var(--gray-700);
 	border: none;
+	margin: 10px 0;
+	height: 50px;
+	background-color: rgba(64, 228, 253, 0.642); /* Change to a semi-transparent red */
+	border-radius: 10px ;
+	color: #ffff;
+	font-weight: 1000;
+	/* border: none;
+	margin: 10px 0;
+	height: 50px;
+	background-color: rgba(225, 225, 225, 0.3); */
+    /* width: 18rem; 宽度设置为 18rem */
+    /* border-radius: 1rem; 圆角设置为 1rem */
+    /* background-color: var(--gray-700); 背景色设置为 var(--gray-700) */
+    /* border: none; 移除边框 */
+}
+
+.login_form_login_button:hover {
+	background-color: rgb(64, 228, 253); /* Change to a semi-transparent red */
 }
 
 .login_error_text {
-	color: var(--red-500);
-	font-size: 1rem;
-	font-weight: 400;
+    color: #fb6f92; 
+     /* font-size: 1rem; 
+    font-weight: 400;  */
 }
 
+
+
 .login_register {
-	margin: 0 1rem;
-	margin-bottom: 1rem;
+    /* margin: 0 1rem; 左右外边距设置为 1rem */
+    /* margin-bottom: 1rem; 下外边距设置为 1rem */
 }
 
 .login_register_text {
-	color: var(--gray-400);
-	font-size: 1rem;
-	font-weight: 400;
+    color: var(--gray-400); 
+    /* font-size: 1rem; 字体大小设置为 1rem */
+    /* font-weight: 400; 字体粗细设置为 400 */
 }
 
 .login_register_text a {
-	color: var(--blue-600);
-	text-decoration: none;
+    color: #cbc9c9; 
+    text-decoration: none; 
 }
+
 .login_register_text a:hover {
-	color: var(--blue-300);
-	text-decoration: none;
+    color:#fb6f92;
+    text-decoration: none; 
 }

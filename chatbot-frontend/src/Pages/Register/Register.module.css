@@ -1,16 +1,21 @@
 .register_page {
-  background-color: var(--gray-950);
-  height: 120vh;
+  height: 100vh;
   width: 100vw;
 
-  display: grid;
-  grid-template-rows: 1fr 2fr;
-  align-content: center;
-  justify-content: center;
-  align-items: start;
-  justify-items: center;
+  display: flex;
+  /* flex-direction: column; 子元素按列排列 */
+    align-items: center; /* 子元素靠左对齐 */
+    justify-content: center; /* 子元素在垂直方向居中 */
+    /* background-image: url("/background.jpeg");  */
+	/* background-size: cover; 背景图填满容器 */
+    /* background-repeat: no-repeat; 背景图不重复 */
+    /* background-position: center; 背景图居中 */
+    background-image: url("/background.jpeg");   
+	background-size: cover; /* 背景图填满容器 */
+    background-repeat: no-repeat; /* 背景图不重复 */
+    background-position: center; /* 背景图居中 */
 }
-
+/* 
 .register_logo_wrapper {
   border-radius: 1rem;
   margin: auto;
@@ -32,10 +37,22 @@
 .register_logo_wrapper img {
   max-width: 40rem;
   width: 100%;
-}
+} */
 
 .register_wrapper {
-  background-color: var(--gray-900);
+  width: 500px; /* 宽度设置为 240px */
+	height: 500px; /* 高度设置为 400px */
+	display: flex;
+	flex-direction: column;
+	padding: 40px;
+	text-align: center;
+	position: relative;
+	z-index: 100;
+	background-color: inherit;
+	border-radius: 18px;
+	overflow: hidden;
+
+  /* background-color: #ffc2d1;
   color: var(--white);
   display: flex;
   flex-direction: column;
@@ -47,72 +64,120 @@
   align-content: center;
   align-items: center;
 
-  border-radius: 1rem;
+  border-radius: 1rem; */
+  /* background-image: url("/smallback.jpeg");  */
+    /* background-size: cover;  */
+    /* background-repeat: no-repeat;  */
+    /* background-position: center;  */
+}
+
+.register_wrapper::before {
+  content: "";
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  overflow: hidden;
+  background-color: inherit;
+	box-shadow: inset 0 0 0 5000px rgba(142, 129, 129, 0.16);
+	filter: blur(40px);
+	z-index: -1;
+}
+
+.register_form_field input{
+	border: none;
+	margin: 10px 0;
+	height: 50px;
+	background-color: rgba(239, 241, 241, 0.793);
+	border-radius: 10px !important;
+	color: #ff8fab;
+	/* padding: 10 10 10 10; */
+    /* padding: 0 2rem; 左右填充设置为 2rem */
+    /* width: 100%; 宽度占满容器 */
+}
+
+.register_form_field input::placeholder {
+	font-size: 13px; /* Adjust the font size to your desired size */
+	color: #c8c8c8;
 }
 
 .register_upper_section {
-  background-color: var(--blue-700);
+  /* background-color: #ffb3c6;
   color: var(--white);
-  width: 100%;
+  width: 100%; */
 
   /* padding-bottom: 1rem; */
 
-  text-align: center;
+  /* text-align: center;
   font-size: 2rem;
   font-weight: 400;
 
   border-radius: 1rem 1rem 0 0;
-  padding: 0.5rem;
+  padding: 0.5rem; */
 }
 
 .register_form_field {
-  padding: 0 2rem;
-  width: 100%;
+  /* padding: 0 2rem;
+  width: 100%; */
 }
 
 input {
-  border-radius: 1rem !important;
+  /* border-radius: 1rem !important; */
 }
 
 .register_form_field_bottom_section {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   justify-content: center;
   justify-items: center;
   align-content: center;
   align-items: center;
 
-  margin: 0 2rem;
+  margin: 0 2rem; */
 }
 .register_form_register_button {
-  width: 20rem;
-  border-radius: 1rem;
-  background-color: var(--gray-700);
   border: none;
+	margin: 10px 0;
+	height: 50px;
+	background-color: rgba(64, 228, 253, 0.642); /* Change to a semi-transparent red */
+	border-radius: 10px ;
+	color: #ffff;
+	font-weight: 1000;
+  /* width: 20rem;
+  border-radius: 1rem;
+  background-color:#fb6f92 ;
+  border: none; */
+}
+
+.register_form_register_button:hover {
+	background-color: rgb(64, 228, 253); /* Change to a semi-transparent red */
 }
 
 .register_error_text {
-  color: var(--red-500);
+  color: #fb6f92;
+  /* color: var(--red-500);
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 400; */
 }
 
 .register_login {
-  margin: 0 1rem;
-  margin-bottom: 1rem;
+  /* margin: 0 1rem;
+  margin-bottom: 1rem; */
 }
 
 .register_login_text {
-  color: var(--gray-400);
+  color: var(--gray-400); 
+  /* color: var(--gray-400);
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 400; */
 }
 
 .register_login_text a {
-  color: var(--blue-600);
-  text-decoration: none;
+  color: #cbc9c9; 
+  text-decoration: none; 
 }
 .register_login_text a:hover {
-  color: var(--blue-300);
-  text-decoration: none;
+  color:#fb6f92;
+  text-decoration: none; 
 }

@@ -1,7 +1,11 @@
 .homepage {
-  background-color: var(--gray-900);
+  /* background-color: var(--gray-900); */
   display: flex;
   flex-direction: row;
+  background-image: url("/background.jpeg");
+	background-size: cover; /* 背景图填满容器 */
+  background-repeat: no-repeat; /* 背景图不重复 */
+  background-position: center; /* 背景图居中 */
 }
 
 .user_avatar {
@@ -16,14 +20,37 @@
   transform: scale(1.1);
 }
 
+
+
 .side_bar {
-  background-color: var(--gray-950);
+  background-color:#ffc2d1 ;
   height: 100vh;
   width: 16rem;
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  padding: 40px;
+  text-align: center;
+  position: relative;
+  z-index: 100;
+  background-color: inherit;
+  /* border-radius: 18px; */
+  overflow: hidden;
+
+}
+
+.side_bar::before {
+  content: "";
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.5);
+  filter: blur(40px);
+  z-index: -1;
 }
 
 .offcanvas_side_bar {
@@ -162,9 +189,9 @@
   overflow: hidden;
 }
 
-.footer_github a:hover {
+/* .footer_github a:hover {
   color: var(--gray-300);
-}
+} */
 
 .btn_empty_history {
   background-color: #111827 !important;
@@ -175,7 +202,7 @@
 .btn_empty_history:hover {
   background-color: #374151 !important;
 }
-
+/* 
 .text_feed {
   overflow-y: auto;
   width: 100%;
@@ -185,18 +212,17 @@
 
 .text_feed li {
   background-color: var(--gray-800);
-
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   gap: 0.1rem;
-
-  width: 100%;
+  width: 70%;
   margin: 1rem 0;
-
   border-radius: 1rem;
 }
+
+
 
 .text_feed span {
   font-size: 1rem;
@@ -214,7 +240,75 @@
 .info {
   font-size: 0.8rem;
   padding: 1rem;
+} */
+
+/* .text_feed {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+} */
+
+.text_feed {
+  /* list-style: none; */
+  /* padding: 0; */
+  /* margin: 0 auto; 自动外边距，居中 */
+  /* width: 80%; 占页面宽度的80% */
+  
 }
+.text_feed {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto; /* 自动外边距，居中 */
+  width: 80%; /* 占页面宽度的80% */
+  max-height: 80vh; /* 设置最大高度为视窗高度的80% */
+  overflow-y: auto; /* 内容超出时允许在y轴方向滚动 */
+  scrollbar-width: none; /* 对于Firefox, 隐藏滚动条 */
+  -ms-overflow-style: none; /* 对于IE和Edge, 隐藏滚动条 */
+}
+
+.text_feed::-webkit-scrollbar {
+  display: none; /* 对于Chrome, Safari和Opera, 隐藏滚动条 */
+}
+
+.userMessage, .assistantMessage {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  text-align: right;
+}
+
+.userMessage {
+  justify-content: flex-end; /* User messages are aligned to the right */
+}
+
+.assistantMessage {
+  justify-content: flex-start; /* Assistant messages are aligned to the left */
+}
+
+.messageContent {
+  padding: 0.5rem;
+  border-radius: 10px;
+  text-align: left;
+  word-wrap: break-word;        /* 允许单词在必要时断行 */
+  white-space: normal;          /* 恢复默认的换行行为 */
+  overflow-wrap: break-word;    /* 在长单词或URL地址内部进行断行 */
+}
+
+.userChatAv, .assistantChatAv {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-left: 10px; /* Spacing between the avatar and the message */
+}
+
+.userMessage .messageContent {
+  background-color: #DCF8C6; /* Light green background for user messages */
+}
+
+.assistantMessage .messageContent {
+  background-color: #ECECEC; /* Light grey background for assistant messages */
+}
+/* 。。。。。。 */
 
 .bottom_wrapper {
   width: 100%;
@@ -236,7 +330,7 @@
 
 /* !importat is needed to override Bootstrap's css */
 .input_field {
-  background-color: var(--gray-800) !important;
+  background-color: #ffc2d1 !important;
   color: var(--white) !important;
   border: none !important;
   border-radius: 1rem !important;
@@ -247,7 +341,7 @@
 }
 
 .btn_submit {
-  background-color: var(--gray-800);
+  background-color: #ffc2d1;
   color: var(--white);
 
   border: none;

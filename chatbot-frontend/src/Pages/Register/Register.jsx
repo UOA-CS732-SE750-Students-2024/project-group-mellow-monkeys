@@ -20,21 +20,17 @@ export default function Register() {
 
   return (
     <div className={styles.register_page}>
-      <div className={styles.register_logo_wrapper}>
-        <Robot size={96} />
-        Bobu
-        <p>AI chatbot</p>
-      </div>
+      
       <Form
         className={styles.register_wrapper}
         onSubmit={(e) => handleSubmitRegister(e)}
       >
-        <div className={styles.register_upper_section}>Registration</div>
+        {/* <div className={styles.register_upper_section}>Registration</div> */}
         <Form.Group
           className={styles.register_form_field}
           controlId="formBasicUsername"
         >
-          <Form.Label>Name</Form.Label>
+          {/* <Form.Label>Name</Form.Label> */}
           <Form.Control
             onChange={(e) => setName(e.target.value)}
             value={name}
@@ -47,22 +43,20 @@ export default function Register() {
           className={styles.register_form_field}
           controlId="formBasicEmail"
         >
-          <Form.Label>Email address</Form.Label>
+          {/* <Form.Label>Email address</Form.Label> */}
           <Form.Control
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             type="email"
             placeholder="Email"
           />
-          <Form.Text className="text-muted">
-            We will never share your email with anyone.
-          </Form.Text>
+          
         </Form.Group>
         <Form.Group
           className={styles.register_form_field}
           controlId="formBasicPassword"
         >
-          <Form.Label>Password</Form.Label>
+          {/* <Form.Label>Password</Form.Label> */}
           <Form.Control
             onChange={(e) => setPassword(e.target.value)}
             value={password}
@@ -74,7 +68,7 @@ export default function Register() {
           className={styles.register_form_field}
           controlId="formBasicPassword"
         >
-          <Form.Label>Confirm the Password</Form.Label>
+          {/* <Form.Label>Confirm the Password</Form.Label> */}
           <Form.Control
             onChange={(e) => setConfirmPassword(e.target.value)}
             value={confirmPassword}
@@ -89,7 +83,7 @@ export default function Register() {
             </Form.Text>
           </Form.Group>
         )}
-        <Form.Group className={styles.register_form_field_bottom_section}>
+        {/* <Form.Group className={styles.register_form_field_bottom_section}> */}
           <Button
             className={styles.register_form_register_button}
             variant="secondary"
@@ -107,7 +101,7 @@ export default function Register() {
               <>register</>
             )}
           </Button>
-        </Form.Group>
+        {/* </Form.Group> */}
         <Form.Group className={styles.register_login}>
           <Form.Text className={styles.register_login_text}>
             Have an account? <a href="/login">Log in</a>

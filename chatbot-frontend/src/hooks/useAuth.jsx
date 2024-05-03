@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
         newAuth.token = response?.data?.token;
 
         sessionStorage.setItem("token", response.data.token);
-        navigate("/", { replace: true });
+        navigate("/survey", { replace: true });
       }
     } catch (error) {
       console.log("submitLogin -> error: ", error);
@@ -94,7 +94,7 @@ export const AuthProvider = ({ children }) => {
         newAuth.isLoading = false;
         newAuth.error = "";
      
-        navigate("/survey", { replace: true });
+        navigate("/login", { replace: true });
       }
     } catch (error) {
       console.log("submitRegister -> error: ", error);
@@ -108,7 +108,7 @@ export const AuthProvider = ({ children }) => {
   //new Survey submit
   const submitSurvey = () => {
 
-    navigate("/login", { replace: true })
+    navigate("/", { replace: true })
   }
 
   // LOGOUT
