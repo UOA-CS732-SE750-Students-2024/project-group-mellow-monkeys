@@ -43,14 +43,17 @@ export const AuthProvider = ({ children }) => {
       console.log("submitLogin -> response: ", response);
       if (response.status === 200) {
         toast.success("Login success");
-        
+
         sessionStorage.setItem("token", response.data.token);
-        sessionStorage.setItem("user", JSON.stringify({
+        sessionStorage.setItem(
+          "user",
+          JSON.stringify({
             id: response.data.user._id,
             name: response.data.user.name,
             email: response.data.user.email,
             avatar: response.data.user.avatar,
-        })); 
+          })
+        );
 
         newAuth.isAuthenticated = true;
         newAuth.isLoading = false;
@@ -59,14 +62,14 @@ export const AuthProvider = ({ children }) => {
         newAuth.name = response?.data?.user?.name;
         newAuth.email = response?.data?.user?.email;
         newAuth.avatar = response?.data?.user?.avatar;
-        newAuth.token = response?.data?.token;  
+        newAuth.token = response?.data?.token;
         newAuth.loginTime = response?.data?.user?.loginTime;
 
         if (newAuth.loginTime === 1) {
-        navigate("/survey", { replace: true });
-      } else {
-        navigate("/", { replace: true });
-      }
+          navigate("/survey", { replace: true });
+        } else {
+          navigate("/", { replace: true });
+        }
       }
     } catch (error) {
       console.log("submitLogin -> error: ", error);
@@ -141,29 +144,28 @@ export const AuthProvider = ({ children }) => {
     const user = storedUser ? JSON.parse(storedUser) : null;
 
     if (token && user && !isTokenExpired(token)) {
-        setAuth(prevAuth => ({
-            ...prevAuth,
-            isAuthenticated: true,
-            isLoading: false,
-            token: token,
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            avatar: user.avatar,
-        }));
+      setAuth((prevAuth) => ({
+        ...prevAuth,
+        isAuthenticated: true,
+        isLoading: false,
+        token: token,
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+      }));
     } else {
-        if (!token || isTokenExpired(token)) {
-            sessionStorage.removeItem("token");
-            sessionStorage.removeItem("user");
-        }
-        setAuth(prevAuth => ({
-            ...prevAuth,
-            isAuthenticated: false,
-            isLoading: false,
-        }));
+      if (!token || isTokenExpired(token)) {
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user");
+      }
+      setAuth((prevAuth) => ({
+        ...prevAuth,
+        isAuthenticated: false,
+        isLoading: false,
+      }));
     }
-}, []);
-
+  }, []);
 
   // pass the value in the provider and return it
   return (

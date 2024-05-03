@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from "react-router-dom";
 
 const ProtectedRoute = ({ redirectPath }) => {
   const token = sessionStorage.getItem("token");
@@ -6,7 +6,6 @@ const ProtectedRoute = ({ redirectPath }) => {
   if (!token) {
     return <Navigate to={redirectPath} replace />;
   }
-  
   return <Outlet />;
 };
 
