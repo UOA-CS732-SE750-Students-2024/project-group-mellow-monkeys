@@ -197,8 +197,6 @@ const Homepage = () => {
     new Set(previousChats.map((previousChat) => previousChat.title))
   );
 
-  console.log(chatBots.avatar);
-
   return (
     <div className={styles.homepage}>
       {/* SIDEBAR */}
@@ -241,7 +239,7 @@ const Homepage = () => {
             chatBots.map((chatbot) => (
               <div key={chatbot._id} className={styles.chatbot_entry}>
                 <img
-                  src={chatbot.avatar || "default_avatar.jpg"}
+                  src={chatbot.avatar}
                   alt={chatbot.name}
                   className={styles.chatbot_avatar}
                 />
