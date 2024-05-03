@@ -7,6 +7,7 @@ import userRoutes from "./routes/users.js";
 import chatBotRoutes from "./routes/chatbots.js";
 import openAIRoutes from "./routes/openAI.js";
 import avatarRoutes from "./routes/avatarRoutes.js"
+import generateChatbots from "./routes/generateChatbots.js";
 
 const app = express();
 const PORT = process.env.PORT || 8001;
@@ -20,6 +21,7 @@ app.use("/", userRoutes);
 app.use("/", chatBotRoutes);
 app.use("/", openAIRoutes);
 app.use("/", avatarRoutes); 
+app.use("/", generateChatbots);
 
 
 app.get("/", (req, res) => {
