@@ -130,15 +130,23 @@ const Homepage = () => {
   };
 
 
+  // const handleClick = (chatbotId) => {
+  //   // Find the chatbot by ID
+  //   const selectedChatbot = chatBots.find(cb => cb._id === chatbotId);
+  //   if (selectedChatbot) {
+  //     setCurrentTitle(selectedChatbot.name); // Assuming each chatbot has a unique name or ID
+  //     // Optionally, you might want to fetch the chat history here if it's not already loaded
+  //   }
+  // };
+
   const handleClick = (chatbotId) => {
     // Find the chatbot by ID
     const selectedChatbot = chatBots.find(cb => cb._id === chatbotId);
     if (selectedChatbot) {
-      setCurrentTitle(selectedChatbot.name); // Assuming each chatbot has a unique name or ID
-      // Optionally, you might want to fetch the chat history here if it's not already loaded
+        setCurrentTitle(selectedChatbot.name);
+        setCurrentChatbotId(selectedChatbot._id);
     }
-  };
-
+};
 
   
 
@@ -308,7 +316,15 @@ const Homepage = () => {
                   chatMessage.role === "user" ? (
                     <img src={avatar} />
                   ) : (
-                    <img src={imageURL} alt="Virtual Lover Avatar" />
+                    chatBots.map((chatbot) => (
+                        <div key={chatbot._id}>
+                          <img
+                            src={chatbot.avatar}
+                            alt={chatbot.name}
+                            className={styles.chatbot_avatar}
+                          />
+                        </div>
+                      ))
                   )
                 ) : (
                   <img src={imageURL} alt="Virtual Lover Avatar" />
