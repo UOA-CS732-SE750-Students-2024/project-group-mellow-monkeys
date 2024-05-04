@@ -129,15 +129,23 @@ const Homepage = () => {
   };
 
 
+  // const handleClick = (chatbotId) => {
+  //   // Find the chatbot by ID
+  //   const selectedChatbot = chatBots.find(cb => cb._id === chatbotId);
+  //   if (selectedChatbot) {
+  //     setCurrentTitle(selectedChatbot.name); // Assuming each chatbot has a unique name or ID
+  //     // Optionally, you might want to fetch the chat history here if it's not already loaded
+  //   }
+  // };
+
   const handleClick = (chatbotId) => {
     // Find the chatbot by ID
     const selectedChatbot = chatBots.find(cb => cb._id === chatbotId);
     if (selectedChatbot) {
-      setCurrentTitle(selectedChatbot.name); // Assuming each chatbot has a unique name or ID
-      // Optionally, you might want to fetch the chat history here if it's not already loaded
+        setCurrentTitle(selectedChatbot.name);
+        setCurrentChatbotId(selectedChatbot._id);
     }
-  };
-
+};
 
   
 
@@ -312,42 +320,47 @@ const Homepage = () => {
                       <img src={imageURL} alt="Virtual Lover Avatar" />
                     )
                   ) : (
-                    <img src={imageURL} alt="Virtual Lover Avatar" />
-                  )}
-                </span>
-                <span>{chatMessage.content}</span>
-              </li>
-            ))}
-          </ul>
-          <div className={styles.bottom_wrapper}>
-            <div className={styles.input_wrapper}>
-              <FormControl
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                className={styles.input_field}
-                type="text"
-                maxLength={256}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    getMessages();
-                  }
-                }}
-              />
-              <button onClick={getMessages} className={styles.btn_submit}>
-                {loading ? (
-                  <Spinner
-                    as="span"
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                  />
-                ) : (
-                  <PaperPlaneRight size={20} />
-                )}
-              </button>
-            </div>
-            <p className={`${styles.info} text-muted`}>Powered by Chat GPT4.</p>
+
+                    <img
+                      src={chatBots.find(cb => cb.name === currentTitle)?.avatar}
+                      alt="Virtual Lover Avatar"
+                      className={styles.chatbot_avatar}
+                    />
+                  )
+                ) : null}
+              </span>
+              <span>{chatMessage.content}</span>
+            </li>
+          ))}
+        </ul>
+        <div className={styles.bottom_wrapper}>
+          <div className={styles.input_wrapper}>
+            <FormControl
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              className={styles.input_field}
+              type="text"
+              maxLength={256}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  getMessages();
+                }
+              }}
+            />
+            <button onClick={getMessages} className={styles.btn_submit}>
+              {loading ? (
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              ) : (
+                <PaperPlaneRight size={20} />
+              )}
+            </button>
+
           </div>
         </section>
       )}
