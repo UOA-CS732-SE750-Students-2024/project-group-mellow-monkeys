@@ -78,11 +78,10 @@ const Homepage = () => {
         })
         .then((response) => {
           setChatBots(response.data);
-        })
-        .catch((error) => {
-          console.error("Failed to fetch chatbots", error);
-          toast.error("Failed to fetch chatbots");
         });
+      // .catch((error) => {
+      //   toast.error("There is no chatbots for current user");
+      // });
     }
   }, [auth.id, auth.token]);
 
@@ -157,7 +156,6 @@ const Homepage = () => {
       setChatBots(chatBots.filter((cb) => cb._id !== chatbotId));
       toast.success("Chatbot deleted successfully");
     } catch (error) {
-      console.error("Failed to delete chatbot", error);
       toast.error("Failed to delete chatbot");
     }
   };
@@ -242,7 +240,7 @@ const Homepage = () => {
             + New Chat Object
           </Button>
 
-          {chatBots.length > 0 ? (
+          {chatBots.length > 0 &&
             chatBots.map((chatbot) => (
               <div key={chatbot._id} className={styles.chatbot_entry} onClick={() => handleClick(chatbot._id)}>
                 <img
@@ -259,12 +257,7 @@ const Homepage = () => {
                   />
                 </div>
               </div>
-            ))
-          ) : (
-            <p className={styles.no_chatbots_message}>
-              The current user has not created any chatbot yet.
-            </p>
-          )}
+            ))}
           {/* CHAT HISTORY */}
           {/* FOOTER */}
           <span className={styles.footer_github}>
@@ -293,62 +286,71 @@ const Homepage = () => {
       {/* SIDEBAR */}
 
       {/* MAIN */}
-      <section className={styles.main}>
-        <div className={styles.bobu_logo_wrapper}>
-          <h1 className={styles.bobu_logo}>
-            <Robot size={32} />
-            Bobu
-          </h1>
-        </div>
-        <ul className={styles.text_feed}>
-          {currentChat?.map((chatMessage, index) => (
-            <li key={index}>
-              <span className={styles.feed_role}>
-                {chatMessage.role ? (
-                  chatMessage.role === "user" ? (
-                    <img src={avatar} />
+      {chatBots.length === 0 ? (
+        <section className={styles.main}>
+          <div className={styles.no_chatbot_message}>
+            The current user does not have any chat objects yet, please click
+            New Chat Object to create a chat object.
+          </div>
+        </section>
+      ) : (
+        <section className={styles.main}>
+          <div className={styles.bobu_logo_wrapper}>
+            <h1 className={styles.bobu_logo}>
+              <Robot size={32} />
+              Bobu
+            </h1>
+          </div>
+          <ul className={styles.text_feed}>
+            {currentChat?.map((chatMessage, index) => (
+              <li key={index}>
+                <span className={styles.feed_role}>
+                  {chatMessage.role ? (
+                    chatMessage.role === "user" ? (
+                      <img src={avatar} />
+                    ) : (
+                      <img src={imageURL} alt="Virtual Lover Avatar" />
+                    )
                   ) : (
                     <img src={imageURL} alt="Virtual Lover Avatar" />
-                  )
+                  )}
+                </span>
+                <span>{chatMessage.content}</span>
+              </li>
+            ))}
+          </ul>
+          <div className={styles.bottom_wrapper}>
+            <div className={styles.input_wrapper}>
+              <FormControl
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                className={styles.input_field}
+                type="text"
+                maxLength={256}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    getMessages();
+                  }
+                }}
+              />
+              <button onClick={getMessages} className={styles.btn_submit}>
+                {loading ? (
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
                 ) : (
-                  <img src={imageURL} alt="Virtual Lover Avatar" />
+                  <PaperPlaneRight size={20} />
                 )}
-              </span>
-              <span>{chatMessage.content}</span>
-            </li>
-          ))}
-        </ul>
-        <div className={styles.bottom_wrapper}>
-          <div className={styles.input_wrapper}>
-            <FormControl
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              className={styles.input_field}
-              type="text"
-              maxLength={256}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  getMessages();
-                }
-              }}
-            />
-            <button onClick={getMessages} className={styles.btn_submit}>
-              {loading ? (
-                <Spinner
-                  as="span"
-                  animation="border"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                />
-              ) : (
-                <PaperPlaneRight size={20} />
-              )}
-            </button>
+              </button>
+            </div>
+            <p className={`${styles.info} text-muted`}>Powered by Chat GPT4.</p>
           </div>
-          <p className={`${styles.info} text-muted`}>Powered by Chat GPT4.</p>
-        </div>
-      </section>
+        </section>
+      )}
       {/* MAIN */}
     </div>
   );
