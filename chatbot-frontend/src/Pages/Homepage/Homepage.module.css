@@ -344,15 +344,3 @@
   cursor: pointer;
   color: red; /* Optional styling for the delete icon */
 }
-
-.no_chatbot_message {
-  font-size: 24px;
-  text-align: center;
-  margin: 20px;
-  padding: 20px;
-  width: 70%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
