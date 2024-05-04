@@ -15,10 +15,13 @@ import { toast } from "react-toastify";
 import { COMPLETIONS } from "../../urls";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
 axios.defaults.baseURL = "http://localhost:8001";
 
 const Homepage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { auth, submitLogout } = useAuth();
   const [chatBots, setChatBots] = useState([]);
   const [value, setValue] = useState("");
@@ -31,10 +34,25 @@ const Homepage = () => {
   const [name, setName] = useState(null);
   const [description, setDescription] = useState("");
   const [imageURL, setImageURL] = useState("");
+  const [hasRefreshed, setHasRefreshed] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  //the useEffect for controling the interface refresh
+  useEffect(() => {
+    if (location.state?.needRefresh && !hasRefreshed) {
+      const timer = setTimeout(() => {
+        window.location.reload();
+        setHasRefreshed(true);
+        navigate(location.pathname, { replace: true, state: {} });
+      }, 700);
+
+      return () => clearTimeout(timer);
+    }
+  }, [location.state, hasRefreshed, navigate]);
+
+  //UseEffect for current users' name and avatar
   useEffect(() => {
     if (auth.id && auth.token) {
       axios
@@ -51,6 +69,7 @@ const Homepage = () => {
     }
   }, [auth.id, auth.token]);
 
+  //UseEffect for current users' chatbot
   useEffect(() => {
     if (auth.id) {
       axios
@@ -67,96 +86,7 @@ const Homepage = () => {
     }
   }, [auth.id, auth.token]);
 
-  const handleNavigateToUserInfo = () => {
-    navigate("/user-info"); // Use navigate to go to the user information page
-  };
-
-  // Create new chat object
-  const createNewChat = () => {
-    navigate("/survey");
-  };
-
-
-  const handleClick = (chatbotId) => {
-    // Find the chatbot by ID
-    const selectedChatbot = chatBots.find(cb => cb._id === chatbotId);
-    if (selectedChatbot) {
-      setCurrentTitle(selectedChatbot.name); // Assuming each chatbot has a unique name or ID
-      // Optionally, you might want to fetch the chat history here if it's not already loaded
-    }
-  };
-
-
-  
-  const handleEmptyHistory = () => {
-    setPreviousChats([]);
-    setValue("");
-    setMessage(null);
-    setCurrentTitle(null);
-  };
-
-  const handleDeleteChatbot = async (chatbotId) => {
-    try {
-      await axios.delete(`/deleteSingleChatbot/${chatbotId}`, {
-        headers: { Authorization: `Bearer ${auth.token}` },
-      });
-      setChatBots(chatBots.filter((cb) => cb._id !== chatbotId));
-      toast.success("Chatbot deleted successfully");
-    } catch (error) {
-      console.error("Failed to delete chatbot", error);
-      toast.error("Failed to delete chatbot");
-    }
-  };
-
-  /*
-		Simple async function that fetches the messages from the API
-	*/
-  const getMessages = async () => {
-    setLoading(true);
-
-    try {
-      // change this url for one in the .env file
-      const response = await axios.post(
-        COMPLETIONS,
-        JSON.stringify({
-          message: value,
-        }),
-        {
-          headers: {
-            Authorization: `Bearer ${auth?.token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log(response?.data);
-
-      // Check if the choices array exists and has at least one element
-      if (response?.data?.choices && response.data.choices.length > 0) {
-        setMessage(response.data.choices[0].message);
-      } else {
-        // Handle the case where choices is not as expected
-        console.error("Invalid response from API:", response.data);
-        // Set the message state to some error message or handle accordingly
-        setMessage("An error occurred while fetching the message.");
-        toast.error("An error occurred while fetching the message.");
-      }
-      // setMessage(response?.data?.choices[0]?.message);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-      toast.error(
-        <div>
-          Error! <br />
-          {error?.response?.data?.error || error?.message}
-        </div>
-      );
-      setLoading(false);
-    }
-  };
-
-  /*
-		UseEffect triggered by message and/or currentTitle state changes
-	*/
+  //UseEffect triggered by message and/or currentTitle state changes
   useEffect(() => {
     if (!currentTitle && value && message) {
       /*
@@ -189,6 +119,89 @@ const Homepage = () => {
       setValue("");
     }
   }, [message, currentTitle]);
+
+  const handleNavigateToUserInfo = () => {
+    navigate("/user-info");
+  };
+
+  // Create new chat object
+  const createNewChat = () => {
+    navigate("/survey");
+  };
+
+
+  const handleClick = (chatbotId) => {
+    // Find the chatbot by ID
+    const selectedChatbot = chatBots.find(cb => cb._id === chatbotId);
+    if (selectedChatbot) {
+      setCurrentTitle(selectedChatbot.name); // Assuming each chatbot has a unique name or ID
+      // Optionally, you might want to fetch the chat history here if it's not already loaded
+    }
+  };
+
+
+  
+
+  const handleEmptyHistory = () => {
+    setPreviousChats([]);
+    setValue("");
+    setMessage(null);
+    setCurrentTitle(null);
+  };
+
+  const handleDeleteChatbot = async (chatbotId) => {
+    try {
+      await axios.delete(`/deleteSingleChatbot/${chatbotId}`, {
+        headers: { Authorization: `Bearer ${auth.token}` },
+      });
+      setChatBots(chatBots.filter((cb) => cb._id !== chatbotId));
+      toast.success("Chatbot deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete chatbot", error);
+      toast.error("Failed to delete chatbot");
+    }
+  };
+
+  //Simple async function that fetches the messages from the API
+  const getMessages = async () => {
+    setLoading(true);
+
+    try {
+      // change this url for one in the .env file
+      const response = await axios.post(
+        COMPLETIONS,
+        JSON.stringify({
+          message: value,
+        }),
+        {
+          headers: {
+            Authorization: `Bearer ${auth?.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response?.data);
+
+      if (response?.data?.choices && response.data.choices.length > 0) {
+        setMessage(response.data.choices[0].message);
+      } else {
+        console.error("Invalid response from API:", response.data);
+        setMessage("An error occurred while fetching the message.");
+        toast.error("An error occurred while fetching the message.");
+      }
+      // setMessage(response?.data?.choices[0]?.message);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      toast.error(
+        <div>
+          Error! <br />
+          {error?.response?.data?.error || error?.message}
+        </div>
+      );
+      setLoading(false);
+    }
+  };
 
   /*
 		filters the previous chats by the current title and stores
@@ -228,19 +241,7 @@ const Homepage = () => {
           <Button onClick={createNewChat} className={styles.btn_new_chat}>
             + New Chat Object
           </Button>
-          {/* CHAT HISTORY */}
-          {/* <ul className={styles.chat_history}>
-            {uniqueTitles?.map((uniqueTitle, index) => (
-              <li
-                onClick={() => handleClick(uniqueTitle)}
-                key={index}
-                className={uniqueTitle === currentTitle ? styles.active : ""}
-              >
-                <ChatCircle size={20} />
-                <span>{uniqueTitle}</span>
-              </li>
-            ))}
-          </ul> */}
+
           {chatBots.length > 0 ? (
             chatBots.map((chatbot) => (
               <div key={chatbot._id} className={styles.chatbot_entry} onClick={() => handleClick(chatbot._id)}>
@@ -347,15 +348,6 @@ const Homepage = () => {
           </div>
           <p className={`${styles.info} text-muted`}>Powered by Chat GPT4.</p>
         </div>
-        {/* <div className={styles.avatarGeneratorContainer}>
-          <input
-            type="text"
-            placeholder="Describe your virtual lover"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <button onClick={generateAvatar}>Generate Avatar</button>
-        </div> */}
       </section>
       {/* MAIN */}
     </div>
