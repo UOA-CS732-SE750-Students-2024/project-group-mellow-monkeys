@@ -316,19 +316,13 @@ const Homepage = () => {
                   chatMessage.role === "user" ? (
                     <img src={avatar} />
                   ) : (
-                    chatBots.map((chatbot) => (
-                        <div key={chatbot._id}>
-                          <img
-                            src={chatbot.avatar}
-                            alt={chatbot.name}
-                            className={styles.chatbot_avatar}
-                          />
-                        </div>
-                      ))
+                    <img
+                      src={chatBots.find(cb => cb.name === currentTitle)?.avatar}
+                      alt="Virtual Lover Avatar"
+                      className={styles.chatbot_avatar}
+                    />
                   )
-                ) : (
-                  <img src={imageURL} alt="Virtual Lover Avatar" />
-                )}
+                ) : null}
               </span>
               <span>{chatMessage.content}</span>
             </li>
