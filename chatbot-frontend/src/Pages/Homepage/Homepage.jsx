@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import styles from "./Homepage.module.css";
 import {
-  ChatCircle,
   GithubLogo,
   PaperPlaneRight,
   Robot,
   SignOut,
   TrashSimple,
 } from "@phosphor-icons/react";
-import { FaCog } from "react-icons/fa";
 import { Button, FormControl, Spinner, Offcanvas } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -32,9 +30,9 @@ const Homepage = () => {
   const [show, setShow] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const [name, setName] = useState(null);
-  const [description, setDescription] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [hasRefreshed, setHasRefreshed] = useState(false);
+  const [activeChatbotId, setActiveChatbotId] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -79,9 +77,6 @@ const Homepage = () => {
         .then((response) => {
           setChatBots(response.data);
         });
-      // .catch((error) => {
-      //   toast.error("There is no chatbots for current user");
-      // });
     }
   }, [auth.id, auth.token]);
 
@@ -128,18 +123,15 @@ const Homepage = () => {
     navigate("/survey");
   };
 
-
   const handleClick = (chatbotId) => {
+    setActiveChatbotId(chatbotId);
     // Find the chatbot by ID
-    const selectedChatbot = chatBots.find(cb => cb._id === chatbotId);
+    const selectedChatbot = chatBots.find((cb) => cb._id === chatbotId);
     if (selectedChatbot) {
-      setCurrentTitle(selectedChatbot.name); // Assuming each chatbot has a unique name or ID
-      // Optionally, you might want to fetch the chat history here if it's not already loaded
+      setCurrentTitle(selectedChatbot.name);
+      // sendChatbotDataToOpenAI(selectedChatbot._id);
     }
   };
-
-
-  
 
   const handleEmptyHistory = () => {
     setPreviousChats([]);
@@ -160,7 +152,7 @@ const Homepage = () => {
     }
   };
 
-  //Simple async function that fetches the messages from the API
+  // Simple async function that fetches the messages from the API
   const getMessages = async () => {
     setLoading(true);
 
@@ -170,6 +162,7 @@ const Homepage = () => {
         COMPLETIONS,
         JSON.stringify({
           message: value,
+          chatbotId: activeChatbotId,
         }),
         {
           headers: {
@@ -187,7 +180,6 @@ const Homepage = () => {
         setMessage("An error occurred while fetching the message.");
         toast.error("An error occurred while fetching the message.");
       }
-      // setMessage(response?.data?.choices[0]?.message);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -242,7 +234,13 @@ const Homepage = () => {
 
           {chatBots.length > 0 &&
             chatBots.map((chatbot) => (
-              <div key={chatbot._id} className={styles.chatbot_entry} onClick={() => handleClick(chatbot._id)}>
+              <div
+                key={chatbot._id}
+                className={`${styles.chatbot_entry} ${
+                  activeChatbotId === chatbot._id ? styles.active : ""
+                }`}
+                onClick={() => handleClick(chatbot._id)}
+              >
                 <img
                   src={chatbot.avatar}
                   alt={chatbot.name}
@@ -252,7 +250,10 @@ const Homepage = () => {
                   <span>{chatbot.name}</span>
                   <TrashSimple
                     size={20}
-                    onClick={() => handleDeleteChatbot(chatbot._id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteChatbot(chatbot._id);
+                    }}
                     className={styles.delete_icon}
                   />
                 </div>
@@ -309,7 +310,14 @@ const Homepage = () => {
                     chatMessage.role === "user" ? (
                       <img src={avatar} />
                     ) : (
-                      <img src={imageURL} alt="Virtual Lover Avatar" />
+                      <img
+                        src={
+                          chatBots.find((cb) => cb.name === currentTitle)
+                            ?.avatar
+                        }
+                        alt="Virtual Lover Avatar"
+                        className={styles.chatbot_avatar}
+                      />
                     )
                   ) : (
                     <img src={imageURL} alt="Virtual Lover Avatar" />
