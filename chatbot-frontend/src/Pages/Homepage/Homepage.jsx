@@ -35,6 +35,7 @@ const Homepage = () => {
   const [description, setDescription] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [hasRefreshed, setHasRefreshed] = useState(false);
+  const [activeChatbotId, setActiveChatbotId] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -128,18 +129,15 @@ const Homepage = () => {
     navigate("/survey");
   };
 
-
   const handleClick = (chatbotId) => {
+    setActiveChatbotId(chatbotId);
     // Find the chatbot by ID
-    const selectedChatbot = chatBots.find(cb => cb._id === chatbotId);
+    const selectedChatbot = chatBots.find((cb) => cb._id === chatbotId);
     if (selectedChatbot) {
       setCurrentTitle(selectedChatbot.name); // Assuming each chatbot has a unique name or ID
       // Optionally, you might want to fetch the chat history here if it's not already loaded
     }
   };
-
-
-  
 
   const handleEmptyHistory = () => {
     setPreviousChats([]);
@@ -242,7 +240,13 @@ const Homepage = () => {
 
           {chatBots.length > 0 &&
             chatBots.map((chatbot) => (
-              <div key={chatbot._id} className={styles.chatbot_entry} onClick={() => handleClick(chatbot._id)}>
+              <div
+                key={chatbot._id}
+                className={`${styles.chatbot_entry} ${
+                  activeChatbotId === chatbot._id ? styles.active : ""
+                }`}
+                onClick={() => handleClick(chatbot._id)}
+              >
                 <img
                   src={chatbot.avatar}
                   alt={chatbot.name}
@@ -252,7 +256,10 @@ const Homepage = () => {
                   <span>{chatbot.name}</span>
                   <TrashSimple
                     size={20}
-                    onClick={() => handleDeleteChatbot(chatbot._id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteChatbot(chatbot._id);
+                    }}
                     className={styles.delete_icon}
                   />
                 </div>
@@ -310,10 +317,13 @@ const Homepage = () => {
                       <img src={avatar} />
                     ) : (
                       <img
-                      src={chatBots.find(cb => cb.name === currentTitle)?.avatar}
-                      alt="Virtual Lover Avatar"
-                      className={styles.chatbot_avatar}
-                    />
+                        src={
+                          chatBots.find((cb) => cb.name === currentTitle)
+                            ?.avatar
+                        }
+                        alt="Virtual Lover Avatar"
+                        className={styles.chatbot_avatar}
+                      />
                     )
                   ) : (
                     <img src={imageURL} alt="Virtual Lover Avatar" />

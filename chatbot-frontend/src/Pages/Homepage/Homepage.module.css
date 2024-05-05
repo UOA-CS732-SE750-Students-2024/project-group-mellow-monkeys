@@ -103,7 +103,6 @@
 .chatbot_entry:hover {
   background-color: #374151 !important;
   border-radius: 1rem !important;
-
 }
 
 .chat_history {
@@ -324,6 +323,10 @@
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+}
+
+.chatbot_entry.active {
+  background-color: #374151 !important;
 }
 
 .chatbot_avatar {
