@@ -20,7 +20,7 @@ router.post("/completions", checkToken, async (req, res) => {
         { role: "user", content: req.body.message },
         
       ],
-      max_tokens: 100,
+      max_tokens: 1000,
     }),
   };
 
