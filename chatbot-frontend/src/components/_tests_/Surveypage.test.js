@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import SurveyPage from "./Surveypage";
+import SurveyPage from "../../Pages/Surveypage/Surveypage";
 import { BrowserRouter as Router } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import axios from "axios";
