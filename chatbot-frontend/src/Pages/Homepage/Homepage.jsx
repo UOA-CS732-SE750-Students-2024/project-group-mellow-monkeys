@@ -286,11 +286,12 @@ const Homepage = () => {
       {/* SIDEBAR */}
 
       {/* MAIN */}
-      {chatBots.length === 0 ? (
+      {chatBots.length === 0 || !activeChatbotId ? (
         <section className={styles.main}>
           <div className={styles.no_chatbot_message}>
-            The current user does not have any chat objects yet, please click
-            New Chat Object to create a chat object.
+            {chatBots.length === 0
+              ? "The current user does not have any chat objects yet, please click New Chat Object to create a chat object."
+              : "Please select a chatbot to start chatting!"}
           </div>
         </section>
       ) : (
