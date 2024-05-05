@@ -155,7 +155,6 @@ const Homepage = () => {
   // Simple async function that fetches the messages from the API
   const getMessages = async () => {
     setLoading(true);
-
     try {
       // change this url for one in the .env file
       const response = await axios.post(
@@ -171,7 +170,7 @@ const Homepage = () => {
           },
         }
       );
-      console.log(response?.data);
+      console.log(response.data.choices[0].message);
 
       if (response?.data?.choices && response.data.choices.length > 0) {
         setMessage(response.data.choices[0].message);
