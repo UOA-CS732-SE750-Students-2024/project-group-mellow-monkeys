@@ -31,10 +31,10 @@ const Homepage = () => {
   const [imageURL, setImageURL] = useState("");
   const [hasRefreshed, setHasRefreshed] = useState(false);
   const [activeChatbotId, setActiveChatbotId] = useState(() =>
-    localStorage.getItem('activeChatbotId') || null
+    sessionStorage.getItem('activeChatbotId') || null
   );
   const [chatBots, setChatBots] = useState(() => {
-    const savedChatBots = localStorage.getItem('chatBots');
+    const savedChatBots = sessionStorage.getItem('chatBots');
     return savedChatBots ? JSON.parse(savedChatBots) : [];
   });
   const [previousChats, setPreviousChats] = useState(() => {
@@ -53,8 +53,8 @@ const Homepage = () => {
       setCurrentTitle(storedTitle);
     }
 
-    const storedActiveChatbotId = localStorage.getItem('activeChatbotId');
-    const storedChatBots = localStorage.getItem('chatBots');
+    const storedActiveChatbotId = sessionStorage.getItem('activeChatbotId');
+    const storedChatBots = sessionStorage.getItem('chatBots');
     if (storedActiveChatbotId) {
       setActiveChatbotId(storedActiveChatbotId);
     }
@@ -67,8 +67,8 @@ const Homepage = () => {
     sessionStorage.setItem('currentTitle', currentTitle);
     sessionStorage.setItem('previousChats', JSON.stringify(previousChats));
 
-    localStorage.setItem('activeChatbotId', activeChatbotId);
-    localStorage.setItem('chatBots', JSON.stringify(chatBots));
+    sessionStorage.setItem('activeChatbotId', activeChatbotId);
+    sessionStorage.setItem('chatBots', JSON.stringify(chatBots));
   }, [currentTitle, previousChats, activeChatbotId, chatBots]);
 
   useEffect(() => {
@@ -312,9 +312,9 @@ const Homepage = () => {
         </section>
       </Offcanvas>
       {/* SIDEBAR */}
-
+            
       {/* MAIN */}
-      {chatBots.length === 0 || !activeChatbotId ? (
+      {!activeChatbotId || activeChatbotId === "null"? (
         <section className={styles.main}>
           <div className={styles.no_chatbot_message}>
             {chatBots.length === 0
