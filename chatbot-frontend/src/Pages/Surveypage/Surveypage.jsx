@@ -115,10 +115,10 @@ function SurveyPage() {
               zIndex: 1050,
             }}
           >
-            <Spinner animation="border" role="status">
+            <Spinner animation="border" role="status" variant="primary">
               <span className="visually-hidden">Loading...</span>
             </Spinner>
-          </div>
+        </div>
         )}{" "}
         <label className={styles.survey_label}>
           Name:
