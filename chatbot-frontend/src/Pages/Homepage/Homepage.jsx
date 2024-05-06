@@ -65,8 +65,6 @@ const Homepage = () => {
 
   useEffect(() => {
     sessionStorage.setItem('currentTitle', currentTitle);
-    localStorage.setItem('currentTitle', currentTitle);
-
     sessionStorage.setItem('previousChats', JSON.stringify(previousChats));
 
     localStorage.setItem('activeChatbotId', activeChatbotId);
