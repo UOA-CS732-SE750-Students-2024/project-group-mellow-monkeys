@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import styles from "./Homepage.module.css";
 import {
-  ChatCircle,
   GithubLogo,
   PaperPlaneRight,
   Robot,
   SignOut,
   TrashSimple,
 } from "@phosphor-icons/react";
-import { FaCog } from "react-icons/fa";
 import { Button, FormControl, Spinner, Offcanvas } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -32,7 +30,6 @@ const Homepage = () => {
   const [show, setShow] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const [name, setName] = useState(null);
-  const [description, setDescription] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [hasRefreshed, setHasRefreshed] = useState(false);
   const [activeChatbotId, setActiveChatbotId] = useState(null);
@@ -80,9 +77,6 @@ const Homepage = () => {
         .then((response) => {
           setChatBots(response.data);
         });
-      // .catch((error) => {
-      //   toast.error("There is no chatbots for current user");
-      // });
     }
   }, [auth.id, auth.token]);
 
@@ -134,8 +128,8 @@ const Homepage = () => {
     // Find the chatbot by ID
     const selectedChatbot = chatBots.find((cb) => cb._id === chatbotId);
     if (selectedChatbot) {
-      setCurrentTitle(selectedChatbot.name); // Assuming each chatbot has a unique name or ID
-      // Optionally, you might want to fetch the chat history here if it's not already loaded
+      setCurrentTitle(selectedChatbot.name);
+      // sendChatbotDataToOpenAI(selectedChatbot._id);
     }
   };
 
@@ -158,16 +152,16 @@ const Homepage = () => {
     }
   };
 
-  //Simple async function that fetches the messages from the API
+  // Simple async function that fetches the messages from the API
   const getMessages = async () => {
     setLoading(true);
-
     try {
       // change this url for one in the .env file
       const response = await axios.post(
         COMPLETIONS,
         JSON.stringify({
           message: value,
+          chatbotId: activeChatbotId,
         }),
         {
           headers: {
@@ -176,7 +170,7 @@ const Homepage = () => {
           },
         }
       );
-      console.log(response?.data);
+      console.log(response.data.choices[0].message);
 
       if (response?.data?.choices && response.data.choices.length > 0) {
         setMessage(response.data.choices[0].message);
@@ -185,7 +179,6 @@ const Homepage = () => {
         setMessage("An error occurred while fetching the message.");
         toast.error("An error occurred while fetching the message.");
       }
-      // setMessage(response?.data?.choices[0]?.message);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -293,11 +286,12 @@ const Homepage = () => {
       {/* SIDEBAR */}
 
       {/* MAIN */}
-      {chatBots.length === 0 ? (
+      {chatBots.length === 0 || !activeChatbotId ? (
         <section className={styles.main}>
           <div className={styles.no_chatbot_message}>
-            The current user does not have any chat objects yet, please click
-            New Chat Object to create a chat object.
+            {chatBots.length === 0
+              ? "The current user does not have any chat objects yet, please click New Chat Object to create a chat object."
+              : "Please select a chatbot to start chatting!"}
           </div>
         </section>
       ) : (
@@ -371,3 +365,4 @@ const Homepage = () => {
 };
 
 export default Homepage;
+
