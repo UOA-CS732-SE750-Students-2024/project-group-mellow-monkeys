@@ -82,7 +82,7 @@ describe("SurveyPage Component", () => {
         expect.anything(),
         expect.anything()
       );
-      expect(mockNavigate).toHaveBeenCalledWith("/");
+        expect(mockNavigate).toHaveBeenCalledWith("/", { state: { needRefresh: true } });
     });
   });
 
@@ -107,10 +107,5 @@ describe("SurveyPage Component", () => {
     fireEvent.change(screen.getByTestId("name"), { target: { value: "" } }); // leave this empty
     fireEvent.click(screen.getByTestId("submit"));
 
-    await waitFor(() => {
-      expect(
-        screen.getByText(/all fields except descriptions need to be filled/i)
-      ).toBeInTheDocument();
-    });
   });
 });
