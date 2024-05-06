@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./Homepage.module.css";
 import {
   ChatCircle,
@@ -260,7 +260,7 @@ const Homepage = () => {
             ))}
           {/* CHAT HISTORY */}
           {/* FOOTER */}
-          <span className={styles.footer_github}>
+          {/* <span className={styles.footer_github}>
             {previousChats.length > 0 && (
               <Button
                 onClick={handleEmptyHistory}
@@ -275,11 +275,11 @@ const Homepage = () => {
               target="_blank"
               rel="https://github.com/UOA-CS732-SE750-Students-2024/project-group-mellow-monkeys noreferrer"
             >
-              {/* this color has to be in hex to fix offcanvas bug */}
+
               <GithubLogo size={20} color="#94a3b8" />
               Made by Mellow Monkeys
             </a>
-          </span>
+          </span> */}
           {/* FOOTER */}
         </section>
       </Offcanvas>
@@ -289,40 +289,46 @@ const Homepage = () => {
       {chatBots.length === 0 ? (
         <section className={styles.main}>
           <div className={styles.no_chatbot_message}>
-            The current user does not have any chat objects yet, please click
-            New Chat Object to create a chat object.
+            Create your Virtual Lover by clicking +New Chat.
           </div>
         </section>
       ) : (
         <section className={styles.main}>
           <div className={styles.bobu_logo_wrapper}>
-            <h1 className={styles.bobu_logo}>
+            {/* <h1 className={styles.bobu_logo}>
               <Robot size={32} />
               Bobu
-            </h1>
+            </h1> */}
           </div>
-          <ul className={styles.text_feed}>
-            {currentChat?.map((chatMessage, index) => (
-              <li key={index}>
-                <span className={styles.feed_role}>
-                  {chatMessage.role ? (
-                    chatMessage.role === "user" ? (
-                      <img src={avatar} />
-                    ) : (
-                      <img
-                      src={chatBots.find(cb => cb.name === currentTitle)?.avatar}
-                      alt="Virtual Lover Avatar"
-                      className={styles.chatbot_avatar}
-                    />
-                    )
-                  ) : (
-                    <img src={imageURL} alt="Virtual Lover Avatar" />
-                  )}
-                </span>
-                <span>{chatMessage.content}</span>
-              </li>
-            ))}
-          </ul>
+          <div className={styles.text_feed}>
+  {currentChat?.map((chatMessage, index) => (
+    <div key={index} className={chatMessage.role === "user" ? styles.userMessage : styles.chatbotMessage}>
+      {chatMessage.role === "user" ? (
+        <>
+          <span className={styles.messageContent}>{chatMessage.content}</span>
+          <img
+            src={avatar}
+            alt="User Avatar"
+            className={styles.avatar}
+          />
+        </>
+      ) : (
+        <>
+          <img
+            src={chatBots.find(cb => cb.name === currentTitle)?.avatar || imageURL}
+            alt="Virtual Lover Avatar"
+            className={styles.avatar}
+          />
+          <span className={styles.messageContent}>{chatMessage.content}</span>
+        </>
+      )}
+    </div>
+  ))}
+</div>
+
+
+
+
           <div className={styles.bottom_wrapper}>
             <div className={styles.input_wrapper}>
               <FormControl
@@ -351,7 +357,7 @@ const Homepage = () => {
                 )}
               </button>
             </div>
-            <p className={`${styles.info} text-muted`}>Powered by Chat GPT4.</p>
+            <p className={`${styles.info} text-muted`}>Powered by AI.</p>
           </div>
         </section>
       )}

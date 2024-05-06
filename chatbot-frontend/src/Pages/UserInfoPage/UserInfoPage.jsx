@@ -131,119 +131,115 @@ export default function UserInfoPage() {
   console.log(auth.id);
 
   return (
-    <Container className={styles.userInfoPage}>
-      {!isEditing ? (
-        <div className={styles.userInfoContainer}>
-          <Image
-            className={styles.userAvatar}
-            src={user.avatar}
-            alt="User avatar"
-            roundedCircle
-          />
-          <div className={styles.userInfo}>
-            <h3>{user.name}</h3>
-            <p>{user.email}</p>
-          </div>
-          <div className={styles.buttonContainer}>
-            <Button
-              className={styles.modifyButton}
-              variant="primary"
-              onClick={() => setIsEditing(true)}
-              data-testid="modifyButton"
-            >
-              Modify Personal Information
-            </Button>
-            <Button
-              className={styles.backHomeButton}
-              onClick={() => navigate("/")}
-            >
-              Back to Home
-            </Button>
-          </div>
+    <div className={styles.userInfoPage}>
+    {!isEditing ? (
+      <div className={styles.userInfoContainer}>
+        <img
+          className={styles.userAvatar}
+          src={user.avatar}
+          alt="User avatar"
+        />
+        <div className={styles.userInfo}>
+          {/* <h2>User Information</h2> */}
+          <h3>Name: {user.name}</h3>
+          <h3>Email: {user.email}</h3>
         </div>
-      ) : (
-        <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="formUserName" className={styles.formUserName}>
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter name"
-              name="name"
-              value={user.name}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-
-          <Form.Group
-            controlId="formUserEmail"
-            className={styles.formUserEmail}
+        <div className={styles.buttonContainer}>
+          <button
+            className={styles.modifyButton}
+            onClick={() => setIsEditing(true)}
           >
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              name="email"
-              value={user.email}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-
-          <Form.Group
-            controlId="formUserPassword"
-            className={styles.formUserPassword}
+            Modify Personal Information
+          </button>
+          <button
+            className={styles.backHomeButton}
+            onClick={() => navigate("/")}
           >
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="New Password"
-              name="password"
-              value={user.password}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
+            Back to Home
+          </button>
+        </div>
+      </div>
+    ) : (
+      <div className={styles.submitForm}>
+      <form onSubmit={handleSubmit} >
+        <div className={styles.formGroup}>
+          {/* <label>Name</label> */}
+          <input
+            type="text"
+            placeholder="Enter name"
+            name="name"
+            value={user.name}
+            onChange={handleInputChange}
+          />
+        </div>
 
-          <Form.Group
-            controlId="formUserConfirmPassword"
-            className={styles.formUserConfirmPassword}
-          >
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Confirm New Password"
-              name="confirmPassword"
-              value={user.confirmPassword}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
+        <div className={styles.formGroup}>
+          {/* <label>Email</label> */}
+          <input
+            type="email"
+            placeholder="Enter email"
+            name="email"
+            value={user.email}
+            onChange={handleInputChange}
+          />
+        </div>
 
-          <Row className="mb-3">
-            {[...Array(15)].map((_, index) => (
-              <Col
-                key={index}
-                xs={6}
-                sm={4}
-                md={2}
-                onClick={() => handleAvatarSelection(index)}
-              >
-                <Image
-                  src={`/avatar${index + 1}.jpeg`}
-                  thumbnail
-                  className={`${styles.avatarImage} ${
-                    selectedAvatar === index ? styles.selectedAvatar : ""
-                  }`}
-                />
-              </Col>
-            ))}
-          </Row>
+        <div className={styles.formGroup}>
+          {/* <label>Password</label> */}
+          <input
+            type="password"
+            placeholder="New Password"
+            name="password"
+            value={user.password}
+            onChange={handleInputChange}
+          />
+        </div>
 
-          <Button variant="success" type="submit">
+        <div className={styles.formGroup}>
+          {/* <label>Confirm Password</label> */}
+          <input
+            type="password"
+            placeholder="Confirm New Password"
+            name="confirmPassword"
+            value={user.confirmPassword}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="avatarContainer">
+          {[...Array(15)].map((_, index) => (
+            <div 
+              
+              key={index}
+              style={{
+                display: 'inline-grid',
+
+                width: '16.66%',
+                padding: '5px'
+              }}
+              onClick={() => handleAvatarSelection(index)}
+            >
+              <img 
+                src={`/avatar${index + 1}.jpeg`}
+                alt={`Avatar ${index + 1}`}
+                style={{
+                  width: '100%',
+                  border: selectedAvatar === index ? '2px solid blue' : 'none'
+                }}
+              />
+            </div>
+          ))}
+        </div>
+
+        <Button variant="success" type="submit">
             Save Changes
           </Button>
           <Button variant="secondary" onClick={handleCancel} className="ms-2">
             Cancel
           </Button>
-        </Form>
-      )}
-    </Container>
+      </form>
+    </div>
+    )}
+  </div>
   );
 }

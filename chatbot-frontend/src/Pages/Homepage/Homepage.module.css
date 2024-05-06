@@ -1,7 +1,11 @@
 .homepage {
-  background-color: var(--gray-900);
+  /* background-color: var(--gray-900); */
   display: flex;
   flex-direction: row;
+  background-image: url("/15.gif");
+	background-size: cover; /* 背景图填满容器 */
+  background-repeat: no-repeat; /* 背景图不重复 */
+  background-position: center; /* 背景图居中 */
 }
 
 .user_avatar {
@@ -17,24 +21,82 @@
 }
 
 .side_bar {
+  /* display: flex;
+  flex-direction: column;
+  padding: 20px; */
+  /* height: 100%; Ensures the sidebar takes full vertical space */
+  /* justify-content: flex-start; Aligns items to the top */
+
+  background-color:#fed9b7 ;
+  height: 100vh;
+  width: 20rem;
+
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  height: 100%; /* Ensures the sidebar takes full vertical space */
-  justify-content: flex-start; /* Aligns items to the top */
+  /* justify-content: space-between; */
+  padding: 40px;
+  text-align: center;
+  position: relative;
+  z-index: 100;
+  background-color: inherit;
+  /* border-radius: 18px; */
+  overflow: hidden;
+  box-shadow: 8px 0 15px -5px rgba(0, 0, 0, 0.1);
 }
 
-.no_chatbots_message {
+.side_bar::before {
+  content: "";
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.685);
+  filter: blur(40px);
+  z-index: -1;
+}
+
+
+
+
+
+
+
+
+
+.no_chatbot_message {
+  /* background-color:#fed9b7 ;
+  height: 10vh;
+  width: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  /* padding: 40px;
   text-align: center;
-  padding: 20px;
-  margin: 20px; /* Adds margin around the message */
-  color: #666;
-  background-color: #222; /* To match your dark theme */
-  border-radius: 5px; /* Adds rounded corners to the message box */
+  position: relative;
+  z-index: 100;
+  background-color: inherit; */
+  /* border-radius: 18px; */
+  /* overflow: hidden; */
+  /* box-shadow: 8px 0 15px -5px rgba(0, 0, 0, 0.1); */ 
+}
+.no_chatbot_message::before {
+  /* content: "";
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.685);
+  filter: blur(40px);
+  z-index: -1; */
 }
 
 .offcanvas_side_bar {
-  background-color: #020617;
+  background-color: #0c2dbf;
   color: #fff !important;
   padding: 0 !important;
   width: 16rem !important;
@@ -42,13 +104,14 @@
 
 .main {
   height: 100vh;
-  width: 100%;
+  width: 70%;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   text-align: center;
+  margin:auto;
 }
 
 .bobu_logo_wrapper {
@@ -174,7 +237,7 @@
 }
 
 .btn_empty_history {
-  background-color: #111827 !important;
+  background-color: #c00c0c !important;
   border: none !important;
   border-radius: 1rem !important;
 }
@@ -182,15 +245,73 @@
 .btn_empty_history:hover {
   background-color: #374151 !important;
 }
-
+/* 
 .text_feed {
   overflow-y: auto;
   width: 100%;
   padding: 0;
   max-width: 50rem;
+} */
+.text_feed {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  width: 80%;
+  max-height: 80vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.text_feed li {
+.text_feed::-webkit-scrollbar {
+  display: none;
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px; /* 设置头像和消息之间的间隔 */
+  margin-bottom: 30px;
+  margin-left: 10px;
+}
+
+.messageContent {
+  padding: 0.5rem;
+  border-radius: 10px;
+  word-wrap: break-word;
+}
+
+.userMessage {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  /* flex-direction: row-reverse; */
+  /* flex-direction: row-reverse; */
+}
+
+.chatbotMessage {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.userMessage .messageContent {
+  background-color: #68d614; /* Light green background for user messages */
+  margin-bottom: 30px;
+  text-align: right;
+  /* width: 50%; */
+}
+
+.chatbotMessage .messageContent {
+  background-color: #951313; /* Light grey background for assistant messages */
+  margin-bottom: 30px;
+  text-align: left;
+  /* width: 70%; */
+}
+
+
+/* .text_feed li {
   background-color: var(--gray-800);
 
   display: flex;
@@ -203,25 +324,26 @@
   margin: 1rem 0;
 
   border-radius: 1rem;
-}
+} */
 
-.text_feed span {
+/* .text_feed span {
   font-size: 1rem;
   text-align: left;
   width: 100%;
 
   padding: 0.5rem 1rem;
-}
+} */
 
-.text_feed span.feed_role {
+/* .text_feed span.feed_role {
   color: var(--slate-400);
   max-width: 8rem !important;
-}
+} */
 
-.info {
+/* .info {
   font-size: 0.8rem;
   padding: 1rem;
-}
+} */
+
 
 .bottom_wrapper {
   width: 100%;
@@ -243,7 +365,7 @@
 
 /* !importat is needed to override Bootstrap's css */
 .input_field {
-  background-color: var(--gray-800) !important;
+  background-color: #bde0fe !important;
   color: var(--white) !important;
   border: none !important;
   border-radius: 1rem !important;
@@ -254,7 +376,7 @@
 }
 
 .btn_submit {
-  background-color: var(--gray-800);
+  background-color: #bde0fe;
   color: var(--white);
 
   border: none;
@@ -274,7 +396,7 @@
 }
 
 .btn_submit:hover {
-  background-color: var(--gray-700);
+  background-color: #a2d2ff;
 }
 
 .side_bar_user {
@@ -334,10 +456,11 @@
 }
 
 .chatbot_info {
-  display: flex;
+  /* display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-grow: 1;
+  flex-grow: 1; */
+  
 }
 
 .delete_icon {

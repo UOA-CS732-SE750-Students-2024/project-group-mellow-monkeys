@@ -3,9 +3,10 @@ import { useAuth } from "../../hooks/useAuth";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import Spinner from "react-bootstrap/Spinner";
+// import Spinner from "react-bootstrap/Spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { saveAs } from "file-saver";
+import { Form, Button, Spinner } from "react-bootstrap";
 
 axios.defaults.baseURL = "http://localhost:8001";
 
@@ -100,10 +101,11 @@ function SurveyPage() {
 
   return (
     <div className={styles.survey_form_container}>
-      <h1 className={styles.survey_title}>
-        Let's create your first chatbot! Answer the following questions:
-      </h1>
+      
       <form className={styles.survey_form} onSubmit={handleSubmit}>
+      <h1 className={styles.survey_title}>
+        Create your first Virtual Lover!
+      </h1>
         {loading && (
           <div
             className="loading-indicator"
@@ -120,76 +122,82 @@ function SurveyPage() {
             </Spinner>
           </div>
         )}{" "}
-        <label className={styles.survey_label}>
-          Name:
+        {/* <label className={styles.survey_label}>
+          Name: */}
           <input
             className={styles.survey_input}
             type="text"
+            placeholder="Give me a name!"
             name="name"
             data-testid="name"
             value={formData.name}
             onChange={handleChange}
             required
           />
-        </label>
-        <label className={styles.survey_label}>
-          Age:
+        {/* </label> */}
+        {/* <label className={styles.survey_label}>
+          Age: */}
           <input
             className={styles.survey_input}
             type="text"
+            placeholder="How old you wish I am?"
             name="age"
             data-testid="age"
             value={formData.age}
             onChange={handleChange}
             required
           />
-        </label>
-        <label className={styles.survey_label}>
-          Gender:
+        {/* </label> */}
+        {/* <label className={styles.survey_label}>
+          Gender: */}
           <input
             className={styles.survey_input}
             type="text"
+            placeholder="What gender you want me to be?"
             name="gender"
             data-testid="gender"
             value={formData.gender}
             onChange={handleChange}
             required
           />
-        </label>
-        <label className={styles.survey_label}>
-          Hobbies:
+        {/* </label> */}
+        {/* <label className={styles.survey_label}>
+          Hobbies: */}
           <input
             className={styles.survey_input}
             type="text"
+            placeholder="What are my hobbies?"
             name="hobbies"
             data-testid="hobbies"
             value={formData.hobbies}
             onChange={handleChange}
             required
           />
-        </label>
-        <label className={styles.survey_label}>
-          Personality:
+        {/* </label> */}
+        {/* <label className={styles.survey_label}>
+          Personality: */}
           <input
             className={styles.survey_input}
             type="text"
+            placeholder="What is my personality?"
             name="personality"
             data-testid="personality"
             value={formData.personality}
             onChange={handleChange}
             required
           />
-        </label>
-        <label className={styles.survey_label}>
-          Appearance Descriptions:
+        {/* </label> */}
+        {/* <label className={styles.survey_label}>
+          Appearance Descriptions: */}
           <textarea
             className={styles.survey_input}
             name="descriptions"
+            placeholder="Describe my appearance! (Optional)"
             data-testid="descriptions"
             value={formData.descriptions}
             onChange={handleChange}
           />
-        </label>
+        {/* </label> */}
         {error && <p className={styles.error_message}>{error}</p>}
         <button
           className={styles.survey_button}
