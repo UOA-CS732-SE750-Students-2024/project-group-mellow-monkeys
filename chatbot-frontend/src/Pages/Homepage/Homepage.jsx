@@ -21,10 +21,8 @@ const Homepage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { auth, submitLogout } = useAuth();
-  const [chatBots, setChatBots] = useState([]);
   const [value, setValue] = useState("");
   const [message, setMessage] = useState(null);
-  const [previousChats, setPreviousChats] = useState([]);
   const [currentTitle, setCurrentTitle] = useState(null);
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
@@ -32,16 +30,58 @@ const Homepage = () => {
   const [name, setName] = useState(null);
   const [imageURL, setImageURL] = useState("");
   const [hasRefreshed, setHasRefreshed] = useState(false);
-  const [activeChatbotId, setActiveChatbotId] = useState(null);
+  const [activeChatbotId, setActiveChatbotId] = useState(() =>
+    localStorage.getItem('activeChatbotId') || null
+  );
+  const [chatBots, setChatBots] = useState(() => {
+    const savedChatBots = localStorage.getItem('chatBots');
+    return savedChatBots ? JSON.parse(savedChatBots) : [];
+  });
+  const [previousChats, setPreviousChats] = useState(() => {
+    const savedChats = sessionStorage.getItem('previousChats');
+    const parsedChats = savedChats ? JSON.parse(savedChats) : [];
+    return parsedChats;
+  });
+  const [currentChat, setCurrentChat] = useState([]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    const storedTitle = sessionStorage.getItem('currentTitle');
+    if (storedTitle) {
+      setCurrentTitle(storedTitle);
+    }
+
+    const storedActiveChatbotId = localStorage.getItem('activeChatbotId');
+    const storedChatBots = localStorage.getItem('chatBots');
+    if (storedActiveChatbotId) {
+      setActiveChatbotId(storedActiveChatbotId);
+    }
+    if (storedChatBots) {
+      setChatBots(JSON.parse(storedChatBots));
+    }
+  }, []);
+
+  useEffect(() => {
+    sessionStorage.setItem('currentTitle', currentTitle);
+    sessionStorage.setItem('previousChats', JSON.stringify(previousChats));
+
+    localStorage.setItem('activeChatbotId', activeChatbotId);
+    localStorage.setItem('chatBots', JSON.stringify(chatBots));
+  }, [currentTitle, previousChats, activeChatbotId, chatBots]);
+
+  useEffect(() => {
+    const filteredChats = previousChats.filter(
+      chat => chat.title === currentTitle
+    );
+    setCurrentChat(filteredChats);
+  }, [previousChats, currentTitle]);
 
   //the useEffect for controling the interface refresh
   useEffect(() => {
     if (location.state?.needRefresh && !hasRefreshed) {
       const timer = setTimeout(() => {
-        window.location.reload();
         setHasRefreshed(true);
         navigate(location.pathname, { replace: true, state: {} });
       }, 700);
@@ -80,27 +120,17 @@ const Homepage = () => {
     }
   }, [auth.id, auth.token]);
 
+  
   //UseEffect triggered by message and/or currentTitle state changes
   useEffect(() => {
     if (!currentTitle && value && message) {
-      /*
-				If there is no current title, but we've recieved a value and a message
-				we set the current title as the value of the input (user message)
-			*/
       setCurrentTitle(value);
     }
     if (currentTitle && value && message) {
-      /*
-				Saves the current chat and the previous one
-				while also updating the current chat
-				and savin the first message asked by the user
-				as the title of the conversation
-			*/
       setPreviousChats((prevChats) => [
         ...prevChats,
         {
           title: currentTitle,
-          // Later, change this to the name retrieved from AUTH
           role: "user",
           content: value,
         },
@@ -112,7 +142,7 @@ const Homepage = () => {
       ]);
       setValue("");
     }
-  }, [message, currentTitle]);
+  }, [message, currentTitle, value]);
 
   const handleNavigateToUserInfo = () => {
     navigate("/user-info");
@@ -196,9 +226,7 @@ const Homepage = () => {
 		filters the previous chats by the current title and stores
 		the current chat if it matches the current title
 	*/
-  const currentChat = previousChats.filter(
-    (previousChat) => previousChat.title === currentTitle
-  );
+  
 
   // creates an array of unique titles from the previous chats
   const uniqueTitles = Array.from(
