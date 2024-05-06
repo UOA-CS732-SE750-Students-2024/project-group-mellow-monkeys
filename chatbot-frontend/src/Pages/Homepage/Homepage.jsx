@@ -30,9 +30,7 @@ const Homepage = () => {
   const [name, setName] = useState(null);
   const [imageURL, setImageURL] = useState("");
   const [hasRefreshed, setHasRefreshed] = useState(false);
-  const [activeChatbotId, setActiveChatbotId] = useState(() =>
-    sessionStorage.getItem('activeChatbotId') || null
-  );
+  const [activeChatbotId, setActiveChatbotId] = useState(null);
   const [chatBots, setChatBots] = useState(() => {
     const savedChatBots = sessionStorage.getItem('chatBots');
     return savedChatBots ? JSON.parse(savedChatBots) : [];
@@ -55,7 +53,10 @@ const Homepage = () => {
 
     const storedActiveChatbotId = sessionStorage.getItem('activeChatbotId');
     const storedChatBots = sessionStorage.getItem('chatBots');
-    if (storedActiveChatbotId) {
+    if (storedActiveChatbotId === "null") {
+      setActiveChatbotId(null);
+    }
+    else if(storedActiveChatbotId) {
       setActiveChatbotId(storedActiveChatbotId);
     }
     if (storedChatBots) {
@@ -157,6 +158,7 @@ const Homepage = () => {
     setActiveChatbotId(chatbotId);
     // Find the chatbot by ID
     const selectedChatbot = chatBots.find((cb) => cb._id === chatbotId);
+    console.log(chatBots);
     if (selectedChatbot) {
       setCurrentTitle(selectedChatbot.name);
       // sendChatbotDataToOpenAI(selectedChatbot._id);
@@ -314,7 +316,7 @@ const Homepage = () => {
       {/* SIDEBAR */}
             
       {/* MAIN */}
-      {!activeChatbotId || activeChatbotId === "null"? (
+      {chatBots.length === 0 || !activeChatbotId ? (
         <section className={styles.main}>
           <div className={styles.no_chatbot_message}>
             {chatBots.length === 0
