@@ -190,7 +190,7 @@ function SurveyPage() {
             onChange={handleChange}
           />
         </label>
-        {error && <p className={styles.error_message}>{error}</p>}
+        {error && <p className={styles.error_message} data-testid="error">{error}</p>}
         <button
           className={styles.survey_button}
           type="submit"

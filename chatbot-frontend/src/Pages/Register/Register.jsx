@@ -14,7 +14,7 @@ export default function Register() {
 
   const handleSubmitRegister = (e) => {
     e.preventDefault();
-    console.log("handleSubmitRegister", email, name);
+    console.log("handleSubmitRegister", email, name);  // Consider removing or replacing console.log with a more secure logging method if needed
     submitRegister(e, { name, email, password, confirmPassword });
   };
 
@@ -32,13 +32,13 @@ export default function Register() {
         <div className={styles.register_upper_section}>Registration</div>
         <Form.Group
           className={styles.register_form_field}
-          controlId="formBasicUsername"
+          controlId="formBasicName"
         >
           <Form.Label>Name</Form.Label>
           <Form.Control
             onChange={(e) => setName(e.target.value)}
             value={name}
-            type="username"
+            type="text"
             placeholder="Name"
           />
         </Form.Group>
@@ -67,19 +67,19 @@ export default function Register() {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             type="password"
-            placeholder="Password"
+            placeholder="Enter Password"
           />
         </Form.Group>
         <Form.Group
           className={styles.register_form_field}
-          controlId="formBasicPassword"
+          controlId="formBasicConfirmPassword"
         >
-          <Form.Label>Confirm the Password</Form.Label>
+          <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             onChange={(e) => setConfirmPassword(e.target.value)}
             value={confirmPassword}
             type="password"
-            placeholder="Password"
+            placeholder="Confirm Password"
           />
         </Form.Group>
         {auth.error && (
@@ -104,7 +104,7 @@ export default function Register() {
                 aria-hidden="true"
               />
             ) : (
-              <>register</>
+              "Register"
             )}
           </Button>
         </Form.Group>
