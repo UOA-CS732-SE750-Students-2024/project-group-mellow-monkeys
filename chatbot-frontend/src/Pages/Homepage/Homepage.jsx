@@ -83,6 +83,7 @@ const Homepage = () => {
   useEffect(() => {
     if (location.state?.needRefresh && !hasRefreshed) {
       const timer = setTimeout(() => {
+        window.location.reload();
         setHasRefreshed(true);
         navigate(location.pathname, { replace: true, state: {} });
       }, 700);
@@ -143,7 +144,7 @@ const Homepage = () => {
       ]);
       setValue("");
     }
-  }, [message, currentTitle, value]);
+  }, [message, currentTitle]);
 
   const handleNavigateToUserInfo = () => {
     navigate("/user-info");
