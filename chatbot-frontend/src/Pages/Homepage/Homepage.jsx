@@ -143,7 +143,7 @@ const Homepage = () => {
       ]);
       setValue("");
     }
-  }, [message, currentTitle, value]);
+  }, [message, currentTitle]);
 
   const handleNavigateToUserInfo = () => {
     navigate("/user-info");
