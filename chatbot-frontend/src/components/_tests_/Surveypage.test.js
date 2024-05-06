@@ -108,4 +108,29 @@ describe("SurveyPage Component", () => {
     fireEvent.click(screen.getByTestId("submit"));
 
   });
+
+  test("displays error when required fields are empty", () => {
+    render(
+      <Router>
+        <SurveyPage />
+      </Router>
+    );
+
+    // Ensure all fields except 'descriptions' are initially empty and then submit the form
+    fireEvent.change(screen.getByTestId("name"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("age"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("gender"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("hobbies"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("personality"), {
+      target: { value: "" },
+    });
+    fireEvent.submit(screen.getByTestId("submit"));
+
+    // Check for the error message
+    const errorMessage = screen.getByTestId("error");
+    expect(errorMessage).toBeInTheDocument();
+    expect(errorMessage).toHaveTextContent(
+      "All fields except descriptions need to be filled."
+    );
+  });
 });
