@@ -15,10 +15,13 @@ import { toast } from "react-toastify";
 import { COMPLETIONS } from "../../urls";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
 axios.defaults.baseURL = "http://localhost:8001";
 
 const Homepage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { auth, submitLogout } = useAuth();
   const [chatBots, setChatBots] = useState([]);
   const [value, setValue] = useState("");
@@ -31,10 +34,26 @@ const Homepage = () => {
   const [name, setName] = useState(null);
   const [description, setDescription] = useState("");
   const [imageURL, setImageURL] = useState("");
+  const [hasRefreshed, setHasRefreshed] = useState(false);
+  const [activeChatbotId, setActiveChatbotId] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  //the useEffect for controling the interface refresh
+  useEffect(() => {
+    if (location.state?.needRefresh && !hasRefreshed) {
+      const timer = setTimeout(() => {
+        window.location.reload();
+        setHasRefreshed(true);
+        navigate(location.pathname, { replace: true, state: {} });
+      }, 700);
+
+      return () => clearTimeout(timer);
+    }
+  }, [location.state, hasRefreshed, navigate]);
+
+  //UseEffect for current users' name and avatar
   useEffect(() => {
     if (auth.id && auth.token) {
       axios
@@ -51,6 +70,7 @@ const Homepage = () => {
     }
   }, [auth.id, auth.token]);
 
+  //UseEffect for current users' chatbot
   useEffect(() => {
     if (auth.id) {
       axios
@@ -59,102 +79,14 @@ const Homepage = () => {
         })
         .then((response) => {
           setChatBots(response.data);
-        })
-        .catch((error) => {
-          console.error("Failed to fetch chatbots", error);
-          toast.error("Failed to fetch chatbots");
         });
+      // .catch((error) => {
+      //   toast.error("There is no chatbots for current user");
+      // });
     }
   }, [auth.id, auth.token]);
 
-  const handleNavigateToUserInfo = () => {
-    navigate("/user-info"); // Use navigate to go to the user information page
-  };
-
-  // Create new chat object
-  const createNewChat = () => {
-    navigate("/survey");
-  };
-
-  // const handleClick = (chatbotId) => {
-  //   // Find the chatbot by ID
-  //   const selectedChatbot = chatBots.find(cb => cb._id === chatbotId);
-  //   if (selectedChatbot) {
-  //     setCurrentTitle(selectedChatbot.name); // Assuming each chatbot has a unique name or ID
-  //     // Optionally, you might want to fetch the chat history here if it's not already loaded
-  //   }
-  // };
-
-  
-  const handleEmptyHistory = () => {
-    setPreviousChats([]);
-    setValue("");
-    setMessage(null);
-    setCurrentTitle(null);
-  };
-
-  const handleDeleteChatbot = async (chatbotId) => {
-    try {
-      await axios.delete(`/deleteSingleChatbot/${chatbotId}`, {
-        headers: { Authorization: `Bearer ${auth.token}` },
-      });
-      setChatBots(chatBots.filter((cb) => cb._id !== chatbotId));
-      toast.success("Chatbot deleted successfully");
-    } catch (error) {
-      console.error("Failed to delete chatbot", error);
-      toast.error("Failed to delete chatbot");
-    }
-  };
-
-  /*
-		Simple async function that fetches the messages from the API
-	*/
-  const getMessages = async () => {
-    setLoading(true);
-
-    try {
-      // change this url for one in the .env file
-      const response = await axios.post(
-        COMPLETIONS,
-        JSON.stringify({
-          message: value,
-        }),
-        {
-          headers: {
-            Authorization: `Bearer ${auth?.token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log(response?.data);
-
-      // Check if the choices array exists and has at least one element
-      if (response?.data?.choices && response.data.choices.length > 0) {
-        setMessage(response.data.choices[0].message);
-      } else {
-        // Handle the case where choices is not as expected
-        console.error("Invalid response from API:", response.data);
-        // Set the message state to some error message or handle accordingly
-        setMessage("An error occurred while fetching the message.");
-        toast.error("An error occurred while fetching the message.");
-      }
-      // setMessage(response?.data?.choices[0]?.message);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-      toast.error(
-        <div>
-          Error! <br />
-          {error?.response?.data?.error || error?.message}
-        </div>
-      );
-      setLoading(false);
-    }
-  };
-
-  /*
-		UseEffect triggered by message and/or currentTitle state changes
-	*/
+  //UseEffect triggered by message and/or currentTitle state changes
   useEffect(() => {
     if (!currentTitle && value && message) {
       /*
@@ -188,6 +120,85 @@ const Homepage = () => {
     }
   }, [message, currentTitle]);
 
+  const handleNavigateToUserInfo = () => {
+    navigate("/user-info");
+  };
+
+  // Create new chat object
+  const createNewChat = () => {
+    navigate("/survey");
+  };
+
+  const handleClick = (chatbotId) => {
+    setActiveChatbotId(chatbotId);
+    // Find the chatbot by ID
+    const selectedChatbot = chatBots.find((cb) => cb._id === chatbotId);
+    if (selectedChatbot) {
+      setCurrentTitle(selectedChatbot.name); // Assuming each chatbot has a unique name or ID
+      // Optionally, you might want to fetch the chat history here if it's not already loaded
+    }
+  };
+
+  const handleEmptyHistory = () => {
+    setPreviousChats([]);
+    setValue("");
+    setMessage(null);
+    setCurrentTitle(null);
+  };
+
+  const handleDeleteChatbot = async (chatbotId) => {
+    try {
+      await axios.delete(`/deleteSingleChatbot/${chatbotId}`, {
+        headers: { Authorization: `Bearer ${auth.token}` },
+      });
+      setChatBots(chatBots.filter((cb) => cb._id !== chatbotId));
+      toast.success("Chatbot deleted successfully");
+    } catch (error) {
+      toast.error("Failed to delete chatbot");
+    }
+  };
+
+  //Simple async function that fetches the messages from the API
+  const getMessages = async () => {
+    setLoading(true);
+
+    try {
+      // change this url for one in the .env file
+      const response = await axios.post(
+        COMPLETIONS,
+        JSON.stringify({
+          message: value,
+        }),
+        {
+          headers: {
+            Authorization: `Bearer ${auth?.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response?.data);
+
+      if (response?.data?.choices && response.data.choices.length > 0) {
+        setMessage(response.data.choices[0].message);
+      } else {
+        console.error("Invalid response from API:", response.data);
+        setMessage("An error occurred while fetching the message.");
+        toast.error("An error occurred while fetching the message.");
+      }
+      // setMessage(response?.data?.choices[0]?.message);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      toast.error(
+        <div>
+          Error! <br />
+          {error?.response?.data?.error || error?.message}
+        </div>
+      );
+      setLoading(false);
+    }
+  };
+
   /*
 		filters the previous chats by the current title and stores
 		the current chat if it matches the current title
@@ -200,18 +211,6 @@ const Homepage = () => {
   const uniqueTitles = Array.from(
     new Set(previousChats.map((previousChat) => previousChat.title))
   );
-
-  const generateAvatar = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8001/generate-avatar",
-        { description }
-      );
-      setImageURL(response.data.imageURL);
-    } catch (error) {
-      console.error("Error generating avatar:", error);
-    }
-  };
 
   return (
     <div className={styles.homepage}>
@@ -238,24 +237,18 @@ const Homepage = () => {
           <Button onClick={createNewChat} className={styles.btn_new_chat}>
             + New Chat Object
           </Button>
-          {/* CHAT HISTORY */}
-          {/* <ul className={styles.chat_history}>
-            {uniqueTitles?.map((uniqueTitle, index) => (
-              <li
-                onClick={() => handleClick(uniqueTitle)}
-                key={index}
-                className={uniqueTitle === currentTitle ? styles.active : ""}
-              >
-                <ChatCircle size={20} />
-                <span>{uniqueTitle}</span>
-              </li>
-            ))}
-          </ul> */}
-          {chatBots.length > 0 ? (
+
+          {chatBots.length > 0 &&
             chatBots.map((chatbot) => (
-              <div key={chatbot._id} className={styles.chatbot_entry} onClick={() => handleClick(chatbot._id)}>
+              <div
+                key={chatbot._id}
+                className={`${styles.chatbot_entry} ${
+                  activeChatbotId === chatbot._id ? styles.active : ""
+                }`}
+                onClick={() => handleClick(chatbot._id)}
+              >
                 <img
-                  src={chatbot.avatar || "default_avatar.jpg"}
+                  src={chatbot.avatar}
                   alt={chatbot.name}
                   className={styles.chatbot_avatar}
                 />
@@ -263,17 +256,15 @@ const Homepage = () => {
                   <span>{chatbot.name}</span>
                   <TrashSimple
                     size={20}
-                    onClick={() => handleDeleteChatbot(chatbot._id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteChatbot(chatbot._id);
+                    }}
                     className={styles.delete_icon}
                   />
                 </div>
               </div>
-            ))
-          ) : (
-            <p className={styles.no_chatbots_message}>
-              The current user has not created any chatbot yet.
-            </p>
-          )}
+            ))}
           {/* CHAT HISTORY */}
           {/* FOOTER */}
           <span className={styles.footer_github}>
@@ -302,71 +293,78 @@ const Homepage = () => {
       {/* SIDEBAR */}
 
       {/* MAIN */}
-      <section className={styles.main}>
-        <div className={styles.bobu_logo_wrapper}>
-          <h1 className={styles.bobu_logo}>
-            <Robot size={32} />
-            Bobu
-          </h1>
-        </div>
-        <ul className={styles.text_feed}>
-          {currentChat?.map((chatMessage, index) => (
-            <li key={index}>
-              <span className={styles.feed_role}>
-                {chatMessage.role ? (
-                  chatMessage.role === "user" ? (
-                    <img src={avatar} />
+      {chatBots.length === 0 ? (
+        <section className={styles.main}>
+          <div className={styles.no_chatbot_message}>
+            The current user does not have any chat objects yet, please click
+            New Chat Object to create a chat object.
+          </div>
+        </section>
+      ) : (
+        <section className={styles.main}>
+          <div className={styles.bobu_logo_wrapper}>
+            <h1 className={styles.bobu_logo}>
+              <Robot size={32} />
+              Bobu
+            </h1>
+          </div>
+          <ul className={styles.text_feed}>
+            {currentChat?.map((chatMessage, index) => (
+              <li key={index}>
+                <span className={styles.feed_role}>
+                  {chatMessage.role ? (
+                    chatMessage.role === "user" ? (
+                      <img src={avatar} />
+                    ) : (
+                      <img
+                        src={
+                          chatBots.find((cb) => cb.name === currentTitle)
+                            ?.avatar
+                        }
+                        alt="Virtual Lover Avatar"
+                        className={styles.chatbot_avatar}
+                      />
+                    )
                   ) : (
                     <img src={imageURL} alt="Virtual Lover Avatar" />
-                  )
+                  )}
+                </span>
+                <span>{chatMessage.content}</span>
+              </li>
+            ))}
+          </ul>
+          <div className={styles.bottom_wrapper}>
+            <div className={styles.input_wrapper}>
+              <FormControl
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                className={styles.input_field}
+                type="text"
+                maxLength={256}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    getMessages();
+                  }
+                }}
+              />
+              <button onClick={getMessages} className={styles.btn_submit}>
+                {loading ? (
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
                 ) : (
-                  <img src={imageURL} alt="Virtual Lover Avatar" />
+                  <PaperPlaneRight size={20} />
                 )}
-              </span>
-              <span>{chatMessage.content}</span>
-            </li>
-          ))}
-        </ul>
-        <div className={styles.bottom_wrapper}>
-          <div className={styles.input_wrapper}>
-            <FormControl
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              className={styles.input_field}
-              type="text"
-              maxLength={256}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  getMessages();
-                }
-              }}
-            />
-            <button onClick={getMessages} className={styles.btn_submit}>
-              {loading ? (
-                <Spinner
-                  as="span"
-                  animation="border"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                />
-              ) : (
-                <PaperPlaneRight size={20} />
-              )}
-            </button>
+              </button>
+            </div>
+            <p className={`${styles.info} text-muted`}>Powered by Chat GPT4.</p>
           </div>
-          <p className={`${styles.info} text-muted`}>Powered by Chat GPT4.</p>
-        </div>
-        <div className={styles.avatarGeneratorContainer}>
-          <input
-            type="text"
-            placeholder="Describe your virtual lover"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <button onClick={generateAvatar}>Generate Avatar</button>
-        </div>
-      </section>
+        </section>
+      )}
       {/* MAIN */}
     </div>
   );

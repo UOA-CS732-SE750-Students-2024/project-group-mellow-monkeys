@@ -6,12 +6,14 @@ import { connectWithRetry } from "./data/init-db.js";
 import userRoutes from "./routes/users.js";
 import chatBotRoutes from "./routes/chatbots.js";
 import openAIRoutes from "./routes/openAI.js";
+
 import avatarRoutes from "./routes/avatarRoutes.js"
+import generateChatbots from "./routes/generateChatbots.js";
+
 
 const app = express();
 const PORT = process.env.PORT || 8001;
-
-// app.use('/api', avatarRoutes);
+app.use(express.static("public"));
 
 app.use(express.json());
 app.use(cors());
@@ -20,7 +22,7 @@ app.use("/", userRoutes);
 app.use("/", chatBotRoutes);
 app.use("/", openAIRoutes);
 app.use("/", avatarRoutes); 
-
+app.use("/", generateChatbots);
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Welcome to the API!" });

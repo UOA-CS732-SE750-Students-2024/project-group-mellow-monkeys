@@ -103,7 +103,6 @@
 .chatbot_entry:hover {
   background-color: #374151 !important;
   border-radius: 1rem !important;
-
 }
 
 .chat_history {
@@ -326,6 +325,11 @@
   margin-bottom: 10px;
 }
 
+.chatbot_entry.active {
+  background-color: #374151 !important;
+  border-radius: 1rem !important;
+}
+
 .chatbot_avatar {
   width: 40px;
   height: 40px;
@@ -343,4 +347,16 @@
 .delete_icon {
   cursor: pointer;
   color: red; /* Optional styling for the delete icon */
+}
+
+.no_chatbot_message {
+  font-size: 24px;
+  text-align: center;
+  margin: 20px;
+  padding: 20px;
+  width: 70%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

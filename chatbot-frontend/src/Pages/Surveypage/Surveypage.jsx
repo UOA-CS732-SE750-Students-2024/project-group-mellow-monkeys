@@ -3,13 +3,17 @@ import { useAuth } from "../../hooks/useAuth";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import Spinner from "react-bootstrap/Spinner";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { saveAs } from "file-saver";
 
 axios.defaults.baseURL = "http://localhost:8001";
 
 function SurveyPage() {
   const navigate = useNavigate();
   const { auth } = useAuth();
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     gender: "",
@@ -23,49 +27,74 @@ function SurveyPage() {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (error) setError("");
   };
 
+  function createImageUrl(imagePath) {
+    const baseUrl = "http://localhost:8001";
+    const filename = imagePath.split("/").pop();
+    const fullUrl = `${baseUrl}/${filename}`;
+    return fullUrl;
+  }
   const handleCancel = () => {
     navigate("/");
   };
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     await axios.post("http://localhost:8001/createChatbot", formData);
-  //     navigate("/");
-  //   } catch (error) {
-  //     if (error.response) {
-  //       // The request was made and the server responded with a status code
-  //       // that falls out of the range of 2xx
-  //       console.error("Error Response:", error.response);
-  //       console.log("Status:", error.response.status);
-  //       console.log("Data:", error.response.data);
-  //       console.log("Headers:", error.response.headers);
-  //     } else if (error.request) {
-  //       // The request was made but no response was received
-  //       console.error("Error Request:", error.request);
-  //     } else {
-  //       // Something happened in setting up the request that triggered an Error
-  //       console.error("Error Message:", error.message);
-  //     }
-  //     console.error("Error Config:", error.config);
-  //   }
-  // };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Attempting to submit form", formData);
-
+    if (
+      !formData.name ||
+      !formData.age ||
+      !formData.gender ||
+      !formData.hobbies ||
+      !formData.personality
+    ) {
+      setError("All fields except descriptions need to be filled.");
+      return; // Prevent the form submission
+    }
+    setLoading(true);
     try {
-      const response = await axios.post("/createChatbot", formData, {
+      const { user, ...dataForAvatar } = formData; // Destructure to remove user and prepare data for avatar
+      const avatarDescription = JSON.stringify({
+        description:
+          "Please create a character avatar based on the following attributes:",
+        attributes: dataForAvatar,
+      });
+      console.log(avatarDescription);
+
+      const imageURL = await generateAvatar(avatarDescription);
+      console.log(`image url ${imageURL}`);
+      const finalPath = createImageUrl(imageURL);
+      console.log(`final path ${finalPath}`);
+
+      const updatedFormData = { ...formData, avatar: finalPath };
+      const response = await axios.post("/createChatbot", updatedFormData, {
         headers: {
-          Authorization: `Bearer ${auth.token}`, // Assuming auth.token is your token
+          Authorization: `Bearer ${auth.token}`,
         },
       });
-      console.log("Submission successful", response.data);
-      navigate("/"); // Navigate after successful post
+      if (response.status === 201) {
+        console.log("Submission successful", response.data);
+        // navigate("/");
+        navigate("/", { state: { needRefresh: true } });
+      }
     } catch (error) {
       console.error("Failed to submit form", error.response || error);
+    }
+    setLoading(false);
+  };
+
+  const generateAvatar = async (description) => {
+    try {
+      const response = await axios.post("/generate-avatar", { description });
+      if (response.status === 200) {
+        return response.data.imagePath;
+      } else {
+        throw new Error("Failed to generate avatar");
+      }
+    } catch (error) {
+      console.error("Error generating avatar:", error);
+      return "avatar2.jpeg";
     }
   };
 
@@ -75,14 +104,32 @@ function SurveyPage() {
         Let's create your first chatbot! Answer the following questions:
       </h1>
       <form className={styles.survey_form} onSubmit={handleSubmit}>
+        {loading && (
+          <div
+            className="loading-indicator"
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1050,
+            }}
+          >
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
+        )}{" "}
         <label className={styles.survey_label}>
           Name:
           <input
             className={styles.survey_input}
             type="text"
             name="name"
+            data-testid="name"
             value={formData.name}
             onChange={handleChange}
+            required
           />
         </label>
         <label className={styles.survey_label}>
@@ -91,8 +138,10 @@ function SurveyPage() {
             className={styles.survey_input}
             type="text"
             name="age"
+            data-testid="age"
             value={formData.age}
             onChange={handleChange}
+            required
           />
         </label>
         <label className={styles.survey_label}>
@@ -101,8 +150,10 @@ function SurveyPage() {
             className={styles.survey_input}
             type="text"
             name="gender"
+            data-testid="gender"
             value={formData.gender}
             onChange={handleChange}
+            required
           />
         </label>
         <label className={styles.survey_label}>
@@ -111,8 +162,10 @@ function SurveyPage() {
             className={styles.survey_input}
             type="text"
             name="hobbies"
+            data-testid="hobbies"
             value={formData.hobbies}
             onChange={handleChange}
+            required
           />
         </label>
         <label className={styles.survey_label}>
@@ -121,23 +174,27 @@ function SurveyPage() {
             className={styles.survey_input}
             type="text"
             name="personality"
+            data-testid="personality"
             value={formData.personality}
             onChange={handleChange}
+            required
           />
         </label>
         <label className={styles.survey_label}>
-          Descriptions:
+          Appearance Descriptions:
           <textarea
             className={styles.survey_input}
             name="descriptions"
+            data-testid="descriptions"
             value={formData.descriptions}
             onChange={handleChange}
           />
         </label>
+        {error && <p className={styles.error_message}>{error}</p>}
         <button
           className={styles.survey_button}
           type="submit"
-          // onClick={handleSubmit}
+          data-testid="submit"
         >
           Submit
         </button>

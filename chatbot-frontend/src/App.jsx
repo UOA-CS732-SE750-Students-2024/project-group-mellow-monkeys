@@ -14,18 +14,19 @@ function App() {
   // const { auth } = useAuth();
   return (
     <Routes>
-      {/* Unauthenticated Routes */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+
       {/* Authenticated Routes*/}
       <Route element={<ProtectedRoute redirectPath="/login" />}>
         <Route path="/" element={<Layout />}>
           <Route index element={<Homepage />} />
           <Route path="/user-info" element={<UserInfoPage />} />
           <Route path="/survey" element={<SurveyPage />} />
-          for user info page
         </Route>
       </Route>
+
+      {/* Catch-all Route */}
       <Route
         path="*"
         element={
