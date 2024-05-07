@@ -4,8 +4,8 @@ import app from "../server.js";
 describe("Login Functionality Tests", () => {
   it("should log in an existing user with correct credentials", async () => {
     const response = await request(app).post("/auth/login").send({
-      email: "test@.com",
-      password: "password123",
+      email: "test@123.com",
+      password: "test",
     });
 
     // Assuming a token is returned on login
