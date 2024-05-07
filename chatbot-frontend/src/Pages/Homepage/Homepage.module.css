@@ -324,6 +324,8 @@
 
 .chatbot_entry.active {
   background-color: #374151 !important;
+  border-radius: 1rem !important;
+
 }
 
 .chatbot_avatar {

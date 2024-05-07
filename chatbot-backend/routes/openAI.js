@@ -6,9 +6,11 @@ import checkToken from "./checkToken.js";
 const router = express.Router();
 
 router.post("/completions", checkToken, async (req, res) => {
+
   const { chatbotId, message } = req.body;
 
   const OPENAI_API_KEY = process.env.API_KEY;
+
 
   try {
     const chatBot = await ChatBots.findById(chatbotId);
