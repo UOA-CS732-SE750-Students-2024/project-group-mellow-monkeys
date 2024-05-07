@@ -115,7 +115,7 @@ function SurveyPage() {
               zIndex: 1050,
             }}
           >
-            <Spinner animation="border" role="status">
+            <Spinner animation="border" role="status" variant="primary">
               <span className="visually-hidden">Loading...</span>
             </Spinner>
           </div>
@@ -190,7 +190,11 @@ function SurveyPage() {
             onChange={handleChange}
           />
         </label>
-        {error && <p className={styles.error_message}>{error}</p>}
+        {error && (
+          <p className={styles.error_message} data-testid="error">
+            {error}
+          </p>
+        )}
         <button
           className={styles.survey_button}
           type="submit"

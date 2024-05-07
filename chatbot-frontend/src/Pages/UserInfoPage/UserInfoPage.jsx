@@ -102,7 +102,7 @@ export default function UserInfoPage() {
         headers: { Authorization: `Bearer ${auth.token}` },
       })
       .then(() => {
-        alert("User updated successfully!");
+        // alert("User updated successfully!");
         setIsEditing(false);
         navigate("/");
       })

@@ -82,7 +82,9 @@ describe("SurveyPage Component", () => {
         expect.anything(),
         expect.anything()
       );
-      expect(mockNavigate).toHaveBeenCalledWith("/");
+      expect(mockNavigate).toHaveBeenCalledWith("/", {
+        state: { needRefresh: true },
+      });
     });
   });
 
@@ -97,20 +99,28 @@ describe("SurveyPage Component", () => {
     expect(mockNavigate).toHaveBeenCalledWith("/");
   });
 
-  test("displays error when required fields are empty", async () => {
+  test("displays error when required fields are empty", () => {
     render(
       <Router>
         <SurveyPage />
       </Router>
     );
 
-    fireEvent.change(screen.getByTestId("name"), { target: { value: "" } }); // leave this empty
-    fireEvent.click(screen.getByTestId("submit"));
-
-    await waitFor(() => {
-      expect(
-        screen.getByText(/all fields except descriptions need to be filled/i)
-      ).toBeInTheDocument();
+    // Ensure all fields except 'descriptions' are initially empty and then submit the form
+    fireEvent.change(screen.getByTestId("name"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("age"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("gender"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("hobbies"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("personality"), {
+      target: { value: "" },
     });
+    fireEvent.submit(screen.getByTestId("submit"));
+
+    // Check for the error message
+    const errorMessage = screen.getByTestId("error");
+    expect(errorMessage).toBeInTheDocument();
+    expect(errorMessage).toHaveTextContent(
+      "All fields except descriptions need to be filled."
+    );
   });
 });

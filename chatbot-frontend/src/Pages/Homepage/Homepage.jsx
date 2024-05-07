@@ -9,7 +9,6 @@ import {
 } from "@phosphor-icons/react";
 import { Button, FormControl, Spinner, Offcanvas } from "react-bootstrap";
 import axios from "axios";
-import { toast } from "react-toastify";
 import { COMPLETIONS } from "../../urls";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -30,12 +29,19 @@ const Homepage = () => {
   const [show, setShow] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const [name, setName] = useState(null);
+  const [description, setDescription] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [hasRefreshed, setHasRefreshed] = useState(false);
   const [activeChatbotId, setActiveChatbotId] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    sessionStorage.setItem("currentTitle", currentTitle);
+    sessionStorage.setItem("activeChatbotId", activeChatbotId);
+    sessionStorage.setItem("chatBots", JSON.stringify(chatBots));
+  }, [currentTitle, previousChats, chatBots]);
 
   //the useEffect for controling the interface refresh
   useEffect(() => {
@@ -129,7 +135,6 @@ const Homepage = () => {
     const selectedChatbot = chatBots.find((cb) => cb._id === chatbotId);
     if (selectedChatbot) {
       setCurrentTitle(selectedChatbot.name);
-      // sendChatbotDataToOpenAI(selectedChatbot._id);
     }
   };
 
@@ -141,20 +146,16 @@ const Homepage = () => {
   };
 
   const handleDeleteChatbot = async (chatbotId) => {
-    try {
-      await axios.delete(`/deleteSingleChatbot/${chatbotId}`, {
-        headers: { Authorization: `Bearer ${auth.token}` },
-      });
-      setChatBots(chatBots.filter((cb) => cb._id !== chatbotId));
-      toast.success("Chatbot deleted successfully");
-    } catch (error) {
-      toast.error("Failed to delete chatbot");
-    }
+    await axios.delete(`/deleteSingleChatbot/${chatbotId}`, {
+      headers: { Authorization: `Bearer ${auth.token}` },
+    });
+    setChatBots(chatBots.filter((cb) => cb._id !== chatbotId));
   };
 
   // Simple async function that fetches the messages from the API
   const getMessages = async () => {
     setLoading(true);
+    console.log(`value: ${value}`);
     try {
       // change this url for one in the .env file
       const response = await axios.post(
@@ -170,24 +171,17 @@ const Homepage = () => {
           },
         }
       );
-      console.log(response.data.choices[0].message);
+      console.log(`return message: ${response.data.choices[0].message}`);
 
       if (response?.data?.choices && response.data.choices.length > 0) {
         setMessage(response.data.choices[0].message);
       } else {
         console.error("Invalid response from API:", response.data);
         setMessage("An error occurred while fetching the message.");
-        toast.error("An error occurred while fetching the message.");
       }
       setLoading(false);
     } catch (error) {
       console.error(error);
-      toast.error(
-        <div>
-          Error! <br />
-          {error?.response?.data?.error || error?.message}
-        </div>
-      );
       setLoading(false);
     }
   };
