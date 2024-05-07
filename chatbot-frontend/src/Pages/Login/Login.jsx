@@ -19,21 +19,21 @@ export default function Login() {
 
 	return (
 		<div className={styles.login_page}>
-			<div className={styles.login_logo_wrapper}>
+			{/* <div className={styles.login_logo_wrapper}>
 				<Robot size={96} />
 				Bobu
 				<p>AI chatbot</p>
-			</div>
+			</div> */}
 			<Form
 				className={styles.login_wrapper}
 				onSubmit={(e) => handleSubmitLogin(e)}
 			>
-				<div className={styles.login_upper_section}>Login</div>
+				{/* <div className={styles.login_upper_section}>Login</div> */}
 				<Form.Group
 					className={styles.login_form_field}
 					controlId="formBasicUsername"
 				>
-					<Form.Label>Email</Form.Label>
+					{/* <Form.Label>Email</Form.Label> */}
 					<Form.Control
 						onChange={(e) => setEmail(e.target.value)}
 						value={email}
@@ -46,7 +46,7 @@ export default function Login() {
 					className={styles.login_form_field}
 					controlId="formBasicPassword"
 				>
-					<Form.Label>Password</Form.Label>
+					{/* <Form.Label>Password</Form.Label> */}
 					<Form.Control
 						onChange={(e) => setPassword(e.target.value)}
 						value={password}

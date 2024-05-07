@@ -1,61 +1,48 @@
 .register_page {
-  background-color: var(--gray-950);
-  height: 120vh;
+  height: 100vh;
   width: 100vw;
-
-  display: grid;
-  grid-template-rows: 1fr 2fr;
-  align-content: center;
-  justify-content: center;
-  align-items: start;
-  justify-items: center;
-}
-
-.register_logo_wrapper {
-  border-radius: 1rem;
-  margin: auto;
-  text-align: center;
-  font-size: 2rem;
-  font-size: 4rem;
-
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  justify-items: center;
-}
-.register_logo_wrapper p {
-  font-size: 1rem;
-  font-weight: 400;
-}
-.register_logo_wrapper img {
-  max-width: 40rem;
-  width: 100%;
+  align-items: center; 
+  justify-content: center; 
+  background-image: url("/188.jpg");   
+	background-size: cover; 
+  background-repeat: no-repeat; 
+  background-position: center; 
 }
 
 .register_wrapper {
-  background-color: var(--gray-900);
-  color: var(--white);
-  display: flex;
-  flex-direction: column;
-
-  gap: 1rem;
-
-  justify-content: center;
-  justify-items: center;
-  align-content: center;
-  align-items: center;
-
-  border-radius: 1rem;
+  width: 500px; /* 宽度设置为 240px */
+	height: 500px; /* 高度设置为 400px */
+	display: flex;
+	flex-direction: column;
+	padding: 40px;
+	text-align: center;
+	position: relative;
+	z-index: 100;
+	background-color: inherit;
+	border-radius: 18px;
+	overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1); /* 添加四周阴影 */
 }
 
-.register_upper_section {
+.register_wrapper::before {
+  content: "";
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  overflow: hidden;
+  background-color: inherit;
+	box-shadow: inset 0 0 0 5000px rgba(254, 254, 254, 0.604);
+	filter: blur(40px);
+	z-index: -1;
+}
+
+/* .register_upper_section {
   background-color: var(--blue-700);
   color: var(--white);
   width: 100%;
-
-  /* padding-bottom: 1rem; */
 
   text-align: center;
   font-size: 2rem;
@@ -63,56 +50,75 @@
 
   border-radius: 1rem 1rem 0 0;
   padding: 0.5rem;
-}
+} */
 
-.register_form_field {
+/* .register_form_field {
   padding: 0 2rem;
   width: 100%;
 }
 
 input {
   border-radius: 1rem !important;
-}
+} */
 
-.register_form_field_bottom_section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  justify-items: center;
-  align-content: center;
-  align-items: center;
-
-  margin: 0 2rem;
-}
-.register_form_register_button {
-  width: 20rem;
-  border-radius: 1rem;
-  background-color: var(--gray-700);
+.register_form_field input {
   border: none;
+  margin: 10px 0;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.793);
+  color: #afafaf;
 }
+.register_form_field input::placeholder {
+	font-size: 13px; /* Adjust the font size to your desired size */
+	color: #c8c8c8;
+}
+
+.register_form_field input:focus {
+  outline: none;
+  box-shadow: 0 0 8px 2px rgba(121, 87, 245, 0.423);
+}
+
+.register_form_register_button {
+  border: none;
+	margin: 10px 0;
+	height: 50px;
+  width: 100%;
+	background-color: rgba(64, 228, 253, 0.642); /* Change to a semi-transparent red */
+	border-radius: 10px ;
+	color: #ffff;
+	font-weight: 1000;
+}
+
+.register_form_register_button:active {
+  background-color: rgb(64, 228, 253) !important; /* Change to a semi-transparent red */
+}
+
+.register_form_register_button:hover {
+	background-color: rgb(64, 228, 253); /* Change to a semi-transparent red */
+}
+
+
+
 
 .register_error_text {
-  color: var(--red-500);
-  font-size: 1rem;
-  font-weight: 400;
+  color: #fb6f92; 
+
 }
 
-.register_login {
+/* .register_login {
   margin: 0 1rem;
   margin-bottom: 1rem;
-}
+} */
 
 .register_login_text {
-  color: var(--gray-400);
-  font-size: 1rem;
-  font-weight: 400;
+  color: #878686;
 }
 
 .register_login_text a {
-  color: var(--blue-600);
-  text-decoration: none;
+  color: #878686;
+	text-decoration: none;
 }
 .register_login_text a:hover {
-  color: var(--blue-300);
-  text-decoration: none;
+  color:#fb6f92;
+	text-decoration: none;
 }
