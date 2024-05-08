@@ -39,28 +39,6 @@
 	z-index: -1;
 }
 
-/* .register_upper_section {
-  background-color: var(--blue-700);
-  color: var(--white);
-  width: 100%;
-
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 400;
-
-  border-radius: 1rem 1rem 0 0;
-  padding: 0.5rem;
-} */
-
-/* .register_form_field {
-  padding: 0 2rem;
-  width: 100%;
-}
-
-input {
-  border-radius: 1rem !important;
-} */
-
 .register_form_field input {
   border: none;
   margin: 10px 0;
@@ -97,18 +75,10 @@ input {
 	background-color: rgb(64, 228, 253); /* Change to a semi-transparent red */
 }
 
-
-
-
 .register_error_text {
   color: #fb6f92; 
 
 }
-
-/* .register_login {
-  margin: 0 1rem;
-  margin-bottom: 1rem;
-} */
 
 .register_login_text {
   color: #878686;

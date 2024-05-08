@@ -61,27 +61,6 @@
 }
 
 
-
-/* .offcanvas_side_bar {
-  background-color: #020617;
-  color: #fff !important;
-  padding: 0 !important;
-  width: 16rem !important;
-} */
-
-
-
-/* .bobu_logo_wrapper {
-  width: 100%;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
-  padding: 0 1rem;
-} */
-
 .btn_logout {
   background-color:  #f5f5f500  !important;
   border: none !important;
@@ -105,7 +84,7 @@
     display: none;  /* Chrome, Safari, newer versions of Edge */
   }
 
-  /* 调整创建的模糊遮罩 */
+
   mask-image: linear-gradient(
     to bottom,
     transparent 0%, 
@@ -115,41 +94,10 @@
   );
 }
 
-
-
-
-
-/* .bobu_logo {
-  width: 100%;
-  height: 4rem;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-} */
-
-/* .bobu_logo svg {
-  width: 3rem;
-  height: 3rem;
-} */
-
-/* .side_bar_header {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
-
-  margin-top: 1rem;
-} */
-
 .btn_new_chat {
   background-color: rgba(137, 43, 226, 0.321) ;
   border: none ;
   border-radius: 1rem;
-  /* margin: 1rem; */
   margin-bottom: 50px;
   width: 100%;
 }
@@ -196,18 +144,6 @@
 
 }
 
-/* .chat_history {
-  overflow-y: auto;
-  padding: 0;
-  margin: 3rem;
-  height: 100%;
-  list-style: none;
-} */
-
-
-
-
-
 .delete_icon {
   width: 20px;
   height: 20px;
@@ -225,28 +161,6 @@
   background-image: url('/breakUP.png'); 
 }
 
-
-
-
-
-
-/* .btn_empty_history {
-  margin-top: 10px;
-  background-color:  #fb6f92a6 ;
-  border: none;
-  border-radius: 1rem;
-  width: 100%;
-}
-
-.btn_empty_history:hover {
-  background-color:#fb6f92 ;
-} */
-
-
-
-
-
-
 .main {
   height: 100vh;
   width: 70%;
@@ -258,8 +172,6 @@
   text-align: center;
   margin:auto;
 }
-
-
 
 .text_feed {
   list-style: none;
@@ -282,7 +194,7 @@
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  margin-right: 10px; /* 设置头像和消息之间的间隔 */
+  margin-right: 10px;
   margin-bottom: 30px;
   margin-left: 10px;
 }
@@ -297,8 +209,6 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  /* flex-direction: row-reverse; */
-  /* flex-direction: row-reverse; */
 }
 
 .chatbotMessage {
@@ -311,7 +221,6 @@
   background-color: rgba(64, 228, 253, 0.6); /* Light green background for user messages */
   margin-bottom: 30px;
   text-align: right;
-  /* width: 50%; */
 }
 
 .chatbotMessage .messageContent {
@@ -320,47 +229,6 @@
   text-align: left;
   /* width: 70%; */
 }
-
-
-
-/* .text_feed {
-  overflow-y: auto;
-  width: 100%;
-  padding: 0;
-  max-width: 50rem;
-}
-
-.text_feed li {
-  background-color: var(--gray-800);
-
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 0.1rem;
-
-  width: 100%;
-  margin: 1rem 0;
-
-  border-radius: 1rem;
-}
-
-.text_feed span {
-  font-size: 1rem;
-  text-align: left;
-  width: 100%;
-  padding: 0.5rem 1rem;
-}
-
-.text_feed span.feed_role {
-  color: var(--slate-400);
-  max-width: 8rem !important;
-}
-
-.info {
-  font-size: 0.8rem;
-  padding: 1rem;
-} */
 
 .bottom_wrapper {
   width: 100%;
@@ -377,13 +245,9 @@
   max-width: 50rem;
   border-radius: 1rem;
   margin-bottom: 40px;
-
-  /* box-shadow: 0rem 1rem 3rem var(--gray-950); */
 }
 
-/* !importat is needed to override Bootstrap's css */
 .input_field {
-  /* width: 80%; */
   background-color: rgba(64, 228, 253, 0.6) !important;
   color: var(--white) !important;
   border: none !important;
@@ -441,30 +305,7 @@
   font-weight: 700;
 }
 
-
-
-/* .btn_toggle_menu {
-  background-color: #1f2937 !important;
-  border: none !important;
-  border-radius: 1rem !important;
-}
-.btn_toggle_menu:hover {
-  background-color: #374151 !important;
-}
-.feed_role img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  vertical-align: middle;
-} */
-
-
-
-
-
-
-
 .no_chatbot_message {
-  text-shadow: 0 0 8px rgba(138, 43, 226, 0.8); /* 紫色荧光文字阴影 */
-  color: white; /* 亮色字体增强对比度 */
+  text-shadow: 0 0 8px rgba(138, 43, 226, 0.8);
+  color: white;
 }

@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import { saveAs } from "file-saver";
 
 axios.defaults.baseURL = "http://localhost:8001";
 
@@ -75,7 +74,6 @@ function SurveyPage() {
       });
       if (response.status === 201) {
         console.log("Submission successful", response.data);
-        // navigate("/");
         navigate("/", { state: { needRefresh: true } });
       }
     } catch (error) {
@@ -130,7 +128,6 @@ function SurveyPage() {
             placeholder="Give me a name"
             value={formData.name}
             onChange={handleChange}
-            // required
           />
         {/* </label> */}
         {/* <label className={styles.survey_label}>
@@ -143,7 +140,6 @@ function SurveyPage() {
             placeholder="How old you wish I am?"
             value={formData.age}
             onChange={handleChange}
-            // required
           />
         {/* </label> */}
         {/* <label className={styles.survey_label}>
@@ -156,7 +152,6 @@ function SurveyPage() {
             placeholder="What gender you wish I am?"
             value={formData.gender}
             onChange={handleChange}
-            // required
           />
         {/* </label> */}
         {/* <label className={styles.survey_label}>
@@ -169,7 +164,6 @@ function SurveyPage() {
             placeholder="What are my hobbies?"
             value={formData.hobbies}
             onChange={handleChange}
-            // required
           />
         {/* </label> */}
         {/* <label className={styles.survey_label}>
@@ -182,7 +176,6 @@ function SurveyPage() {
             placeholder="What are my personalities?"
             value={formData.personality}
             onChange={handleChange}
-            // required
           />
         {/* </label> */}
         {/* <label className={styles.survey_label}>
@@ -208,7 +201,6 @@ function SurveyPage() {
           className={styles.survey_button_cancel}
           type="button"
           onClick={handleCancel}
-          // style={{ backgroundColor: "#f44336", marginTop: "10px" }}
         >
           Cancel
         </button>

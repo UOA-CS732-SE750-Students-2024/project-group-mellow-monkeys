@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Form, Button, Spinner } from "react-bootstrap";
 import styles from "./Register.module.css";
 import { useAuth } from "../../hooks/useAuth";
-// import { Robot } from "@phosphor-icons/react";
 
 export default function Register() {
   const { auth, submitRegister } = useAuth();

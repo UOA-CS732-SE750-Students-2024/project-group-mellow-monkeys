@@ -4,7 +4,6 @@ import {
   Button,
   Spinner,
   Image,
-  Container,
   Row,
   Col,
 } from "react-bootstrap";
@@ -171,12 +170,12 @@ export default function UserInfoPage() {
               name="name"
               value={user.name}
               onChange={handleInputChange}
+              data-testid="nameInput"
             />
           </Form.Group>
 
           <Form.Group
             controlId="formUserEmail"
-            // className={styles.formUserEmail}
           >
             {/* <Form.Label>Email</Form.Label> */}
             <Form.Control className={styles.formUserEmail}
@@ -185,12 +184,12 @@ export default function UserInfoPage() {
               name="email"
               value={user.email}
               onChange={handleInputChange}
+              data-testid="emailInput"
             />
           </Form.Group>
 
           <Form.Group
             controlId="formUserPassword"
-            // className={styles.formUserPassword}
           >
             {/* <Form.Label>Password</Form.Label> */}
             <Form.Control className={styles.formUserPassword}
@@ -204,7 +203,6 @@ export default function UserInfoPage() {
 
           <Form.Group
             controlId="formUserConfirmPassword"
-            // className={styles.formUserConfirmPassword}
           >
             {/* <Form.Label>Confirm Password</Form.Label> */}
             <Form.Control className={styles.formUserConfirmPassword}
@@ -231,7 +229,6 @@ export default function UserInfoPage() {
   
   ))}
 </Row>
-
           <Button variant="success" type="submit" className={styles.ButtonChange}>
             Save Changes
           </Button>

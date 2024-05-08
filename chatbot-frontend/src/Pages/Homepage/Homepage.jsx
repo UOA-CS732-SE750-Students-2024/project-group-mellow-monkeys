@@ -9,7 +9,6 @@ import {
 } from "@phosphor-icons/react";
 import { Button, FormControl, Spinner, Offcanvas } from "react-bootstrap";
 import axios from "axios";
-// import { toast } from "react-toastify";
 import { COMPLETIONS } from "../../urls";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -50,14 +49,12 @@ const Homepage = () => {
   const chatScrollRef = useRef(null); // 添加这个ref
   // ///////////
 
-  // 自动滚动到底部
   useEffect(() => {
     if (chatScrollRef.current) {
       chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
     }
   }, [currentChat]); 
 
-  // ////////////////
   useEffect(() => {
     const storedTitle = sessionStorage.getItem('currentTitle');
     if (storedTitle) {
@@ -223,17 +220,10 @@ const Homepage = () => {
       } else {
         console.error("Invalid response from API:", response.data);
         setMessage("An error occurred while fetching the message.");
-        // toast.error("An error occurred while fetching the message.");
       }
       setLoading(false);
     } catch (error) {
       console.error(error);
-      // toast.error(
-      //   <div>
-      //     Error! <br />
-      //     {error?.response?.data?.error || error?.message}
-      //   </div>
-      // );
       setLoading(false);
     }
   };
@@ -243,8 +233,6 @@ const Homepage = () => {
 		the current chat if it matches the current title
 	*/
   
-
-  // creates an array of unique titles from the previous chats
   const uniqueTitles = Array.from(
     new Set(previousChats.map((previousChat) => previousChat.title))
   );
@@ -363,10 +351,6 @@ const Homepage = () => {
     </div>
   ))}
 </div>
-
-
-
-
           <div className={styles.bottom_wrapper}>
             <div className={styles.input_wrapper}>
               <FormControl

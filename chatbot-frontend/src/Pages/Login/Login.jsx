@@ -3,6 +3,7 @@ import { Form, Button, Spinner } from "react-bootstrap";
 import styles from "./Login.module.css";
 import { useAuth } from "../../hooks/useAuth";
 import { Robot } from "@phosphor-icons/react";
+import  Logo  from '../../../public/Logo.svg';
 
 export default function Login() {
 	const { auth, submitLogin } = useAuth();
@@ -19,11 +20,9 @@ export default function Login() {
 
 	return (
 		<div className={styles.login_page}>
-			{/* <div className={styles.login_logo_wrapper}>
-				<Robot size={96} />
-				Bobu
-				<p>AI chatbot</p>
-			</div> */}
+			<div className={styles.login_logo_wrapper}>
+			<img src={Logo} alt="Logo" />
+			</div>
 			<Form
 				className={styles.login_wrapper}
 				onSubmit={(e) => handleSubmitLogin(e)}
