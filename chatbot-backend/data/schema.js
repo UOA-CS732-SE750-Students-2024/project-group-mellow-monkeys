@@ -7,16 +7,14 @@ const Schema = mongoose.Schema;
  */
 const userSchema = new Schema(
   {
-    name: { type: String, unique: true, required: true }, // Each user must have a unique username
+    name: { type: String, unique: true, required: true },
     email: String,
-    avatar: { type: String, default: "avatar1.jpeg" }, // Path or URL to the user avatar image
+    avatar: { type: String, default: "avatar1.jpeg" },
     password: String,
     loginTime: { type: Number, default: 0 },
-    ChatBots: [{ type: Schema.Types.ObjectId, ref: "ChatBots" }], // This is how we reference a different collection.
+    ChatBots: [{ type: Schema.Types.ObjectId, ref: "ChatBots" }],
   },
   {
-    /* This second object allows us to specify more config info. In this case, 
-    we're enabling automatic timetamps using the default options. */
     timestamps: {},
   }
 );
@@ -25,7 +23,7 @@ const userSchema = new Schema(
 export const User = mongoose.model("User", userSchema);
 
 /**
- * This schema represents Pets in the database.
+ * This schema represents chatbots in the database.
  */
 const ChatBotsSchema = new Schema(
   {
@@ -42,5 +40,5 @@ const ChatBotsSchema = new Schema(
   }
 );
 
-// Actually create the Pet schema
+// Actually create the schema
 export const ChatBots = mongoose.model("ChatBots", ChatBotsSchema);

@@ -9,7 +9,6 @@ import {
 } from "@phosphor-icons/react";
 import { Button, FormControl, Spinner, Offcanvas } from "react-bootstrap";
 import axios from "axios";
-// import { toast } from "react-toastify";
 import { COMPLETIONS } from "../../urls";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -32,11 +31,11 @@ const Homepage = () => {
   const [hasRefreshed, setHasRefreshed] = useState(false);
   const [activeChatbotId, setActiveChatbotId] = useState(null);
   const [chatBots, setChatBots] = useState(() => {
-    const savedChatBots = sessionStorage.getItem('chatBots');
+    const savedChatBots = sessionStorage.getItem("chatBots");
     return savedChatBots ? JSON.parse(savedChatBots) : [];
   });
   const [previousChats, setPreviousChats] = useState(() => {
-    const savedChats = sessionStorage.getItem('previousChats');
+    const savedChats = sessionStorage.getItem("previousChats");
     const parsedChats = savedChats ? JSON.parse(savedChats) : [];
     return parsedChats;
   });
@@ -45,31 +44,25 @@ const Homepage = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const chatScrollRef = useRef(null);
 
-  // ////////我要加个ref
-  const chatScrollRef = useRef(null); // 添加这个ref
-  // ///////////
-
-  // 自动滚动到底部
   useEffect(() => {
     if (chatScrollRef.current) {
       chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
     }
-  }, [currentChat]); 
+  }, [currentChat]);
 
-  // ////////////////
   useEffect(() => {
-    const storedTitle = sessionStorage.getItem('currentTitle');
+    const storedTitle = sessionStorage.getItem("currentTitle");
     if (storedTitle) {
       setCurrentTitle(storedTitle);
     }
 
-    const storedActiveChatbotId = sessionStorage.getItem('activeChatbotId');
-    const storedChatBots = sessionStorage.getItem('chatBots');
+    const storedActiveChatbotId = sessionStorage.getItem("activeChatbotId");
+    const storedChatBots = sessionStorage.getItem("chatBots");
     if (storedActiveChatbotId === "null") {
       setActiveChatbotId(null);
-    }
-    else if(storedActiveChatbotId) {
+    } else if (storedActiveChatbotId) {
       setActiveChatbotId(storedActiveChatbotId);
     }
     if (storedChatBots) {
@@ -78,16 +71,16 @@ const Homepage = () => {
   }, []);
 
   useEffect(() => {
-    sessionStorage.setItem('currentTitle', currentTitle);
-    sessionStorage.setItem('previousChats', JSON.stringify(previousChats));
+    sessionStorage.setItem("currentTitle", currentTitle);
+    sessionStorage.setItem("previousChats", JSON.stringify(previousChats));
 
-    sessionStorage.setItem('activeChatbotId', activeChatbotId);
-    sessionStorage.setItem('chatBots', JSON.stringify(chatBots));
+    sessionStorage.setItem("activeChatbotId", activeChatbotId);
+    sessionStorage.setItem("chatBots", JSON.stringify(chatBots));
   }, [currentTitle, previousChats, activeChatbotId, chatBots]);
 
   useEffect(() => {
     const filteredChats = previousChats.filter(
-      chat => chat.title === currentTitle
+      (chat) => chat.title === currentTitle
     );
     setCurrentChat(filteredChats);
   }, [previousChats, currentTitle]);
@@ -135,7 +128,6 @@ const Homepage = () => {
     }
   }, [auth.id, auth.token]);
 
-  
   //UseEffect triggered by message and/or currentTitle state changes
   useEffect(() => {
     if (!currentTitle && value && message) {
@@ -175,15 +167,7 @@ const Homepage = () => {
     console.log(chatBots);
     if (selectedChatbot) {
       setCurrentTitle(selectedChatbot.name);
-      // sendChatbotDataToOpenAI(selectedChatbot._id);
     }
-  };
-
-  const handleEmptyHistory = () => {
-    setPreviousChats([]);
-    setValue("");
-    setMessage(null);
-    setCurrentTitle(null);
   };
 
   const handleDeleteChatbot = async (chatbotId) => {
@@ -192,10 +176,7 @@ const Homepage = () => {
         headers: { Authorization: `Bearer ${auth.token}` },
       });
       setChatBots(chatBots.filter((cb) => cb._id !== chatbotId));
-      // toast.success("Chatbot deleted successfully");
-    } catch (error) {
-      // toast.error("Failed to delete chatbot");
-    }
+    } catch (error) {}
   };
 
   // Simple async function that fetches the messages from the API
@@ -223,17 +204,10 @@ const Homepage = () => {
       } else {
         console.error("Invalid response from API:", response.data);
         setMessage("An error occurred while fetching the message.");
-        // toast.error("An error occurred while fetching the message.");
       }
       setLoading(false);
     } catch (error) {
       console.error(error);
-      // toast.error(
-      //   <div>
-      //     Error! <br />
-      //     {error?.response?.data?.error || error?.message}
-      //   </div>
-      // );
       setLoading(false);
     }
   };
@@ -242,9 +216,7 @@ const Homepage = () => {
 		filters the previous chats by the current title and stores
 		the current chat if it matches the current title
 	*/
-  
 
-  // creates an array of unique titles from the previous chats
   const uniqueTitles = Array.from(
     new Set(previousChats.map((previousChat) => previousChat.title))
   );
@@ -252,121 +224,105 @@ const Homepage = () => {
   return (
     <div className={styles.homepage}>
       {/* SIDEBAR */}
-      {/* <Offcanvas
-        show={show}
-        onHide={handleClose}
-        responsive="lg"
-        className={styles.offcanvas_side_bar}
-      > */}
-        <section className={styles.side_bar}>
-          <div className={styles.side_bar_user}>
-            <img
-              src={avatar}
-              alt="User avatar"
-              className={styles.user_avatar}
-              onClick={handleNavigateToUserInfo}
-            />
-            <div className={styles.side_bar_user_name}>{name}</div>
-            <Button onClick={submitLogout} className={styles.btn_logout}>
-              <SignOut size={25} />
-            </Button>
-          </div>
-          <Button onClick={createNewChat} className={styles.btn_new_chat}>
-            + virtual lover 💗
+      <section className={styles.side_bar}>
+        <div className={styles.side_bar_user}>
+          <img
+            src={avatar}
+            alt="User avatar"
+            className={styles.user_avatar}
+            onClick={handleNavigateToUserInfo}
+          />
+          <div className={styles.side_bar_user_name}>{name}</div>
+          <Button onClick={submitLogout} className={styles.btn_logout}>
+            <SignOut size={25} />
           </Button>
-{/* /////////// */}
-<div className={styles.chatbot_list_container}>
-  {chatBots.length > 0 && chatBots.map((chatbot) => (
-    <div
-      key={chatbot._id}
-      className={`${styles.chatbot_entry} ${activeChatbotId === chatbot._id ? styles.active : ""}`}
-      onClick={() => handleClick(chatbot._id)}
-    >
-      <img
-        src={chatbot.avatar}
-        alt={chatbot.name}
-        className={styles.chatbot_avatar}
-      />
-     <div className={styles.chatbot_info}>
-  <span>{chatbot.name}</span>
-  <div
-    className={styles.delete_icon}
-    onClick={(e) => {
-      e.stopPropagation();
-      handleDeleteChatbot(chatbot._id);
-    }}
-  />
-</div>
-    </div>
-  ))}
-</div>
-
-{/* ////////// */}
-            
-          {/* CHAT HISTORY */}
-          {/* FOOTER */}
-          {/* <span >
-            {previousChats.length > 0 && (
-              <Button
-                onClick={handleEmptyHistory}
-                className={styles.btn_empty_history}
+        </div>
+        <Button onClick={createNewChat} className={styles.btn_new_chat}>
+          + virtual lover 💗
+        </Button>
+        {/* /////////// */}
+        <div className={styles.chatbot_list_container}>
+          {chatBots.length > 0 &&
+            chatBots.map((chatbot) => (
+              <div
+                key={chatbot._id}
+                className={`${styles.chatbot_entry} ${
+                  activeChatbotId === chatbot._id ? styles.active : ""
+                }`}
+                onClick={() => handleClick(chatbot._id)}
               >
-                <TrashSimple size={20} />
-                Break up with all
-              </Button>
-            )}
-          </span> */}
-          {/* FOOTER */}
-        </section>
-      {/* </Offcanvas> */}
+                <img
+                  src={chatbot.avatar}
+                  alt={chatbot.name}
+                  className={styles.chatbot_avatar}
+                />
+                <div className={styles.chatbot_info}>
+                  <span>{chatbot.name}</span>
+                  <div
+                    className={styles.delete_icon}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteChatbot(chatbot._id);
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+        </div>
+      </section>
       {/* SIDEBAR */}
-            
+
       {/* MAIN */}
       {chatBots.length === 0 || !activeChatbotId ? (
         <section className={styles.main}>
           <div className={styles.no_chatbot_message}>
             {chatBots.length === 0
-              ? "Create your virtual lover."
-              : "Please select a chatbot to start chatting!"}
+              ? 'It seems you don\'t have any virtual lover yet, please click "+ virtual lover" button to create your virtual lover.'
+              : "Please select a virtual lover to start chatting!"}
           </div>
         </section>
       ) : (
         <section className={styles.main}>
-          <div className={styles.bobu_logo_wrapper}>
-            {/* <h1 className={styles.bobu_logo}>
-              <Robot size={32} />
-              Bobu
-            </h1> */}
+          <div></div>
+          <div className={styles.text_feed} ref={chatScrollRef}>
+            {currentChat?.map((chatMessage, index) => (
+              <div
+                key={index}
+                className={
+                  chatMessage.role === "user"
+                    ? styles.userMessage
+                    : styles.chatbotMessage
+                }
+              >
+                {chatMessage.role === "user" ? (
+                  <>
+                    <span className={styles.messageContent}>
+                      {chatMessage.content}
+                    </span>
+                    <img
+                      src={avatar}
+                      alt="User Avatar"
+                      className={styles.avatar}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={
+                        chatBots.find((cb) => cb.name === currentTitle)
+                          ?.avatar || imageURL
+                      }
+                      alt="Virtual Lover Avatar"
+                      className={styles.avatar}
+                    />
+                    <span className={styles.messageContent}>
+                      {chatMessage.content}
+                    </span>
+                  </>
+                )}
+              </div>
+            ))}
           </div>
-          <div className={styles.text_feed} ref={chatScrollRef}  >
-  {currentChat?.map((chatMessage, index) => (
-    <div key={index} className={chatMessage.role === "user" ? styles.userMessage : styles.chatbotMessage}>
-      {chatMessage.role === "user" ? (
-        <>
-          <span className={styles.messageContent}>{chatMessage.content}</span>
-          <img
-            src={avatar}
-            alt="User Avatar"
-            className={styles.avatar}
-          />
-        </>
-      ) : (
-        <>
-          <img
-            src={chatBots.find(cb => cb.name === currentTitle)?.avatar || imageURL}
-            alt="Virtual Lover Avatar"
-            className={styles.avatar}
-          />
-          <span className={styles.messageContent}>{chatMessage.content}</span>
-        </>
-      )}
-    </div>
-  ))}
-</div>
-
-
-
-
           <div className={styles.bottom_wrapper}>
             <div className={styles.input_wrapper}>
               <FormControl
@@ -395,7 +351,6 @@ const Homepage = () => {
                 )}
               </button>
             </div>
-            {/* <p className={`${styles.info} text-muted`}>I wish you could see the you I see.</p> */}
           </div>
         </section>
       )}

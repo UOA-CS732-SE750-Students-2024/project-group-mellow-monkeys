@@ -1,12 +1,5 @@
 import express from "express";
 import { User } from "../data/schema.js";
-
-import {
-  createUser,
-  getUserById,
-  getUserByUsername,
-} from "../data/User-dao.js";
-
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import checkToken from "./checkToken.js";
@@ -47,7 +40,7 @@ router.post("/auth/register", async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      avatar: "./avatar1.jpeg", // Ensure the path is correct and accessible
+      avatar: "./avatar1.jpeg",
     });
 
     await user.save();

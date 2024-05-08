@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-// import { toast } from "react-toastify";
 import axios from "axios";
 import { REGISTER_URL, LOGIN_URL } from "../urls";
 
@@ -42,8 +41,6 @@ export const AuthProvider = ({ children }) => {
       });
       console.log("submitLogin -> response: ", response);
       if (response.status === 200) {
-        // toast.success("Login success");
-
         sessionStorage.setItem("token", response.data.token);
         sessionStorage.setItem(
           "user",
@@ -102,7 +99,6 @@ export const AuthProvider = ({ children }) => {
       });
       console.log("submitRegister -> response: ", response);
       if (response.status === 201) {
-        // toast.success("Register success");
         newAuth.isAuthenticated = true;
         newAuth.isLoading = false;
         newAuth.error = "";
@@ -127,7 +123,6 @@ export const AuthProvider = ({ children }) => {
   const submitLogout = () => {
     sessionStorage.clear();
     setAuth(initialAuthState);
-    // toast.success("Logout success");
     navigate("/login", { replace: true });
   };
 

@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Form,
-  Button,
-  Spinner,
-  Image,
-  Container,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Form, Button, Spinner, Image, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import { useAuth } from "../../hooks/useAuth";
 import styles from "./UserInfoPage.module.css";
@@ -102,7 +94,6 @@ export default function UserInfoPage() {
         headers: { Authorization: `Bearer ${auth.token}` },
       })
       .then(() => {
-        // alert("User updated successfully!");
         setIsEditing(false);
         navigate("/");
       })
@@ -164,7 +155,6 @@ export default function UserInfoPage() {
       ) : (
         <form onSubmit={handleSubmit} className={styles.submitForm}>
           <Form.Group controlId="formUserName">
-            {/* <Form.Label>Name</Form.Label> */}
             <Form.Control
               className={styles.formUserName}
               type="text"
@@ -176,11 +166,7 @@ export default function UserInfoPage() {
             />
           </Form.Group>
 
-          <Form.Group
-            controlId="formUserEmail"
-            // className={styles.formUserEmail}
-          >
-            {/* <Form.Label>Email</Form.Label> */}
+          <Form.Group controlId="formUserEmail">
             <Form.Control
               className={styles.formUserEmail}
               type="email"
@@ -192,11 +178,7 @@ export default function UserInfoPage() {
             />
           </Form.Group>
 
-          <Form.Group
-            controlId="formUserPassword"
-            // className={styles.formUserPassword}
-          >
-            {/* <Form.Label>Password</Form.Label> */}
+          <Form.Group controlId="formUserPassword">
             <Form.Control
               className={styles.formUserPassword}
               type="password"
@@ -207,11 +189,7 @@ export default function UserInfoPage() {
             />
           </Form.Group>
 
-          <Form.Group
-            controlId="formUserConfirmPassword"
-            // className={styles.formUserConfirmPassword}
-          >
-            {/* <Form.Label>Confirm Password</Form.Label> */}
+          <Form.Group controlId="formUserConfirmPassword">
             <Form.Control
               className={styles.formUserConfirmPassword}
               type="password"

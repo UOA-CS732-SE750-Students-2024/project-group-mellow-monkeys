@@ -54,20 +54,6 @@ router.get("/chatbots/user/:userId", checkToken, async (req, res) => {
   }
 });
 
-// Delete chatbot by ID
-// router.delete("/deleteSingleChatbot/:id", checkToken, async (req, res) => {
-//   try {
-//     const deleted = await deleteSingleChatBot(req.params.id);
-//     if (!deleted) {
-//       return res.status(404).json({ error: "Chatbot not found" });
-//     }
-//     res.status(200).json({ message: "Chatbot deleted successfully" });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Failed to delete chatbot" });
-//   }
-// });
-
 router.delete("/deleteSingleChatbot/:id", checkToken, async (req, res) => {
   try {
     const chatbot = await getChatBotById(req.params.id);

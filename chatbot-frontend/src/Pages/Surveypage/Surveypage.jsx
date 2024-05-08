@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import { saveAs } from "file-saver";
 
 axios.defaults.baseURL = "http://localhost:8001";
 
@@ -50,11 +49,11 @@ function SurveyPage() {
       !formData.personality
     ) {
       setError("All fields except descriptions need to be filled.");
-      return; // Prevent the form submission
+      return;
     }
     setLoading(true);
     try {
-      const { user, ...dataForAvatar } = formData; // Destructure to remove user and prepare data for avatar
+      const { user, ...dataForAvatar } = formData;
       const avatarDescription = JSON.stringify({
         description:
           "Please create a character avatar based on the following attributes:",
@@ -75,7 +74,6 @@ function SurveyPage() {
       });
       if (response.status === 201) {
         console.log("Submission successful", response.data);
-        // navigate("/");
         navigate("/", { state: { needRefresh: true } });
       }
     } catch (error) {
@@ -101,9 +99,7 @@ function SurveyPage() {
   return (
     <div className={styles.survey_form_container}>
       <form className={styles.survey_form} onSubmit={handleSubmit}>
-      <h1 className={styles.survey_title}>
-      Create Your Virtual Lover
-      </h1>
+        <h1 className={styles.survey_title}>Create Your Virtual Lover</h1>
         {loading && (
           <div
             className="loading-indicator"
@@ -118,85 +114,72 @@ function SurveyPage() {
             <Spinner animation="border" role="status">
               <span className="visually-hidden">Loading...</span>
             </Spinner>
-        </div>
+          </div>
         )}{" "}
-        {/* <label className={styles.survey_label}>
-          Name: */}
-          <input
-            className={styles.survey_input}
-            type="text"
-            name="name"
-            data-testid="name"
-            placeholder="Give me a name"
-            value={formData.name}
-            onChange={handleChange}
-            // required
-          />
+        <input
+          className={styles.survey_input}
+          type="text"
+          name="name"
+          data-testid="name"
+          placeholder="Give me a name"
+          value={formData.name}
+          onChange={handleChange}
+        />
         {/* </label> */}
-        {/* <label className={styles.survey_label}>
-          Age: */}
-          <input
-            className={styles.survey_input}
-            type="text"
-            name="age"
-            data-testid="age"
-            placeholder="How old you wish I am?"
-            value={formData.age}
-            onChange={handleChange}
-            // required
-          />
+        <input
+          className={styles.survey_input}
+          type="text"
+          name="age"
+          data-testid="age"
+          placeholder="How old you wish I am?"
+          value={formData.age}
+          onChange={handleChange}
+        />
         {/* </label> */}
-        {/* <label className={styles.survey_label}>
-          Gender: */}
-          <input
-            className={styles.survey_input}
-            type="text"
-            name="gender"
-            data-testid="gender"
-            placeholder="What gender you wish I am?"
-            value={formData.gender}
-            onChange={handleChange}
-            // required
-          />
+        <input
+          className={styles.survey_input}
+          type="text"
+          name="gender"
+          data-testid="gender"
+          placeholder="What gender you wish I am?"
+          value={formData.gender}
+          onChange={handleChange}
+        />
         {/* </label> */}
-        {/* <label className={styles.survey_label}>
-          Hobbies: */}
-          <input
-            className={styles.survey_input}
-            type="text"
-            name="hobbies"
-            data-testid="hobbies"
-            placeholder="What are my hobbies?"
-            value={formData.hobbies}
-            onChange={handleChange}
-            // required
-          />
+        <input
+          className={styles.survey_input}
+          type="text"
+          name="hobbies"
+          data-testid="hobbies"
+          placeholder="What are my hobbies?"
+          value={formData.hobbies}
+          onChange={handleChange}
+        />
         {/* </label> */}
-        {/* <label className={styles.survey_label}>
-          Personality: */}
-          <input
-            className={styles.survey_input}
-            type="text"
-            name="personality"
-            data-testid="personality"
-            placeholder="What are my personalities?"
-            value={formData.personality}
-            onChange={handleChange}
-            // required
-          />
+        <input
+          className={styles.survey_input}
+          type="text"
+          name="personality"
+          data-testid="personality"
+          placeholder="What are my personalities?"
+          value={formData.personality}
+          onChange={handleChange}
+        />
         {/* </label> */}
-        {/* <label className={styles.survey_label}>
-          Appearance Descriptions: */}
-          <textarea
-            className={styles.survey_input}
-            name="descriptions"
-            data-testid="descriptions"
-            placeholder="Describe my appearance"
-            value={formData.descriptions}
-            onChange={handleChange}
-          />
+        <textarea
+          className={styles.survey_input}
+          name="descriptions"
+          data-testid="descriptions"
+          placeholder="Describe my appearance"
+          value={formData.descriptions}
+          onChange={handleChange}
+        />
         {/* </label> */}
-        {error && <p className={styles.error_message} data-testid="error">{error}</p>}
+        {error && (
+          <p className={styles.error_message} data-testid="error">
+            {error}
+          </p>
+        )}
         <button
           className={styles.survey_button}
           type="submit"
@@ -208,7 +191,6 @@ function SurveyPage() {
           className={styles.survey_button_cancel}
           type="button"
           onClick={handleCancel}
-          // style={{ backgroundColor: "#f44336", marginTop: "10px" }}
         >
           Cancel
         </button>

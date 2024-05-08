@@ -1,5 +1,6 @@
 const request = require("supertest");
-import app from "../server.js";
+// import app from "../../../../chatbot-backend/server.js";
+const app = require("../server.js");
 
 describe("Login Functionality Tests", () => {
   it("should log in an existing user with correct credentials", async () => {
@@ -10,8 +11,11 @@ describe("Login Functionality Tests", () => {
 
     // Assuming a token is returned on login
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("message", "User logged in successfully!");
-    expect(response.body).toHaveProperty("token"); 
+    expect(response.body).toHaveProperty(
+      "message",
+      "User logged in successfully!"
+    );
+    expect(response.body).toHaveProperty("token");
   });
 
   it("should fail to log in with incorrect password", async () => {
@@ -21,7 +25,7 @@ describe("Login Functionality Tests", () => {
     });
 
     //API sends back on auth failure
-    expect(response.status).toBe(422); 
+    expect(response.status).toBe(422);
     expect(response.body).toHaveProperty("error", "Wrong password, try again.");
   });
 
@@ -31,7 +35,10 @@ describe("Login Functionality Tests", () => {
       password: "password123",
     });
 
-    expect(response.status).toBe(404); 
-    expect(response.body).toHaveProperty("error", "No user was found with this email.");
+    expect(response.status).toBe(404);
+    expect(response.body).toHaveProperty(
+      "error",
+      "No user was found with this email."
+    );
   });
 });

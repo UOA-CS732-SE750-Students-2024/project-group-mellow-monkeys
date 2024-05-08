@@ -75,6 +75,10 @@ describe("UserInfoPage Component", () => {
       // Assert that the editing mode is entered and the input element is present
       expect(screen.getByTestId("nameInput")).toBeInTheDocument();
     });
+    await waitFor(() => {
+      // Assert that the editing mode is entered and the input element is present
+      expect(screen.getByTestId("nameInput")).toBeInTheDocument();
+    });
   });
 
   test("submits form with updated user information when 'Save Changes' button is clicked", async () => {

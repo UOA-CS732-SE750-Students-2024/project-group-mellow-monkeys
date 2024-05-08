@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Form, Button, Spinner } from "react-bootstrap";
 import styles from "./Register.module.css";
 import { useAuth } from "../../hooks/useAuth";
-// import { Robot } from "@phosphor-icons/react";
 
 export default function Register() {
   const { auth, submitRegister } = useAuth();
@@ -14,7 +13,7 @@ export default function Register() {
 
   const handleSubmitRegister = (e) => {
     e.preventDefault();
-    console.log("handleSubmitRegister", email, name); 
+    console.log("handleSubmitRegister", email, name);
     submitRegister(e, { name, email, password, confirmPassword });
   };
 
@@ -24,12 +23,10 @@ export default function Register() {
         className={styles.register_wrapper}
         onSubmit={(e) => handleSubmitRegister(e)}
       >
-        {/* <div className={styles.register_upper_section}>Registration</div> */}
         <Form.Group
           className={styles.register_form_field}
           controlId="formBasicName"
         >
-          {/* <Form.Label>Name</Form.Label> */}
           <Form.Control
             onChange={(e) => setName(e.target.value)}
             value={name}
@@ -42,22 +39,18 @@ export default function Register() {
           className={styles.register_form_field}
           controlId="formBasicEmail"
         >
-          {/* <Form.Label>Email address</Form.Label> */}
           <Form.Control
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             type="email"
             placeholder="Email"
           />
-          {/* <Form.Text className="text-muted">
-            We will never share your email with anyone.
-          </Form.Text> */}
         </Form.Group>
+
         <Form.Group
           className={styles.register_form_field}
           controlId="formBasicPassword"
         >
-          {/* <Form.Label>Password</Form.Label> */}
           <Form.Control
             onChange={(e) => setPassword(e.target.value)}
             value={password}
@@ -65,11 +58,11 @@ export default function Register() {
             placeholder="Enter Password"
           />
         </Form.Group>
+
         <Form.Group
           className={styles.register_form_field}
           controlId="formBasicConfirmPassword"
         >
-          {/* <Form.Label>Confirm Password</Form.Label> */}
           <Form.Control
             onChange={(e) => setConfirmPassword(e.target.value)}
             value={confirmPassword}
@@ -77,6 +70,7 @@ export default function Register() {
             placeholder="Confirm Password"
           />
         </Form.Group>
+
         {auth.error && (
           <Form.Group className={styles.register_error}>
             <Form.Text className={styles.register_error_text}>
