@@ -55,8 +55,8 @@ The following dependencies were used in the backend:
 ## Testing
 For testing purposes, you can use the following credentials to register in the backend:
 
-- Email: bao@123.com
-- Password: bao
+- Email: test@123.com
+- Password: test
 
 This application includes some frontend test files, primarily based on the Jest and Babel environment to complete the testing. To run the test files, please navigate to the frontend folder using the following statement:
 ```bash
