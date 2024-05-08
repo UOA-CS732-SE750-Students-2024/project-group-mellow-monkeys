@@ -11,7 +11,6 @@ import Homepage from "./Pages/Homepage/Homepage";
 import SurveyPage from "./Pages/Surveypage/Surveypage";
 
 function App() {
-  // const { auth } = useAuth();
   return (
     <Routes>
       <Route path="/login" element={<Login />} />

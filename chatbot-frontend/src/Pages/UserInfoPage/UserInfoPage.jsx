@@ -4,7 +4,6 @@ import {
   Button,
   Spinner,
   Image,
-  Container,
   Row,
   Col,
 } from "react-bootstrap";
@@ -102,7 +101,7 @@ export default function UserInfoPage() {
         headers: { Authorization: `Bearer ${auth.token}` },
       })
       .then(() => {
-        alert("User updated successfully!");
+        // alert("User updated successfully!");
         setIsEditing(false);
         navigate("/");
       })
@@ -131,7 +130,7 @@ export default function UserInfoPage() {
   console.log(auth.id);
 
   return (
-    <Container className={styles.userInfoPage}>
+    <div className={styles.userInfoPage}>
       {!isEditing ? (
         <div className={styles.userInfoContainer}>
           <Image
@@ -144,7 +143,7 @@ export default function UserInfoPage() {
             <h3>{user.name}</h3>
             <p>{user.email}</p>
           </div>
-          <div className={styles.buttonContainer}>
+          <div >
             <Button
               className={styles.modifyButton}
               variant="primary"
@@ -162,38 +161,38 @@ export default function UserInfoPage() {
           </div>
         </div>
       ) : (
-        <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="formUserName" className={styles.formUserName}>
-            <Form.Label>Name</Form.Label>
-            <Form.Control
+        <form onSubmit={handleSubmit} className={styles.submitForm}>
+          <Form.Group controlId="formUserName">
+            {/* <Form.Label>Name</Form.Label> */}
+            <Form.Control className={styles.formUserName}
               type="text"
               placeholder="Enter name"
               name="name"
               value={user.name}
               onChange={handleInputChange}
+              data-testid="nameInput"
             />
           </Form.Group>
 
           <Form.Group
             controlId="formUserEmail"
-            className={styles.formUserEmail}
           >
-            <Form.Label>Email</Form.Label>
-            <Form.Control
+            {/* <Form.Label>Email</Form.Label> */}
+            <Form.Control className={styles.formUserEmail}
               type="email"
               placeholder="Enter email"
               name="email"
               value={user.email}
               onChange={handleInputChange}
+              data-testid="emailInput"
             />
           </Form.Group>
 
           <Form.Group
             controlId="formUserPassword"
-            className={styles.formUserPassword}
           >
-            <Form.Label>Password</Form.Label>
-            <Form.Control
+            {/* <Form.Label>Password</Form.Label> */}
+            <Form.Control className={styles.formUserPassword}
               type="password"
               placeholder="New Password"
               name="password"
@@ -204,10 +203,9 @@ export default function UserInfoPage() {
 
           <Form.Group
             controlId="formUserConfirmPassword"
-            className={styles.formUserConfirmPassword}
           >
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
+            {/* <Form.Label>Confirm Password</Form.Label> */}
+            <Form.Control className={styles.formUserConfirmPassword}
               type="password"
               placeholder="Confirm New Password"
               name="confirmPassword"
@@ -216,34 +214,29 @@ export default function UserInfoPage() {
             />
           </Form.Group>
 
-          <Row className="mb-3">
-            {[...Array(15)].map((_, index) => (
-              <Col
-                key={index}
-                xs={6}
-                sm={4}
-                md={2}
-                onClick={() => handleAvatarSelection(index)}
-              >
-                <Image
-                  src={`/avatar${index + 1}.jpeg`}
-                  thumbnail
-                  className={`${styles.avatarImage} ${
-                    selectedAvatar === index ? styles.selectedAvatar : ""
-                  }`}
-                />
-              </Col>
-            ))}
-          </Row>
-
-          <Button variant="success" type="submit">
+          <Row>
+  {[...Array(15)].map((_, index) => (
+    <Col key={index} xs={2} sm={2} md={2} lg={2} xl={2} className={styles.avatarGroup}>
+    <Image
+      src={`/avatar${index + 1}.jpeg`}
+      thumbnail
+      className={`${styles.avatarImage} ${
+        selectedAvatar === index ? styles.selectedAvatar : ""
+      }`}
+      onClick={() => handleAvatarSelection(index)}
+    />
+  </Col>
+  
+  ))}
+</Row>
+          <Button variant="success" type="submit" className={styles.ButtonChange}>
             Save Changes
           </Button>
-          <Button variant="secondary" onClick={handleCancel} className="ms-2">
+          <Button variant="secondary" onClick={handleCancel} className={styles.ButtonCancel}>
             Cancel
           </Button>
-        </Form>
+        </form>
       )}
-    </Container>
+    </div>
   );
 }

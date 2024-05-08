@@ -36,7 +36,7 @@ router.post("/completions", checkToken, async (req, res) => {
           { role: "system", content: systemMessage },
           { role: "user", content: message },
         ],
-        max_tokens: 5000,
+        max_tokens: 4000,
       }),
     });
 
