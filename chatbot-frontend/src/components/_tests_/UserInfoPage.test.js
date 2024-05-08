@@ -71,8 +71,10 @@ describe("UserInfoPage Component", () => {
     // Click on the button to enter editing mode
     fireEvent.click(screen.getByTestId("modifyButton"));
 
-    // Assert that the editing mode is entered
-    expect(screen.getByLabelText("Name")).toBeInTheDocument();
+    await waitFor(() => {
+      // Assert that the editing mode is entered and the input element is present
+      expect(screen.getByTestId("nameInput")).toBeInTheDocument();
+    });
   });
 
   test("submits form with updated user information when 'Save Changes' button is clicked", async () => {
@@ -93,10 +95,10 @@ describe("UserInfoPage Component", () => {
     fireEvent.click(screen.getByTestId("modifyButton"));
 
     // Simulate user updating information
-    fireEvent.change(screen.getByLabelText("Name"), {
+    fireEvent.change(screen.getByTestId("nameInput"), {
       target: { value: "Jane Doe" },
     });
-    fireEvent.change(screen.getByLabelText("Email"), {
+    fireEvent.change(screen.getByTestId("emailInput"), {
       target: { value: "jane@example.com" },
     });
 
@@ -119,7 +121,7 @@ describe("UserInfoPage Component", () => {
     });
 
     // Assert that user is no longer in editing mode after successful update
-    expect(screen.queryByLabelText("Name")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("nameInput")).not.toBeInTheDocument();
   });
 
   test("resets user information to original state when 'Cancel' button is clicked", async () => {
@@ -137,10 +139,10 @@ describe("UserInfoPage Component", () => {
     fireEvent.click(screen.getByTestId("modifyButton"));
 
     // Simulate user updating information
-    fireEvent.change(screen.getByLabelText("Name"), {
+    fireEvent.change(screen.getByTestId("nameInput"), {
       target: { value: "Jane Doe" },
     });
-    fireEvent.change(screen.getByLabelText("Email"), {
+    fireEvent.change(screen.getByTestId("emailInput"), {
       target: { value: "jane@example.com" },
     });
 

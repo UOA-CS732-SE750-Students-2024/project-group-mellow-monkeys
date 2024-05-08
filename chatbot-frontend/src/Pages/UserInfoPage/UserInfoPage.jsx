@@ -144,7 +144,7 @@ export default function UserInfoPage() {
             <h3>{user.name}</h3>
             <p>{user.email}</p>
           </div>
-          <div >
+          <div>
             <Button
               className={styles.modifyButton}
               variant="primary"
@@ -165,12 +165,14 @@ export default function UserInfoPage() {
         <form onSubmit={handleSubmit} className={styles.submitForm}>
           <Form.Group controlId="formUserName">
             {/* <Form.Label>Name</Form.Label> */}
-            <Form.Control className={styles.formUserName}
+            <Form.Control
+              className={styles.formUserName}
               type="text"
               placeholder="Enter name"
               name="name"
               value={user.name}
               onChange={handleInputChange}
+              data-testid="nameInput"
             />
           </Form.Group>
 
@@ -179,12 +181,14 @@ export default function UserInfoPage() {
             // className={styles.formUserEmail}
           >
             {/* <Form.Label>Email</Form.Label> */}
-            <Form.Control className={styles.formUserEmail}
+            <Form.Control
+              className={styles.formUserEmail}
               type="email"
               placeholder="Enter email"
               name="email"
               value={user.email}
               onChange={handleInputChange}
+              data-testid="emailInput"
             />
           </Form.Group>
 
@@ -193,7 +197,8 @@ export default function UserInfoPage() {
             // className={styles.formUserPassword}
           >
             {/* <Form.Label>Password</Form.Label> */}
-            <Form.Control className={styles.formUserPassword}
+            <Form.Control
+              className={styles.formUserPassword}
               type="password"
               placeholder="New Password"
               name="password"
@@ -207,7 +212,8 @@ export default function UserInfoPage() {
             // className={styles.formUserConfirmPassword}
           >
             {/* <Form.Label>Confirm Password</Form.Label> */}
-            <Form.Control className={styles.formUserConfirmPassword}
+            <Form.Control
+              className={styles.formUserConfirmPassword}
               type="password"
               placeholder="Confirm New Password"
               name="confirmPassword"
@@ -217,25 +223,40 @@ export default function UserInfoPage() {
           </Form.Group>
 
           <Row>
-  {[...Array(15)].map((_, index) => (
-    <Col key={index} xs={2} sm={2} md={2} lg={2} xl={2} className={styles.avatarGroup}>
-    <Image
-      src={`/avatar${index + 1}.jpeg`}
-      thumbnail
-      className={`${styles.avatarImage} ${
-        selectedAvatar === index ? styles.selectedAvatar : ""
-      }`}
-      onClick={() => handleAvatarSelection(index)}
-    />
-  </Col>
-  
-  ))}
-</Row>
+            {[...Array(15)].map((_, index) => (
+              <Col
+                key={index}
+                xs={2}
+                sm={2}
+                md={2}
+                lg={2}
+                xl={2}
+                className={styles.avatarGroup}
+              >
+                <Image
+                  src={`/avatar${index + 1}.jpeg`}
+                  thumbnail
+                  className={`${styles.avatarImage} ${
+                    selectedAvatar === index ? styles.selectedAvatar : ""
+                  }`}
+                  onClick={() => handleAvatarSelection(index)}
+                />
+              </Col>
+            ))}
+          </Row>
 
-          <Button variant="success" type="submit" className={styles.ButtonChange}>
+          <Button
+            variant="success"
+            type="submit"
+            className={styles.ButtonChange}
+          >
             Save Changes
           </Button>
-          <Button variant="secondary" onClick={handleCancel} className={styles.ButtonCancel}>
+          <Button
+            variant="secondary"
+            onClick={handleCancel}
+            className={styles.ButtonCancel}
+          >
             Cancel
           </Button>
         </form>
