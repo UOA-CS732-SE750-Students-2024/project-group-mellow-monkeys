@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, Spinner } from "react-bootstrap";
 import styles from "./Login.module.css";
 import { useAuth } from "../../hooks/useAuth";
-import Logo from "../../../public/Logo.svg";
+//import Logo from "../../../public/Logo.svg";
 
 export default function Login() {
   const { auth, submitLogin } = useAuth();
@@ -19,7 +19,7 @@ export default function Login() {
   return (
     <div className={styles.login_page}>
       <div className={styles.login_logo_wrapper}>
-        <img src={Logo} alt="Logo" />
+{/*         <img src={Logo} alt="Logo" /> */}
       </div>
       <Form
         className={styles.login_wrapper}
