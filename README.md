@@ -95,14 +95,13 @@ UserInfoPage.test.js: Tests for the UserInfoPage component.
 These tests ensure that each component functions correctly under various conditions and that they handle states and events as expected.
 
 ## Deployment
-The deployment of this application is separated into frontend and backend. The frontend deployment relies on Netlify, while the backend deployment relies on Heroku. The database is hosted on MongoDB Atlas. You can access the deployed software and test its functionality through the following links
+The deployment of this application is separated into frontend and backend. The frontend deployment relies on Netlify, while the backend deployment relies on Heroku. The database is hosted on MongoDB Atlas. You can access the deployed software and test its functionality through the following links:
+
+https://mellow-monkeys.netlify.app/
 
 **Deployment**
    [![Project Management](https://imgur.com/IFhV9S0.png)](https://imgur.com/IFhV9S0)
 
-```bash
-https://mellow-monkeys.netlify.app/
-```
 ## Project Management and Documentation with Notion 
 Notion serves as our central hub for both task management and project documentation. It provides a collaborative environment where team members can efficiently create and assign tasks, set deadlines, and track progress throughout the project lifecycle. Additionally, Notion allows for the organization and sharing of a wide range of documents, including meeting minutes, design specifications, technical documentation, and user guides. As a versatile platform, it ensures that all essential project information and tasks are easily accessible and well-managed, facilitating communication among team members.
 ```bash
